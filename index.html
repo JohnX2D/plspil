@@ -46,6 +46,9 @@ main{max-width:1100px;margin:0 auto;padding:22px max(4vw,16px) 48px;display:grid
 .pl.on .meep{animation:hop 1.4s ease-in-out infinite}
 @keyframes hop{0%,100%{transform:none}40%{transform:translateY(-6px) rotate(-4deg)}}
 .pl input{border:0;background:transparent;font:700 18px Poppins,sans-serif;color:var(--c);width:100%;padding:2px 0;border-bottom:2px dashed transparent}
+.pname{font-weight:700;font-size:18px;color:var(--c);padding:2px 0;border-bottom:2px solid transparent;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nmbtn{min-height:44px;padding:4px 16px;font-size:15px}.nmbtn.main{background:var(--navy);color:#fff}
+.pl input{border-bottom-color:var(--c)!important;background:var(--tint)!important;border-radius:6px 6px 0 0;padding-left:6px!important}
 .pl input:focus{border-bottom-color:var(--c);outline:none}
 .score{font-size:clamp(38px,7vw,60px);font-weight:800;line-height:1}
 .score span{font-size:15px;font-weight:500;color:var(--soft)}
@@ -260,7 +263,7 @@ main{max-width:1100px;margin:0 auto;padding:22px max(4vw,16px) 48px;display:grid
 .win .trophy{width:110px;animation:hop 1.2s ease-in-out infinite}
 @media(max-width:700px){.low{grid-template-columns:1fr}}
 @media(max-width:700px) and (min-width:601px){.players{grid-template-columns:repeat(min(var(--n,2),2),minmax(0,1fr));row-gap:22px}}
-@media(max-width:600px){.players.many{gap:8px}.many .pl{grid-template-columns:1fr;padding:12px 10px 10px;text-align:center}.many .meep{display:none}.many .pl input{text-align:center;font-size:15px}.many .score{font-size:34px}.many .score span{display:block;font-size:12px;margin-top:2px}.many .pl.on::after{right:50%;transform:translateX(50%);white-space:nowrap}.many .chests svg{width:20px}}
+@media(max-width:600px){.players.many{gap:8px}.many .pl{grid-template-columns:1fr;padding:12px 10px 10px;text-align:center}.many .meep{display:none}.many .pl input,.many .pname{text-align:center;font-size:15px}.many .score{font-size:34px}.many .score span{display:block;font-size:12px;margin-top:2px}.many .pl.on::after{right:50%;transform:translateX(50%);white-space:nowrap}.many .chests svg{width:20px}}
 @media(max-width:600px){.keys.cards{grid-template-columns:repeat(5,minmax(0,1fr))}.key{min-height:54px}.key svg{width:36px;height:36px}.pl{padding:12px;gap:2px 8px}.pl input{font-size:16px}.key.sm{font-size:12.5px}.risk{margin-left:0}.big small{display:none}.palm{width:80px}}
 
 /* tablets: iPad portrait */
@@ -298,7 +301,7 @@ main{max-width:1100px;margin:0 auto;padding:22px max(4vw,16px) 48px;display:grid
   <nav class="tabs" id="tabs" aria-label="Vælg spil"></nav>
 </div></header>
 <main>
-  <div class="setup">Antal spillere <div class="seg" id="seg" role="group" aria-label="Antal spillere"><button data-n="2">2</button><button data-n="3">3</button><button data-n="4">4</button></div><small>Skifter du antal, starter et nyt spil.</small></div>
+  <div class="setup">Antal spillere <div class="seg" id="seg" role="group" aria-label="Antal spillere"><button data-n="2">2</button><button data-n="3">3</button><button data-n="4">4</button></div><button class="btn nmbtn" id="names">Ret navne</button><small>Skifter du antal, starter et nyt spil.</small></div>
   <section class="players" id="players"></section>
   <section class="board" id="board"></section>
   <section class="low">
@@ -558,17 +561,18 @@ function pad(){
 }
 const $=id=>document.getElementById(id);
 const tabs=$('tabs'),players=$('players'),board=$('board'),rules=$('rules'),logEl=$('log'),undo=$('undo'),win=$('win'),wtxt=$('wtxt'),conf=$('conf');
-let shownWin=null;
+let shownWin=null,editNames=false;
 function render(){
   const g=GAMES[S.game],tg=target(),busy=FX&&FX.kind==='bust';
   document.documentElement.style.setProperty('--c',COL[S.p]);
   tabs.innerHTML=Object.entries(GAMES).map(([k,v])=>`<button class="tab" data-game="${k}" aria-pressed="${k===S.game}">${v.name}</button>`).join('');
   players.style.setProperty('--n',S.n);players.classList.toggle('many',S.n>2);
+  $('names').textContent=editNames?'Færdig':'Ret navne';$('names').classList.toggle('main',editNames);
   document.querySelectorAll('#seg button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===S.n));
   players.innerHTML=S.scores.map((_,i)=>{
     const bt=g.kind==='battle',pct=bt?S.scores[i]/HP*100:tg?Math.min(100,S.scores[i]/tg*100):(52-S.deck)/52*100;
     return `<div class="pl ${S.p===i&&S.win===null?'on':''} ${bt&&S.scores[i]<=0?'out':''}" style="--c:${COL[i]}">${meeple(HEX[i])}
-      <input value="${nm(i).replace(/"/g,'&quot;')}" data-name="${i}" aria-label="Navn på spiller ${i+1}">
+      ${editNames?`<input value="${nm(i).replace(/"/g,'&quot;')}" data-name="${i}" aria-label="Navn på spiller ${i+1}" enterkeyhint="done" autocomplete="off">`:`<div class="pname">${nm(i).replace(/</g,'&lt;')}</div>`}
       <div class="score">${S.scores[i]} <span>${g.unit}${bt?` af ${HP}`:tg?` af ${tg}`:''}</span></div>
       <div class="bar"><i style="width:${pct}%;${tg||bt?'':'background:var(--soft)'}"></i></div>
       ${S.game==='pirate'?`<div class="chests">Kister: ${[0,1,2].map(k=>`<svg width="28" height="22" viewBox="0 0 26 20" aria-hidden="true"><rect x="2" y="7" width="22" height="11" rx="2" fill="${k<S.chests[i]?'#ffc23a':'none'}" stroke="currentColor" stroke-width="2"/><path d="M2 8 Q13 -2 24 8" fill="${k<S.chests[i]?'#e19a00':'none'}" stroke="currentColor" stroke-width="2"/></svg>`).join('')}</div>`:''}
@@ -617,7 +621,10 @@ board.addEventListener('click',e=>{
   else if(e.target.closest('#stop'))stop();
 });
 players.addEventListener('input',e=>{const i=e.target.dataset.name;if(i!==undefined){S.names[+i]=e.target.value;save();const h=board.querySelector('h2 b');if(h&&+i===S.p)h.textContent=nm(S.p)}});
-players.addEventListener('change',()=>render());
+players.addEventListener('focusin',e=>{if(e.target.dataset.name!==undefined)e.target.select()});
+players.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.name!==undefined){e.preventDefault();const n=players.querySelector(`[data-name="${+e.target.dataset.name+1}"]`);n?(n.focus(),n.select()):stopEdit()}});
+function stopEdit(){editNames=false;if(document.activeElement)document.activeElement.blur();render()}
+$('names').addEventListener('click',()=>{if(editNames)stopEdit();else{editNames=true;render();const f=players.querySelector('[data-name="0"]');if(f){f.focus();f.select()}}});
 rules.addEventListener('change',e=>{if(e.target.id==='tgt'){snap();S.targets[S.game]=Math.max(5,Math.min(200,+e.target.value||15));render()}});
 undo.addEventListener('click',()=>{if(!hist.length)return;FX=null;clearTimeout(fxT);S=JSON.parse(hist.pop());render()});
 $('reset').addEventListener('click',()=>{snap();FX=null;S=fresh(S.game,S.names,S.targets,S.n);say('Nyt spil. Held og lykke!');render()});
