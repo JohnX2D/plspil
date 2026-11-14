@@ -30,6 +30,7 @@ h1 small{display:block;font-size:14px;font-weight:500;color:#c5d2e3;margin-top:6
 .tabs{display:flex;flex-wrap:wrap;gap:8px}
 .tab{border:2px solid #2c4058;background:transparent;color:#fff;border-radius:999px;padding:9px 16px;min-height:44px;font-weight:600;font-size:14px}
 .tab[aria-pressed=true]{background:#fff;color:var(--navy);border-color:#fff}
+a.tab{display:inline-flex;align-items:center;text-decoration:none}.tab.gr{border-color:#b46bff;background:#2a1466}
 main{max-width:1100px;margin:0 auto;padding:22px max(4vw,16px) 48px;display:grid;gap:18px}
 .setup{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:600}
 .seg{display:flex;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 4px 0 var(--line)}
@@ -378,7 +379,7 @@ main{max-width:1100px;margin:0 auto;padding:22px max(4vw,16px) 48px;display:grid
       <div class="acts" style="margin-top:12px"><button class="btn" id="undo">Fortryd</button><button class="btn" id="reset">Nyt spil</button></div>
     </div>
   </section>
-  <footer class="ver">LDA Spil · version 3.0</footer>
+  <footer class="ver">LDA Spil · version 4.0</footer>
 </main>
 <div class="win" id="win"><canvas id="conf"></canvas><div class="wbox"><div id="wtxt"></div><div class="acts" style="margin-top:16px;justify-content:center"><button class="btn" id="wundo">Fortryd</button><button class="btn main" id="again">Spil igen</button></div></div></div>
 <script>
@@ -687,7 +688,7 @@ let shownWin=null,editNames=false;
 function render(){
   const g=GAMES[S.game],tg=target(),busy=FX&&FX.kind==='bust';
   document.documentElement.style.setProperty('--c',COL[S.p]);
-  tabs.innerHTML=Object.entries(GAMES).map(([k,v])=>`<button class="tab" data-game="${k}" aria-pressed="${k===S.game}">${v.name}</button>`).join('');
+  tabs.innerHTML=Object.entries(GAMES).map(([k,v])=>`<button class="tab" data-game="${k}" aria-pressed="${k===S.game}">${v.name}</button>`).join('')+'<a class="tab gr" href="galaxy.html">Galaxy Raceway →</a>';
   players.style.setProperty('--n',S.n);players.classList.toggle('many',S.n>2);
   $('names').textContent=editNames?'Færdig':'Ret navne';$('names').classList.toggle('main',editNames);
   document.querySelectorAll('#seg button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===S.n));
