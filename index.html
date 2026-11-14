@@ -282,6 +282,15 @@ main{max-width:1100px;margin:0 auto;padding:22px max(4vw,16px) 48px;display:grid
 .btn.guess .mg{display:flex;align-items:center;gap:6px;margin-top:8px;background:rgba(255,255,255,.94);color:#081624;border:2px solid #081624;border-radius:12px;padding:2px 12px 2px 4px;text-align:left}
 .mg svg{width:62px;height:36px}.mg b{display:block;font-size:20px;line-height:1}.btn.guess .mg small{font-size:12px;font-weight:700;opacity:1}
 .bonus.next{background:rgba(255,255,255,.85);border-style:dashed}
+.kist{position:absolute;right:10px;bottom:8px;z-index:6;display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.92);color:#081624;border:3px solid var(--k);border-radius:12px;padding:3px 8px;font-weight:800;font-size:13px}
+.kist svg{width:26px;height:20px}.kist svg.nw{animation:pop .5s cubic-bezier(.3,1.6,.5,1) both,glowc 1s .5s 2}
+@keyframes glowc{50%{filter:drop-shadow(0 0 6px #ffc23a)}}
+.banner.gold{background:var(--gold);color:#081624;top:8%;font-size:clamp(18px,4vw,28px)}
+.c3{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:radial-gradient(circle,rgba(255,220,100,.75),rgba(255,200,80,.2) 45%,transparent 70%);animation:c3in .4s ease-out both}
+.c3 svg{width:clamp(110px,26vw,160px);margin-top:30px;animation:pop .55s cubic-bezier(.3,1.6,.5,1) both;filter:drop-shadow(0 0 18px #ffd34d)}
+.c3 i{position:absolute;left:50%;top:58%;width:22px;height:12px;margin:-6px -11px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff3b0,#ffc23a 45%,#c98400);border:2px solid #081624;animation:burstc 1.2s ease-out both}
+@keyframes burstc{from{transform:translate(0,0) scale(.3);opacity:1}80%{opacity:1}to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+@keyframes c3in{from{opacity:0}}
 /* pad */
 .pad{display:grid;gap:12px}
 .pad p{margin:0;font-weight:600}
@@ -369,7 +378,7 @@ main{max-width:1100px;margin:0 auto;padding:22px max(4vw,16px) 48px;display:grid
       <div class="acts" style="margin-top:12px"><button class="btn" id="undo">Fortryd</button><button class="btn" id="reset">Nyt spil</button></div>
     </div>
   </section>
-  <footer class="ver">LDA Spil · version 2.0</footer>
+  <footer class="ver">LDA Spil · version 3.0</footer>
 </main>
 <div class="win" id="win"><canvas id="conf"></canvas><div class="wbox"><div id="wtxt"></div><div class="acts" style="margin-top:16px;justify-content:center"><button class="btn" id="wundo">Fortryd</button><button class="btn main" id="again">Spil igen</button></div></div></div>
 <script>
@@ -379,13 +388,13 @@ const RANKS=[['Es',1],['2',2],['3',3],['4',4],['5',5],['6',6],['7',7],['8',8],['
 const RN=v=>v===1?'es':v===11?'knægt':v===12?'dame':v===13?'konge':String(v);
 const FN=v=>v===1?'A':v===11?'Kn':v===12?'D':v===13?'K':String(v);
 const GAMES={
- tower:{name:'Tårnet',kind:'dice',unit:'etager',one:'etage',rules:['Første slag i din tur er altid første etage.','Er næste slag <b>højere</b>, får tårnet en etage mere.','Lige så højt eller lavere: tårnet vælter, og turen giver 0.','Stop når som helst og gem dine etager.','Høje tårne giver bonus, når du stopper: 4 etager giver 1 ekstra, 5 etager giver 2 ekstra, og alle 6 giver 3 ekstra.','Når nogen når målet, spilles runden færdig, så alle har haft lige mange ture. Den med flest etager vinder.']},
+ tower:{name:'Tårnet',kind:'dice',unit:'etager',one:'etage',rules:['Første slag i din tur er altid første etage.','Er næste slag <b>højere</b>, får tårnet en etage mere.','Lige så højt eller lavere: tårnet vælter, og turen giver 0.','Stop når som helst og gem dine etager.','Høje tårne giver bonus, når du stopper: 3 etager giver 2 ekstra, 4 etager 4 ekstra, 5 etager 6 ekstra, og alle 6 giver 8 ekstra.','Når nogen når målet, spilles runden færdig, så alle har haft lige mange ture. Den med flest etager vinder.']},
  pirate:{name:'Piratskatten',kind:'dice',unit:'mønter',one:'mønt',rules:['Slå så mange gange du vil. Slagene lægges sammen.','Slår du <b>1</b>, stjæler piraten alt fra turen.','Piratskibet sejler nærmere for hvert slag: fra dit 5. slag i turen stjæler han også på <b>2</b>, og fra dit 8. slag også på <b>3</b>.','Hver 6\'er giver en skattekiste. 3 kister giver 10 ekstra mønter, og de gemmes selv om piraten kommer.','Mindre børn kan spille til 30.','Når nogen når målet, spilles runden færdig, så alle har haft lige mange ture. Den med flest mønter vinder.']},
  battle:{name:'Kanonkampen',kind:'battle',unit:'liv',rules:['Hver spiller har en borg med 15 liv.','Slå med terningen og vælg: <b>skyd</b> på en anden borg, eller <b>byg mur</b> foran din egen.','Skud: borgen mister lige så mange liv, som terningen viser. Står der en mur, tager muren skaden først.','Mur: læg terningens øjne til din mur. Muren kan højst være 6.','Slår du en 6\'er, får du en ekstra tur.','En borg med 0 liv er ude. Den sidste borg, der står, vinder.']},
  hilo:{name:'Højere eller lavere',kind:'cards',unit:'kort',rules:['Vend et startkort. Es er 1, konge er 13.','Gæt højere eller lavere, og vend næste kort.','Rigtigt gæt: kortet kommer i din bunke. Lige så højt: intet sker.','Forkert gæt: du mister turens bunke.','Stop for at gemme bunken. Når bunken er tom, vinder den med flest kort.']},
  chest:{name:'Skattekisten',kind:'cards',unit:'point',rules:['Vend kort ét ad gangen og læg dem i en række.','Samme værdi som et kort i rækken: kisten går i stykker, og alt ryger ud.','Stop for at tage rækken.','Knægt, dame og konge giver 2 point, alle andre 1.','Mange kort giver bonus, når du stopper: 5 kort giver 1 ekstra, 6 kort 3 ekstra, 7 kort 5 ekstra, og 8 eller flere giver 8 ekstra.','Når bunken er tom, vinder den med flest point.']}
 };
-let S,hist=[],FX=null,fxT;
+let S,hist=[],FX=null,fxT,seenCoins=0;
 const HP=15,WMAX=6;
 const fresh=(game,names,targets,n)=>({game,n:n||2,names:names||DEF.slice(),targets:targets||{tower:15,pirate:50},scores:Array(n||2).fill(game==='battle'?HP:0),chests:Array(n||2).fill(0),wall:Array(n||2).fill(0),used:Array(14).fill(0),p:0,start:0,final:false,turn:newTurn(game),deck:52,log:[],msg:'',mt:'',win:null});
 function newTurn(g){return {tower:{fl:[]},pirate:{sum:0,rolls:[]},battle:{roll:null},hilo:{cur:null,guess:null,pile:0},chest:{row:[]}}[g]}
@@ -397,7 +406,7 @@ const snap=()=>{hist.push(JSON.stringify(S));if(hist.length>60)hist.shift()};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nm=i=>esc((S.names[i]||'').trim()||DEF[i]);
 const un=n=>{const g=GAMES[S.game];return n===1&&g.one?g.one:g.unit};
-const TB=n=>n>=6?3:n===5?2:n===4?1:0;
+const TB=n=>n>=3?(Math.min(n,6)-2)*2:0;
 const CB=n=>n>=8?8:n===7?5:n===6?3:n===5?1:0;
 const PD=t=>t.rolls.length>=7?3:t.rolls.length>=4?2:1;
 const nx=p=>(p+1)%S.n;
@@ -433,21 +442,22 @@ function deckOut(){
   const mx=Math.max(...S.scores),top=S.scores.map((v,i)=>v===mx?i:-1).filter(i=>i>=0);S.win=top.length>1?-1:top[0];
 }
 function die(v){
+  if(FX&&FX.chest3){FX=null;clearTimeout(fxT)}
   snap();const t=S.turn;
   if(S.game==='tower'){
     const top=t.fl[t.fl.length-1];
     if(top!==undefined&&v<=top){t.fl.push(v);bust(`Tårnet væltede på en ${v}'er!`,v)}
     else{t.fl.push(v);
-      if(t.fl.length===6)bank(9,'etager (perfekt tårn, 6 + 3 bonus)');
+      if(t.fl.length===6)bank(6+TB(6),`etager (perfekt tårn, 6 + ${TB(6)} bonus)`);
       else{const b=TB(t.fl.length);say(top===undefined?`Grundstenen er lagt: ${v}. Slå igen eller stop.`:`Ny etage!${b?` Bonus +${b}, hvis du stopper nu.`:''} Næste slag skal være over ${v}.`,b?'good':'')}}
   }else if(S.game==='pirate'){
     const dl=PD(t);
     if(v<=dl)bust(`Piraterne tog ${t.sum} mønter!`,v);
     else{t.sum+=v;t.rolls.push(v);
       if(v===6){S.chests[S.p]++;
-        if(S.chests[S.p]>=3){S.chests[S.p]=0;S.scores[S.p]+=10;log(`${nm(S.p)}: +10 for 3 skattekister`);fx({kind:'bank',p:S.p,pts:10},1200);reach(S.p)}}
+        if(S.chests[S.p]>=3){S.chests[S.p]=0;S.scores[S.p]+=10;log(`${nm(S.p)}: +10 for 3 skattekister`);fx({kind:'bank',p:S.p,pts:10,chest3:true},2600);reach(S.p)}}
       const nl=PD(t),ex=nl>dl?` Piratskibet er tættere på: nu stjæler han også på ${nl}!`:'';
-      say((v===6?`En 6'er og en skattekiste! ${t.sum} mønter i turen.`:`${t.sum} mønter i turen.${ex?'':' Tør du slå igen?'}`)+ex,ex?'bust':'')}
+      say((v===6?(S.chests[S.p]===0?`3 skattekister! +10 mønter, som piraten ikke kan tage. ${t.sum} mønter i turen.`:`En 6'er og skattekiste nr. ${S.chests[S.p]}! ${t.sum} mønter i turen.`):`${t.sum} mønter i turen.${ex?'':' Tør du slå igen?'}`)+ex,ex?'bust':v===6?'good':'')}
   }else{t.roll=v;say(`Du slog ${v}. Skyd på en borg, eller byg mur.`)}
   render();
 }
@@ -535,14 +545,16 @@ const DESERT=`<svg class="dbg" viewBox="0 0 600 200" preserveAspectRatio="xMidYM
  <g transform="translate(548 176)"><path d="M0 0q-2-22 4-40" stroke="#081624" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M0 0q-2-22 4-40" stroke="#8a5a2e" stroke-width="3.5" fill="none" stroke-linecap="round"/>${[-165,-120,-60,-15,20,200].map(a=>`<path d="M4-40q14-10 26 2q-13-4-26-2z" fill="#3a9a52" stroke="#081624" stroke-width="2" transform="rotate(${a} 4 -40)"/>`).join('')}</g>
 </svg>`;
 const torch=st=>`<svg class="torch" style="${st}" viewBox="0 -2 30 72" aria-hidden="true"><rect x="12" y="30" width="6" height="38" rx="2" fill="#6b3a1e" stroke="#081624" stroke-width="2.5"/><rect x="9" y="27" width="12" height="6" rx="1" fill="#8a8f99" stroke="#081624" stroke-width="2"/>${flame(15,28)}</svg>`;
+const miniChest=(on,nw)=>`<svg class="${nw?'nw':''}" viewBox="0 0 26 20" aria-hidden="true"><rect x="2" y="7" width="22" height="11" rx="2" fill="${on?'#ffc23a':'#fff'}" stroke="#081624" stroke-width="2"/><path d="M2 8Q13-2 24 8" fill="${on?'#e19a00':'#fff'}" stroke="#081624" stroke-width="2"/><rect x="11" y="9" width="4" height="5" rx="1" fill="#081624"/></svg>`;
+const openChest=`<svg viewBox="0 0 120 100" aria-hidden="true"><path d="M14 46 30 6h60l16 40z" fill="#6e3d1d" stroke="#081624" stroke-width="5" stroke-linejoin="round" transform="rotate(-14 14 46)"/><ellipse cx="60" cy="48" rx="44" ry="10" fill="#ffd34d" stroke="#081624" stroke-width="4"/>${[[40,44],[56,40],[72,44],[64,48],[48,48]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="8" ry="4" fill="#ffe58a" stroke="#c98400" stroke-width="2"/>`).join('')}<rect x="14" y="48" width="92" height="46" rx="6" fill="#8f5428" stroke="#081624" stroke-width="5"/><rect x="28" y="48" width="9" height="46" fill="#7d838f" stroke="#081624" stroke-width="3"/><rect x="83" y="48" width="9" height="46" fill="#7d838f" stroke="#081624" stroke-width="3"/><rect x="52" y="58" width="16" height="16" rx="3" fill="#ffc23a" stroke="#081624" stroke-width="3"/></svg>`;
 const banner=t=>`<div class="banner">${t}</div>`;
 function scene(game,t,p,busting,v){
   const cls=busting?'busting shake':'';
   if(game==='tower'){
     const n=t.fl.length,W=i=>`calc(clamp(140px,26vw,200px) - ${i*16}px)`;
     const top=t.fl[n-1]||0;
-    const fl=t.fl.map((f,i)=>`<div class="stone ${i>=3?'bon':''}" style="width:${W(i)};--i:${n-i};--dx:${(rnd(i,1)-.5)*360}px;--r:${(rnd(i,2)-.5)*260}deg;animation-delay:${busting?'':(i===n-1?'0s':'-1s')}"><b>${f}</b></div>`).join('');
-    const gh=busting?'':Array.from({length:6-n},(_,k)=>`<div class="stone ghost" style="width:${W(n+k)}">${n+k>=3?`<em>+${n+k-2}</em>`:''}</div>`).join('');
+    const fl=t.fl.map((f,i)=>`<div class="stone ${i>=2?'bon':''}" style="width:${W(i)};--i:${n-i};--dx:${(rnd(i,1)-.5)*360}px;--r:${(rnd(i,2)-.5)*260}deg;animation-delay:${busting?'':(i===n-1?'0s':'-1s')}"><b>${f}</b></div>`).join('');
+    const gh=busting?'':Array.from({length:6-n},(_,k)=>`<div class="stone ghost" style="width:${W(n+k)}">${TB(n+k+1)?`<em>+${TB(n+k+1)}</em>`:''}</div>`).join('');
     const apex=busting?'':`<svg class="apex ${n>=6?'done':''}" style="width:${W(5)}" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M50 3 97 39H3z" fill="#ffd34d"/><path d="M50 3 97 39H54z" fill="#dc9b1c"/><path d="M50 3 97 39H3z" fill="none" stroke="#081624" stroke-width="3" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>`;
     const dust=busting?`<div class="dust">${[-90,-40,0,45,95].map((x,i)=>`<i style="--x:${x}px;animation-delay:${.25+i*.06}s"></i>`).join('')}</div>`:'';
     return `<div class="scene desert ${cls}"><div class="sun"></div>${DESERT}
@@ -552,10 +564,10 @@ function scene(game,t,p,busting,v){
       ${!n&&!busting?'<div class="hint">Slå for at lægge grundstenen</div>':''}</div>`;
   }
   if(game==='pirate'){
-    const c=t.sum,prev=t.sum-(t.rolls[t.rolls.length-1]||0);let coins='',k=0;
+    const c=t.sum,prev=busting?c:Math.min(seenCoins,c);if(!busting)seenCoins=c;let coins='',k=0;
     const base=Math.max(1,Math.ceil((Math.sqrt(8*c+1)-1)/2)),w=Math.min(24,250/base),cw=w+2,ch=cw*.54;
     for(let r=0;k<c;r++){const len=Math.max(1,base-r);for(let i=0;i<len&&k<c;i++,k++)coins+=`<div class="coin" style="width:${cw}px;height:${ch}px;margin-left:-${cw/2}px;left:${(i-(len-1)/2)*w}px;bottom:${r*w*.46}px;--i:${Math.min(k,80)};animation-delay:${busting?'':(k<prev?'-1s':`${Math.min(k-prev,12)*.05}s`)}"></div>`}
-    const dl=PD(t);
+    const dl=PD(t),c3=!busting&&FX&&FX.chest3&&FX.p===p;
     return `<div class="scene sea ${busting?'':'d'+dl} ${cls}"><div class="sun" style="left:auto;right:30%;top:22%;background:#ffb36b;box-shadow:0 0 0 14px rgba(255,179,107,.25),0 0 50px 14px rgba(255,150,80,.45)"></div>
       <div class="cloud" style="top:12%;animation-delay:-${(Date.now()/1000)%18}s;scale:.8"></div>
       ${[0,1].map(k=>`<svg class="gull" style="top:${18+k*9}%;animation-delay:-${(Date.now()/1000+k*9)%22}s" viewBox="0 0 30 12" aria-hidden="true"><path d="M1 9Q8 1 15 8Q22 1 29 9" stroke="#081624" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`).join('')}
@@ -563,7 +575,9 @@ function scene(game,t,p,busting,v){
       <div class="waves" style="--wd:-${(Date.now()/1000)%8}s">${wave('#4aa3df',8)}${wave('#1f6fb2',52)}</div>
       ${busting?shipSvg('ship')+banner('Piraterne kom!'):shipSvg('far',`--sw:min(${36+Math.min(t.rolls.length,8)*13}px,36%);--sr:${Math.max(2,10-t.rolls.length)}%`)+`<div class="danger d${dl}">Pirat på ${Array.from({length:dl},(_,k)=>pips(k+1)).join('')}</div>`}
       <div class="rolls">${t.rolls.map(r=>`<i class="${r===6?'six':''}">${r}</i>`).join('')}</div>
-      ${busting?'':`<div class="big">${t.sum}<small>mønter i turen</small></div>`}</div>`;
+      ${busting?'':`<div class="big">${t.sum}<small>mønter i turen</small></div>`}
+      ${busting?'':`<div class="kist">Kister ${[0,1,2].map(k=>miniChest(c3||k<S.chests[p],!c3&&t.rolls[t.rolls.length-1]===6&&k===S.chests[p]-1)).join('')}</div>`}
+      ${c3?`<div class="c3">${openChest}${Array.from({length:14},(_,k)=>`<i style="--dx:${Math.cos(k/14*6.28)*(90+rnd(k,21)*60)}px;--dy:${Math.sin(k/14*6.28)*(60+rnd(k,22)*50)-40}px;--r:${(rnd(k,23)-.5)*500}deg;animation-delay:${.25+rnd(k,24)*.25}s"></i>`).join('')}</div>${banner('+10 mønter!').replace('class="banner"','class="banner gold"')}`:''}</div>`;
   }
   if(game==='hilo'){
     const pile=Math.min(t.pile,14),E='clamp(24px,7vw,64px)';
