@@ -20,7 +20,7 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 
 ## Galaxy Raceway
 
-Et racerbrætspil i 3D i sin egen fil, `galaxy.html`, med link fra spilmenuen i `index.html`.
+Et racerbrætspil i sin egen fil, `galaxy.html`, med link fra spilmenuen i `index.html`. Hele banen ses oppefra som et trykt spillebræt.
 
 - 2–4 spillere vælger hver sin bil: Hajen, Svæveren, Jungletrucken eller Diskobilen
 - Slå med en rigtig terning og tast slaget ind. Bilen kører selv felt for felt
@@ -28,8 +28,8 @@ Et racerbrætspil i 3D i sin egen fil, `galaxy.html`, med link fra spilmenuen i 
 - Gode felter: stjerne-boost (+1 resten af løbet), raket (2 terninger i 2 ture), dobbelt fart, teleport, ned ad bakke
 - Dårlige felter: hjul af (−2), mudder (kun 1 felt), glat is (slå mindst 3), hul (tilbage til områdets start), advarsel (stå over)
 - Krasj: lander man på en anden bil, hænger bilerne sammen i én runde, rykker sammen og deler alle felter
-- Fortryd, lyd, oversigtskamera og automatisk gemt løb
-- 3D-grafikken bruger three.js (hentes fra cdnjs)
+- Fortryd, lyd og automatisk gemt løb
+- Brættet vender sig selv på højkant på telefon
 
 ## Brug
 

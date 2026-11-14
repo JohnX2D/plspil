@@ -1,6 +1,6 @@
 # LDA Spil
 
-Pointtavlen med de fem små spil ligger i `index.html`. Galaxy Raceway (3D-racerbrætspil, three.js fra cdnjs) ligger i `galaxy.html` og åbnes via et link i spilmenuen. Det hele bruges via claude.ai, ikke GitHub Pages.
+Pointtavlen med de fem små spil ligger i `index.html`. Galaxy Raceway (racerbrætspil tegnet som et bræt set oppefra i SVG, ingen eksterne biblioteker) ligger i `galaxy.html` og åbnes via et link i spilmenuen. Det hele bruges via claude.ai, ikke GitHub Pages.
 
 ## Siden familien spiller på
 
