@@ -20,6 +20,4 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 
 ## Brug
 
-Åbn `index.html` i en browser. På iPad: åbn siden i Safari og vælg **Del → Føj til hjemmeskærm**.
-
-Den kan også køres via GitHub Pages (Settings → Pages → Deploy from branch → `main` / root).
+Spillet bruges via claude.ai. `index.html` kan også åbnes direkte i en browser.
