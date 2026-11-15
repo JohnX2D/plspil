@@ -1,8 +1,0 @@
-.env
-.env.local
-.env.*
-__pycache__/
-node_modules/
-dist/
-.output/
-.vercel/

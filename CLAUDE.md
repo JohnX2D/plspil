@@ -1,12 +1,12 @@
 # LDA Spil
 
-Pointtavlen med de fem små spil ligger i `index.html`. Galaxy Raceway (racerbrætspil tegnet som et bræt set oppefra i SVG, ingen eksterne biblioteker) ligger i `galaxy.html` og åbnes via et link i spilmenuen. Skyggeborgen (samarbejdseventyr med terninger og kort, fortællerstemme i `voices/`) ligger i `skyggeborgen.html`. Det hele bruges via claude.ai, ikke GitHub Pages.
+Pointtavlen med de fem små spil ligger i `index.html`. Galaxy Raceway (racerbrætspil tegnet som et bræt set oppefra i SVG, ingen eksterne biblioteker) ligger i `galaxy.html` og åbnes via et link i spilmenuen. Det hele bruges via claude.ai, ikke GitHub Pages.
 
 ## Siden familien spiller på
 
 https://claude.ai/artifact/T1E9hpzt6rFakHDsFKmpSH
 
-Hver gang der pushes til `main` på GitHub, skal denne artifact også opdateres med den nye `index.html` (Artifact-værktøjet: publish med `url` sat til linket ovenfor, så linket bevares). `galaxy.html`, `skyggeborgen.html` og `assets/skyggeborgen.jpg`, `assets/skyggeborgen-hal.jpg`, `assets/skyggeborgen-steder.jpg`, `assets/skyggeborgen-helte.jpg` og `assets/skyggeborgen-vagt.png` og `assets/skyggeborgen-historie.jpg` skal med som ekstra filer i samme publicering (`files: {"galaxy.html": "galaxy.html", "skyggeborgen.html": "skyggeborgen.html", "assets/skyggeborgen.jpg": "assets/skyggeborgen.jpg", "assets/skyggeborgen-hal.jpg": "assets/skyggeborgen-hal.jpg", "assets/skyggeborgen-steder.jpg": "assets/skyggeborgen-steder.jpg", "assets/skyggeborgen-helte.jpg": "assets/skyggeborgen-helte.jpg", "assets/skyggeborgen-vagt.png": "assets/skyggeborgen-vagt.png", "assets/skyggeborgen-historie.jpg": "assets/skyggeborgen-historie.jpg"}`), ellers virker linkene fra menuen ikke. Findes `voices/skyggeborgen.json` (fortællerstemmen fra ElevenLabs), skal den også med som `"voices/skyggeborgen.json": "voices/skyggeborgen.json"`. Stemmerne laves med `voices/lav_stemmer.py`; se `voices/README.md`. Tjek bagefter, at den publicerede side har samme indhold og versionsnummer som `index.html` i repoet.
+Hver gang der pushes til `main` på GitHub, skal denne artifact også opdateres med den nye `index.html` (Artifact-værktøjet: publish med `url` sat til linket ovenfor, så linket bevares). `galaxy.html` skal med som ekstra fil i samme publicering (`files: {"galaxy.html": "galaxy.html"}`), ellers virker linket fra menuen ikke. Tjek bagefter, at den publicerede side har samme indhold og versionsnummer som `index.html` i repoet.
 
 ## Versionsnummer
 

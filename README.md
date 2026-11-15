@@ -35,12 +35,6 @@ Et racerbrætspil i sin egen fil, `galaxy.html`, med link fra spilmenuen i `inde
 - Fortryd, lyd og automatisk gemt løb
 - Brættet vender sig selv på højkant, når det passer bedst til skærmen
 
-## Skyggeborgen
-
-Et samarbejdseventyr for 2–4 helte i sin egen fil, `skyggeborgen.html`, med link fra spilmenuen. Man spiller med rigtige terninger og et spil kort, træffer valg i historien og kæmper sammen mod askevagten. Hvert sted har sin egen tegnede scene med heltene og de andre figurer, teksten er kort (hele teksten kan foldes ud), kampen vises med sværdhug, ildkugler og skadetal, og et eventyrkort viser, hvor langt I er nået. Knappen **Fortæl** læser scenen op; stemmen laves med ElevenLabs ved at køre `voices/lav_stemmer.py`, også i en Claude-cloudsession. Se `voices/README.md`.
-
-3D-udgaven (React og three.js) ligger i [`skyggeborgen-3d/`](skyggeborgen-3d/). `skyggeborgen.html` er uændret.
-
 ## Brug
 
 Spillet bruges via claude.ai. `index.html` kan også åbnes direkte i en browser.
