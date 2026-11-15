@@ -37,7 +37,7 @@ Et racerbrætspil i sin egen fil, `galaxy.html`, med link fra spilmenuen i `inde
 
 ## Skyggeborgen
 
-Et samarbejdseventyr for 2–4 helte i sin egen fil, `skyggeborgen.html`, med link fra spilmenuen. Man spiller med rigtige terninger og et spil kort, træffer valg i historien og kæmper sammen mod askevagten. Knappen **Fortæl** læser scenen op; se `voices/README.md` for at lave fortællerstemmen med ElevenLabs.
+Et samarbejdseventyr for 2–4 helte i sin egen fil, `skyggeborgen.html`, med link fra spilmenuen. Man spiller med rigtige terninger og et spil kort, træffer valg i historien og kæmper sammen mod askevagten. Knappen **Fortæl** læser scenen op; stemmen laves med ElevenLabs ved at køre `voices/lav_stemmer.py`, også i en Claude-cloudsession. Se `voices/README.md`.
 
 ## Brug
 

@@ -1,0 +1,3 @@
+{
+  "_forklaring": "Ord, der udtales forkert: skriv ordet, som det står i skyggeborgen.html, og en stavemåde, der lyder rigtigt, fx \"Sir Rav\": \"Sir Raav\". Det erstattes kun i oplæsningen. Kør derefter voices/lav_stemmer.py igen."
+}

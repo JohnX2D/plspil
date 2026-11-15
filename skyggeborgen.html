@@ -13,7 +13,10 @@ if(S.screen==='combat'&&!S.pending&&['action','attackhelper','attackroll','reviv
 const app=document.getElementById('app');const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}function clamp(n){return Math.max(0,Math.min(4,n))}function changeDark(n=1){S.dark=clamp(S.dark+n)}function damage(id,n=1){S.hp[id]=clamp(S.hp[id]-n)}function heal(id,n=1){S.hp[id]=clamp(S.hp[id]+n)}function alive(){return S.selected.filter(id=>S.hp[id]>0)}function defeated(){if(!alive().length){scene('tabt');return true}return false}
 function sound(kind){if(!audioOn)return;try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();ctx.resume();let now=ctx.currentTime;if(kind==='ambient'){if(hum)return;let o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=55;g.gain.value=.018;o.connect(g).connect(ctx.destination);o.start();hum={o,g};return}let o=ctx.createOscillator(),g=ctx.createGain();o.type=kind==='bell'?'sine':'triangle';o.frequency.setValueAtTime(kind==='bell'?220:kind==='hit'?95:340,now);o.frequency.exponentialRampToValueAtTime(kind==='bell'?210:65,now+.7);g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.09,now+.02);g.gain.exponentialRampToValueAtTime(.0001,now+(kind==='bell'?2:.45));o.connect(g).connect(ctx.destination);o.start();o.stop(now+(kind==='bell'?2:.5))}catch(e){}}
-function stopVoice(){if(voiceAudio){voiceAudio.pause();voiceAudio=null}if('speechSynthesis'in window)speechSynthesis.cancel()}
+/* Fortællerstemme: klip indtalt med ElevenLabs ligger i voices/skyggeborgen.json (voices/lav_stemmer.py), ét klip pr. afsnit. Mangler et afsnit, bruges browserens stemme. */
+let CLIPS=null,playId=0;const clipUrls={};try{fetch('voices/skyggeborgen.json').then(r=>r.ok?r.json():null).then(j=>{if(j&&j.klip)CLIPS=j.klip}).catch(()=>{})}catch(e){}
+function clipUrl(t){if(!CLIPS||!CLIPS[t])return null;if(!clipUrls[t]){const bin=atob(CLIPS[t].mp3),arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);clipUrls[t]=URL.createObjectURL(new Blob([arr],{type:'audio/mpeg'}))}return clipUrls[t]}
+function stopVoice(){playId++;if(voiceAudio){voiceAudio.pause();voiceAudio=null}if('speechSynthesis'in window)speechSynthesis.cancel()}
 function story(title,text,choices,chapter){stopVoice();S.flags.visionText='';S.screen='story';S.title=title;S.story=text;S.options=choices;S.chapter=chapter;S.phase='story';save();render();if(title.includes('klokke')||title.includes('porten'))sound('bell')}
 const op=(label,action,detail='')=>({label,action,detail});
 function scene(id){S.pending=null;S.card=null;switch(id){
@@ -58,7 +61,9 @@ case'spark':if(!S.selected.some(x=>S.hp[x]<4))break;S.returnScreen=S.screen;S.sc
 }});
 document.getElementById('sound').onclick=()=>{audioOn=!audioOn;document.getElementById('sound').textContent=`♫ Lyd: ${audioOn?'til':'fra'}`;if(audioOn){sound('ambient');sound('bell')}else if(hum){hum.o.stop();hum=null}};
 document.getElementById('restart').onclick=()=>{if(confirm('Start et nyt eventyr? Det nuværende forsøg bliver slettet.')){stopVoice();S=initial();render()}};
-document.getElementById('narrate').onclick=()=>{stopVoice();let text=S.story||'Skyggeborgen. Den tavse klokke.';let ids={'Pigen i regnen':'mira','Ridderen ved porten':'port','To veje gennem mørket':'veje','Klokketårnet':'taarn','Det glemte kapel':'kapel','Vagten under klokken':'vagt','Stemmen bag døren':'elias','Klokken er stille':'slut'};let id=ids[S.title];if(id){voiceAudio=new Audio('voices/'+id+'.mp3');voiceAudio.play().catch(()=>{voiceAudio=null;speak(text)})}else speak(text)};
+document.getElementById('narrate').onclick=()=>{stopVoice();let text=S.story||'Skyggeborgen. Den tavse klokke.';const parts=text.split('\n').map(x=>x.trim()).filter(Boolean);
+  if(!CLIPS||!parts.every(p=>CLIPS[p])){speak(text);return}
+  const id=playId;let i=0;const next=()=>{if(id!==playId)return;if(i>=parts.length){voiceAudio=null;return}const a=new Audio(clipUrl(parts[i++]));voiceAudio=a;a.onended=next;a.play().catch(()=>{if(id===playId){voiceAudio=null;speak(parts.slice(i-1).join('\n'))}})};next()};
 function speak(text){if('speechSynthesis'in window){let u=new SpeechSynthesisUtterance(text);u.lang='da-DK';u.rate=.88;speechSynthesis.speak(u)}else alert('Din browser understøtter ikke oplæsning. Du kan tilføje indtalte lydfiler i voices-mappen.')}
 render();
 </script></body></html>
