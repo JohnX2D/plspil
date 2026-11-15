@@ -12,3 +12,19 @@ Læg valgfrie MP3-filer i denne mappe. Knappen **Fortæl** afspiller filen for d
 - `slut.mp3` — Klokken er stille
 
 Mellemtekster og variable resultater læses op af browserens stemme. De faktiske tekster findes i `skyggeborgen.html`; stemmefiler medfølger ikke. Afspilning kræver et tryk på knappen.
+
+## Lav stemmerne med ElevenLabs
+
+`lav_stemmer.py` henter de 8 scenetekster fra `skyggeborgen.html` og laver dem til MP3 med ElevenLabs (modellen `eleven_multilingual_v2`, som kan tale dansk). Det er ca. 2.300 tegn i alt. Kør fra repoets rodmappe:
+
+```bash
+export ELEVENLABS_API_KEY="din-nøgle"
+export ELEVENLABS_VOICE_ID="stemme-id"
+python3 voices/lav_stemmer.py --vis
+python3 voices/lav_stemmer.py
+```
+
+- `--vis` viser teksterne og antal tegn uden at kalde ElevenLabs.
+- Filer, der allerede findes, springes over. `--igen port vagt` laver de nævnte scener om.
+- Nøglen og stemme-id'et sættes kun i terminalen og gemmes aldrig i repoet.
+- Ændres en scenetekst i spillet, så kør `--igen` for den scene, så lyden passer til teksten.

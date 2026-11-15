@@ -35,6 +35,10 @@ Et racerbrætspil i sin egen fil, `galaxy.html`, med link fra spilmenuen i `inde
 - Fortryd, lyd og automatisk gemt løb
 - Brættet vender sig selv på højkant, når det passer bedst til skærmen
 
+## Skyggeborgen
+
+Et samarbejdseventyr for 2–4 helte i sin egen fil, `skyggeborgen.html`, med link fra spilmenuen. Man spiller med rigtige terninger og et spil kort, træffer valg i historien og kæmper sammen mod askevagten. Knappen **Fortæl** læser scenen op; se `voices/README.md` for at lave fortællerstemmen med ElevenLabs.
+
 ## Brug
 
 Spillet bruges via claude.ai. `index.html` kan også åbnes direkte i en browser.
