@@ -8,7 +8,7 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 |---|---|---|
 | **Tårnet** | Push your luck: hvert slag skal være højere end det forrige | 1 terning |
 | **Piratskatten** | Push your luck: læg slag sammen, en 1'er mister alt | 1 terning |
-| **Kanonkampen** | Kamp: skyd på de andres borge eller byg mur | 1 terning |
+| **Kanonkampen** | Kamp: skyd på de andres borge eller byg mur. En faldet borg spøger videre | 1 terning |
 | **Højere eller lavere** | Push your luck med kort | Kortspil |
 | **Skattekisten** | Push your luck: samme værdi to gange, og kisten springer | Kortspil |
 | **Monsterhulen** | Kamp og push your luck: slå monsteret i døren, og gå dybere ind eller hjem med sækken | Kortspil + 1 terning |
@@ -21,6 +21,8 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 - Forside med en flise pr. spil. Hvert spil gemmes for sig, så man kan skifte spil og fortsætte senere
 - Bygget til iPad 11" (højkant og på langs): ét fast skærmbillede uden rul, hvor scenen fylder mest, og terningknapper, risiko og stop altid er fremme. Virker også på telefon
 - Lyd i alle spil (kan slås fra under Regler)
+- **Aftenens mester:** hvert færdigt spil giver point til alle (vinderen flest), også Galaxy Raceway. Stillingen står på forsiden og starter forfra efter 10 timer uden spil eller med knappen Ny aften
+- **Rekorder:** hvert spil har en rekord (fx højeste tårn eller største fangst), som står på spillets flise. En ny rekord fejres med det samme
 
 ## Galaxy Raceway
 

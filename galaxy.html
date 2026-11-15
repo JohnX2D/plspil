@@ -162,12 +162,13 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   <div id="rtxt"></div>
   <h3>Seneste træk</h3><ul id="log"></ul>
   <div class="acts"><button class="cta" id="rclose">Luk</button></div>
-  <div class="ver">Galaxy Raceway · version 18.0</div>
+  <div class="ver">Galaxy Raceway · version 19.0</div>
 </div></div>
 <div class="ov" id="win"><div class="box" style="text-align:center">
   <div style="font-size:64px;line-height:1">🏆</div>
   <h2 class="title disp" id="wtxt"></h2>
   <ul class="stand" id="stand"></ul>
+  <p class="sub" id="wev" style="margin:12px 0 0"></p>
   <div class="acts"><button class="btn2" id="wundo">Fortryd</button><button class="btn2" id="wsetup">Skift biler</button><button class="cta" id="again">Nyt løb</button></div>
 </div></div>
 <script>
@@ -238,9 +239,19 @@ let S,hist=[],busy=false,mute=false,pend=null;
 const defPlayers=()=>{let nm=[];try{nm=(JSON.parse(localStorage.getItem('lda-spil'))||{}).names||[]}catch(e){}
   return CARS.map((c,i)=>({car:i,name:(nm[i]&&!['Rød','Blå','Grøn','Gul'].includes(nm[i]))?nm[i]:''}))};
 const newCar=()=>({pos:START,pw:null,skip:0});
-const fresh=(players,n)=>({v:VER,phase:'setup',n:n||2,players:players||defPlayers(),cars:[0,1,2,3].map(newCar),p:0,t:{ph:'roll'},oil:[],round:1,ev:null,log:[],last:'',win:null});
+const fresh=(players,n)=>({v:VER,phase:'setup',n:n||2,players:players||defPlayers(),cars:[0,1,2,3].map(newCar),p:0,t:{ph:'roll'},oil:[],round:1,ev:null,log:[],last:'',win:null,rid:Date.now().toString(36)+Math.random().toString(36).slice(2,7)});
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 if(!S||S.v!==VER||!S.players||S.players.length!==4||!S.cars||S.cars.some(c=>!NODES[c.pos]))S=fresh(S&&S.players&&S.players.length===4?S.players:null,S&&S.n);
+if(!S.rid)S.rid=Date.now().toString(36);
+/* Galaxy Raceway tæller med i aftenens mester på forsiden (samme log som index.html) */
+/* Hvert færdigt spil er én linje i aftenens log (også fra galaxy.html). Point regnes ud fra loggen,
+   så fortryd og genindlæsning aldrig tæller dobbelt. Efter 10 timer uden spil starter en ny aften. */
+const EVK='lda-aften',EVH=10*36e5;
+function eveLoad(){let e;try{e=JSON.parse(localStorage.getItem(EVK))}catch(x){}if(!e||!Array.isArray(e.log))e={log:[],last:0};if(e.log.length&&Date.now()-e.last>EVH)e={log:[],last:0};return e}
+function eveSave(e){try{localStorage.setItem(EVK,JSON.stringify(e))}catch(x){}}
+function eveUpsert(rid,game,rank){const e=eveLoad(),i=e.log.findIndex(r=>r.rid===rid),row={rid,game,rank,t:i>=0?e.log[i].t:Date.now()};if(i>=0){if(JSON.stringify(e.log[i].rank)===JSON.stringify(rank))return;e.log[i]=row}else e.log.push(row);e.last=Date.now();eveSave(e)}
+function eveRemove(rid){const e=eveLoad(),n=e.log.length;e.log=e.log.filter(r=>r.rid!==rid);if(e.log.length!==n)eveSave(e)}
+function eveStand(e){const m={};e.log.forEach(r=>r.rank.forEach(x=>{const s=m[x.name]||(m[x.name]={name:x.name,pts:0,wins:0});s.pts+=x.pts;if(x.place===1)s.wins++}));return Object.values(m).sort((a,b)=>b.pts-a.pts||b.wins-a.wins)}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const snap=()=>{hist.push(JSON.stringify(S));if(hist.length>80)hist.shift()};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -721,6 +732,7 @@ function hud(keepPad){
   $('log').innerHTML=S.log.map(t=>`<li>${esc(t)}</li>`).join('')||'<li>Ingen træk endnu.</li>';
   const w=$('win');if(S.win!==null){$('wtxt').innerHTML=`<span style="color:${col(S.win)}">${nm(S.win)}</span> vinder!`;
     const ord=ids().sort((a,b)=>(b===S.win)-(a===S.win)||dist(a)-dist(b));
+    eveUpsert(S.rid,'Galaxy Raceway',ord.map((i,k)=>({name:rawName(i),place:k+1,pts:S.n-k})));{const row=eveLoad().log.find(r=>r.rid===S.rid);$('wev').textContent=row?'Point til aftenens mester: '+row.rank.map(r=>`${r.name} +${r.pts}`).join(' · '):''}
     $('stand').innerHTML=ord.map((i,k)=>`<li><span>${k+1}.</span><img src="${AV[S.players[i].car]}" alt=""><span>${nm(i)}</span><span style="margin-left:auto;color:var(--soft)">${dist(i)?dist(i)+' felter fra mål':'I mål'}</span></li>`).join('');
     if(!w.classList.contains('show')){w.classList.add('show');confetti()}}else w.classList.remove('show');
   if(busy&&!(pend&&pend.type==='fork'))return;
@@ -741,7 +753,7 @@ function setupUI(){
   $('srows').innerHTML=Array.from({length:S.n},(_,i)=>{const pc=S.players[i].car;return `<div class="srow" style="--c:${CARS[pc].col}"><input data-i="${i}" maxlength="14" value="${esc(S.players[i].name)}" placeholder="${CARS[pc].def}" aria-label="Navn på spiller ${i+1}">
    <div class="pick">${CARS.map((c,k)=>`<button data-i="${i}" data-k="${k}" style="--k:${c.col}" aria-pressed="${k===pc}" aria-label="${c.n}" title="${c.n}"><img src="${AV[k]}" alt=""></button>`).join('')}</div></div>`}).join('')}
 function startRace(){hist=[];const pl=S.players,n=S.n;S=fresh(pl,n);S.phase='race';S.last='Løbet er i gang!';save();if(CEL.length)paintCars();syncAll();hud()}
-function undo(){if(busy||pend||!hist.length)return;S=JSON.parse(hist.pop());save();syncAll();hud()}
+function undo(){if(busy||pend||!hist.length)return;S=JSON.parse(hist.pop());if(S.win===null)eveRemove(S.rid);save();syncAll();hud()}
 $('digital').addEventListener('click',()=>{if(busy||bnDone||S.win!==null||S.phase!=='race')return;const v=Math.floor(Math.random()*6)+1;roll(v,true)});
 $('bZoom').addEventListener('click',()=>{follow=!follow;$('bZoom').classList.toggle('on',follow);$('bZoom').setAttribute('aria-pressed',follow);$('bZoom').setAttribute('aria-label',follow?'Vis hele banen':'Zoom ind på aktiv bil');$('bZoom').title=follow?'Vis hele banen':'Følg aktiv bil';updateView()});
 function closeTip(){$('boardtip').hidden=true;const g=$('cars').querySelector('#info-hl');if(g)g.innerHTML=''}
