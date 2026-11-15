@@ -16,47 +16,49 @@ html,body{margin:0;height:100%;background:radial-gradient(ellipse at 50% 40%,#1c
 button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .disp{font-family:"Barlow Condensed",Barlow,sans-serif;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.02em}
-#app{position:fixed;inset:0;display:grid;grid-template:"top top" auto "pl board" minmax(0,1fr) "pl pad" auto / minmax(190px,240px) minmax(0,1fr);gap:10px;
- padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
-#top{grid-area:top;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.logo{font-size:clamp(22px,3vw,30px);line-height:1;margin-right:auto;white-space:nowrap}
-.logo span,.title span{color:var(--gold)}
-.pill{border:2px solid var(--line);background:var(--panel);border-radius:10px;padding:6px 14px;min-height:42px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;display:inline-flex;align-items:center;gap:6px}
-.pill[aria-pressed=true]{background:#fff;color:#121417;border-color:#fff}
-.pill:disabled{opacity:.4}
-#pl{grid-area:pl;display:flex;flex-direction:column;gap:10px;overflow:auto;align-self:start;max-height:100%;padding-top:8px}
-.pc{background:var(--panel);border:2px solid var(--line);border-left:6px solid var(--c);border-radius:12px;padding:8px 10px;display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:2px 8px;align-items:center;position:relative}
-.pc.on{border-color:var(--c);box-shadow:0 0 0 2px var(--c),0 0 18px color-mix(in srgb,var(--c) 55%,transparent)}
-.pc.on::after{content:"Din tur";position:absolute;top:-10px;right:10px;background:var(--c);color:#fff;font-size:12px;font-weight:700;padding:0 8px;border-radius:6px}
-.pc img{width:44px;height:44px;grid-row:span 2}
-.pc b{font-size:16px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pc small{color:var(--soft);font-weight:600;font-size:12px;grid-column:2/-1}
-.plc{font:800 italic 22px/1 "Barlow Condensed",sans-serif;color:var(--soft)}
+#app{position:fixed;inset:0;display:grid;gap:6px;
+ padding:max(6px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
+#app.stack{grid-template:"top pl" auto "board board" minmax(0,1fr) "pad pad" auto / auto minmax(0,1fr)}
+#app.side{grid-template-columns:minmax(0,1fr) 236px;grid-template-rows:auto auto auto minmax(0,1fr);grid-template-areas:"board top" "board pl" "board pad" "board ."}
+#top{grid-area:top;display:flex;align-items:center;gap:6px;position:relative}
+.title span{color:var(--gold)}
+.ib{width:40px;height:40px;flex:none;border:2px solid var(--line);background:var(--panel);border-radius:10px;padding:0;font-size:20px;font-weight:800;line-height:1;color:#fff;text-decoration:none;display:grid;place-items:center}
+.ib:disabled{opacity:.35}
+.ib[aria-expanded=true]{background:#fff;color:#121417}
+#menu{position:absolute;top:46px;left:0;z-index:7;background:#16191e;border:2px solid var(--line);border-radius:12px;padding:6px;display:none;min-width:190px;box-shadow:0 12px 30px rgba(0,0,0,.6)}
+#menu.show{display:grid;gap:4px}
+#menu button{border:0;background:#0d0f12;border-radius:8px;min-height:44px;padding:0 12px;text-align:left;font-weight:700;font-size:15px;color:#fff}
+#pl{grid-area:pl;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+#app.side #pl{flex-direction:column;overflow:visible}
+.pc{flex:1 0 auto;background:var(--panel);border:2px solid var(--line);border-left:5px solid var(--c);border-radius:10px;padding:3px 8px 3px 4px;display:grid;grid-template-columns:28px auto auto;gap:0 6px;align-items:center;min-height:40px}
+.pc.on{border-color:var(--c);box-shadow:0 0 0 2px var(--c),0 0 14px color-mix(in srgb,var(--c) 55%,transparent)}
+.pc img{width:28px;height:28px;grid-row:span 2}
+.pc b{font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px}
+.pc small{color:var(--soft);font-weight:600;font-size:11.5px;grid-column:2/-1;white-space:nowrap}
+.plc{font:800 italic 18px/1 "Barlow Condensed",sans-serif;color:var(--soft);justify-self:end}
 .plc.p1{color:var(--gold)}
-.pbar{grid-column:1/-1;height:6px;border-radius:6px;background:#0b0c0e;overflow:hidden;margin-top:4px}
-.pbar i{display:block;height:100%;background:var(--c);transition:width .5s}
-.mods{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
-.mods:empty{display:none}
-.mod{font-size:12px;font-weight:700;border-radius:6px;padding:1px 7px;background:#0b0c0e;border:1px solid var(--good)}
-.mod.b{border-color:var(--bad)}.mod.p{border-color:var(--pw);background:#21163a}
+.pi{font-size:13px;margin-left:2px}
+@media (max-width:700px){#app.stack .pc b{display:none}#app.stack .pc{grid-template-columns:26px auto}#app.stack .pc img{width:26px;height:26px}}
 #bw{grid-area:board;position:relative;min-height:0;min-width:0}
 #bw svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 #cars{pointer-events:none;overflow:visible}
-#pad{grid-area:pad;justify-self:center;width:min(100%,640px);background:var(--panel);border:2px solid var(--line);border-top:4px solid var(--c,var(--line));border-radius:16px;padding:8px 12px 12px;display:grid;gap:6px}
+#pad{grid-area:pad;justify-self:center;width:min(100%,620px);background:var(--panel);border:2px solid var(--line);border-top:4px solid var(--c,var(--line));border-radius:14px;padding:6px 8px 8px;display:grid;gap:5px}
+#app.side #pad{width:100%;align-self:start}
+#app.side .keys{grid-template-columns:repeat(3,minmax(0,1fr))}
+#app.side #acts{grid-template-columns:1fr}
 #pad[hidden],#pl[hidden]{display:none}
-#last{font-size:13px;font-weight:600;color:var(--soft);text-align:center;min-height:18px}
-#msg{font-size:clamp(16px,2.4vw,20px);font-weight:700;text-align:center;line-height:1.2}
+#msg{font-size:clamp(15px,2vw,18px);font-weight:700;text-align:center;line-height:1.2}
 #msg b{color:var(--c);filter:brightness(1.3)}
-#hint{font-size:13px;font-weight:700;text-align:center;color:var(--gold);min-height:18px}
+#hint{font-size:12.5px;font-weight:700;text-align:center;color:var(--gold)}
 #hint:empty{display:none}
-.keys{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.keys{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
 .keys[hidden],#acts:empty{display:none}
 .key{border:0;background:transparent;padding:0;border-radius:12px;transition:transform .1s}
-.key svg{display:block;width:100%;height:auto;max-height:68px;filter:drop-shadow(0 4px 3px rgba(0,0,0,.55))}
+.key svg{display:block;width:100%;height:auto;max-height:54px;filter:drop-shadow(0 4px 3px rgba(0,0,0,.55))}
 .key:active{transform:translateY(3px) scale(.96)}
 .key:disabled{opacity:.35}
 #acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.act{border:0;border-radius:12px;padding:8px 10px;min-height:64px;font-weight:800;font-size:19px;color:#fff;text-align:center;display:grid;gap:1px;place-content:center;line-height:1.1}
+.act{border:0;border-radius:12px;padding:6px 10px;min-height:54px;font-weight:800;font-size:17px;color:#fff;text-align:center;display:grid;gap:1px;place-content:center;line-height:1.1}
 .act small{font-weight:600;font-size:12.5px;opacity:.92;line-height:1.25}
 .act:active{transform:translateY(3px)}
 .act.go{background:linear-gradient(#2f9a62,#1f7448);box-shadow:0 4px 0 #13502f}
@@ -109,7 +111,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .stand img{width:44px;height:44px}
 .conf{position:fixed;top:-40px;z-index:11;font-size:26px;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
-.ver{position:fixed;right:10px;bottom:2px;font-size:11px;color:var(--soft);opacity:.7;pointer-events:none}
+.ver{text-align:center;font-size:12px;color:var(--soft);margin-top:14px}
 #meas{position:absolute;width:0;height:0;overflow:hidden}
 .flm{animation:flm .12s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:100% 50%}
 @keyframes flm{to{transform:scaleX(.65)}}
@@ -120,14 +122,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 @keyframes shl{50%{opacity:.45;transform:scale(1.06)}}
 .hla{animation:hla .9s ease-in-out infinite alternate}
 @keyframes hla{to{opacity:.35}}
-@media (max-width:760px),(orientation:portrait){
- #app{grid-template:"top" auto "pl" auto "board" minmax(0,1fr) "pad" auto / minmax(0,1fr)}
- #pl{flex-direction:row;max-width:100%;padding-top:10px}
- .pc{flex:1 0 118px;grid-template-columns:28px minmax(0,1fr) auto;padding:5px 8px;gap:0 6px}.pc img{width:28px;height:28px}.pc b{font-size:14px}.pc small{font-size:11px;white-space:nowrap}.pc .ar{display:none}.plc{font-size:18px}.pbar{margin-top:2px}
- .pill{padding:4px 10px;font-size:13px;min-height:38px}
- .act{min-height:58px;font-size:17px}
-}
-@media (max-height:560px){.key svg{max-height:48px}#pad{padding:6px 10px 8px;gap:4px}#last{display:none}.act{min-height:50px}}
+@media (max-height:560px){.key svg{max-height:44px}.act{min-height:46px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;transition:none!important}}
 </style>
 </head>
@@ -135,16 +130,14 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 <svg id="meas" aria-hidden="true"></svg>
 <div id="app">
   <div id="top">
-    <div class="logo disp">Galaxy <span>Raceway</span></div>
-    <a class="pill" href="index.html">← LDA Spil</a>
-    <button class="pill" id="bSnd" aria-pressed="true">Lyd</button>
-    <button class="pill" id="bRules">Regler</button>
-    <button class="pill" id="bUndo">Fortryd</button>
-    <button class="pill" id="bNew">Nyt løb</button>
+    <a class="ib" href="index.html" title="Tilbage til LDA Spil" aria-label="Tilbage til LDA Spil">←</a>
+    <button class="ib" id="bUndo" title="Fortryd" aria-label="Fortryd">↶</button>
+    <button class="ib" id="bMenu" title="Menu" aria-label="Menu" aria-expanded="false">☰</button>
+    <div id="menu"><button id="bRules">📖 Regler og log</button><button id="bSnd" aria-pressed="true">🔊 Lyd: til</button><button id="bNew">🏁 Nyt løb</button></div>
   </div>
   <div id="pl"></div>
   <div id="bw"><svg id="bstatic" role="img" aria-label="Spillebrættet set oppefra"></svg><svg id="cars" aria-hidden="true"></svg></div>
-  <div id="pad"><div id="last"></div><div id="msg"></div><div id="hint"></div><div class="keys" id="keys"></div><div id="acts"></div></div>
+  <div id="pad"><div id="last" hidden></div><div id="msg"></div><div id="hint"></div><div class="keys" id="keys"></div><div id="acts"></div></div>
 </div>
 <div id="flash"></div>
 <div id="bcatch"></div>
@@ -161,6 +154,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   <div id="rtxt"></div>
   <h3>Seneste træk</h3><ul id="log"></ul>
   <div class="acts"><button class="cta" id="rclose">Luk</button></div>
+  <div class="ver">Galaxy Raceway · version 7.1</div>
 </div></div>
 <div class="ov" id="win"><div class="box" style="text-align:center">
   <div style="font-size:64px;line-height:1">🏆</div>
@@ -168,7 +162,6 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   <ul class="stand" id="stand"></ul>
   <div class="acts"><button class="btn2" id="wundo">Fortryd</button><button class="btn2" id="wsetup">Skift biler</button><button class="cta" id="again">Nyt løb</button></div>
 </div></div>
-<div class="ver">Galaxy Raceway · version 7.0</div>
 <script>
 {
 /* ================= data ================= */
@@ -287,6 +280,7 @@ function geom(port){
   const g={W,H,port,M,P};
   g.np=NODES.map(n=>atP(P[n.pi],(n.k+.5)*P[n.pi].FL));
   g.co=[];P.forEach(p=>p.a.forEach((q,i)=>{if(i%3===0)g.co.push(q)}));
+  {const m=HW+30,xs=g.co.map(q=>q[0]),ys=g.co.map(q=>q[1]),x0=Math.max(0,Math.min(...xs)-m),y0=Math.max(0,Math.min(...ys)-m),x1=Math.min(W,Math.max(...xs)+m),y1=Math.min(H,Math.max(...ys)+m);g.vb=[x0,y0,x1-x0,y1-y0]}
   return g}
 function atP(p,s){const A=p.a,k=Math.max(0,Math.min(A.length-1.001,s/4)),i=Math.floor(k),f=k-i,a=A[i],b=A[i+1];
   const x=a[0]+(b[0]-a[0])*f,y=a[1]+(b[1]-a[1])*f,i0=Math.max(0,i-2),i1=Math.min(A.length-1,i+3);
@@ -508,8 +502,8 @@ function boardSvg(){
    const sx=a.x-a.nx*(HW+40),sy=a.y-a.ny*(HW+40);o+=sign(clear(sx,sy,10)?sx:a.x+a.nx*(HW+40),clear(sx,sy,10)?sy:a.y+a.ny*(HW+40),'START / MÅL','#f5b829')}
   /* lighting, grain, frame */
   o+=`<rect width="${W}" height="${H}" fill="url(#sun)"/><rect width="${W}" height="${H}" fill="url(#vig)"/>`;
-  o+=`<rect x="5" y="5" width="${W-10}" height="${H-10}" rx="22" fill="none" stroke="#0c0d0f" stroke-width="12"/><rect x="14" y="14" width="${W-28}" height="${H-28}" rx="16" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="2"/>`;
-  return `<clipPath id="bclip"><rect width="${W}" height="${H}" rx="26"/></clipPath><g clip-path="url(#bclip)">${o}</g>`}
+  const [vx,vy,vw,vh]=G.vb;o+=`<rect x="${F1(vx+3)}" y="${F1(vy+3)}" width="${F1(vw-6)}" height="${F1(vh-6)}" rx="16" fill="none" stroke="#0c0d0f" stroke-width="6"/>`;
+  return `<clipPath id="bclip"><rect x="${F1(vx)}" y="${F1(vy)}" width="${F1(vw)}" height="${F1(vh)}" rx="18"/></clipPath><g clip-path="url(#bclip)">${o}</g>`}
 
 /* ================= car layer ================= */
 const CEL=[];
@@ -553,7 +547,7 @@ function tick(now){requestAnimationFrame(tick);
   for(let i=0;i<4;i++)if(Vv[i].moving&&CEL[i].parentNode.lastChild!==CEL[i])CEL[i].parentNode.appendChild(CEL[i]);
   const bw=$('bw');if(shake>0){shake-=.016;bw.style.transform=`translate(${F1((Math.random()-.5)*shake*26)}px,${F1((Math.random()-.5)*shake*26)}px)`}else if(bw.style.transform)bw.style.transform=''}
 function build(force){const r=$('bw').getBoundingClientRect();if(r.width<10||r.height<10)return;const port=Math.min(r.width/1000,r.height/1600)>Math.min(r.width/1600,r.height/1000);
-  if(G&&G.port===port&&!force)return;G=geom(port);const vb=`0 0 ${G.W} ${G.H}`;$('bstatic').setAttribute('viewBox',vb);$('cars').setAttribute('viewBox',vb);
+  if(G&&G.port===port&&!force)return;G=geom(port);const vb=G.vb.map(F1).join(' ');$('bstatic').setAttribute('viewBox',vb);$('cars').setAttribute('viewBox',vb);
   $('bstatic').innerHTML=boardSvg();if(!CEL.length)buildCars();Vv.forEach(v=>v.init=false);syncMods();if(pend&&pend.type==='fork')hlFork(pend.node)}
 new ResizeObserver(()=>build()).observe($('bw'));
 function syncAll(){for(let i=0;i<4;i++){const v=Vv[i];v.moving=false;v.hop=v.spin=0;v.sc=1;v.op=1;v.fire=0;v.smoke=0}syncMods()}
@@ -706,11 +700,11 @@ function modChips(c,i){const o=[];if(c.pw)o.push([POW[c.pw].ic+' '+POW[c.pw].n,'
 function padLock(t){$('last').textContent='';$('msg').textContent=t;$('hint').textContent='';$('keys').hidden=true;$('acts').innerHTML='';$('bUndo').disabled=true}
 function hud(keepPad){
   const race=S.phase==='race';$('setup').classList.toggle('show',!race);$('pad').hidden=!race;$('pl').hidden=!race;
-  ['bUndo','bNew'].forEach(id=>$(id).style.display=race?'':'none');
+  $('bUndo').style.visibility=race?'':'hidden';
   requestAnimationFrame(()=>build());
   if(CEL.length)syncMods();
   if(!race){setupUI();return}
-  $('pl').innerHTML=ids().map(i=>{const c=S.cars[i],pl=place(i),d=NODES[c.pos].d;return `<div class="pc${i===S.p&&S.win===null?' on':''}" style="--c:${col(i)}"><img src="${AV[S.players[i].car]}" alt=""><b>${nm(i)}</b><span class="plc${pl===1?' p1':''}">${pl}.</span><small>${d?(c.pos===START?'Start':'Felt '+NODES[c.pos].num)+' · '+d+' til mål':'I mål'}<span class="ar"> · ${PATHS[NODES[c.pos].pi].nm}</span></small><div class="pbar"><i style="width:${(1-d/TOTAL)*100}%"></i></div><div class="mods">${modChips(c,i)}</div></div>`}).join('');
+  $('pl').innerHTML=ids().map(i=>{const c=S.cars[i],pl=place(i),d=NODES[c.pos].d,ic=(c.pw?POW[c.pw].ic:'')+(c.skip?'💤':'')+(isLast(i)?'🔼':'');return `<div class="pc${i===S.p&&S.win===null?' on':''}" style="--c:${col(i)}" title="${nm(i)}"><img src="${AV[S.players[i].car]}" alt="${nm(i)}"><b>${nm(i)}</b><span class="plc${pl===1?' p1':''}">${pl}.</span><small>${d?(c.pos===START?'Start':'Felt '+NODES[c.pos].num):'Mål'}<span class="pi">${ic}</span></small></div>`}).join('');
   $('log').innerHTML=S.log.map(t=>`<li>${esc(t)}</li>`).join('')||'<li>Ingen træk endnu.</li>';
   const w=$('win');if(S.win!==null){$('wtxt').innerHTML=`<span style="color:${col(S.win)}">${nm(S.win)}</span> vinder!`;
     const ord=ids().sort((a,b)=>(b===S.win)-(a===S.win)||dist(a)-dist(b));
@@ -746,7 +740,13 @@ $('bUndo').onclick=undo;$('wundo').onclick=undo;
 $('again').onclick=startRace;
 $('wsetup').onclick=()=>{S.phase='setup';S.win=null;save();hud();$('win').classList.remove('show')};
 $('bNew').onclick=()=>{if(busy)return;if(S.win===null&&S.cars.some(c=>c.pos!==START)&&!confirm('Vil du stoppe løbet og starte et nyt?'))return;S.phase='setup';S.win=null;save();hud()};
-$('bSnd').onclick=()=>{mute=!mute;$('bSnd').setAttribute('aria-pressed',!mute)};
+$('bSnd').onclick=()=>{mute=!mute;$('bSnd').setAttribute('aria-pressed',!mute);$('bSnd').textContent=mute?'🔇 Lyd: fra':'🔊 Lyd: til'};
+const menu=on=>{$('menu').classList.toggle('show',on);$('bMenu').setAttribute('aria-expanded',on)};
+$('bMenu').onclick=e=>{e.stopPropagation();menu(!$('menu').classList.contains('show'))};
+$('menu').addEventListener('click',()=>setTimeout(()=>menu(false)));document.addEventListener('click',e=>{if(!e.target.closest('#top'))menu(false)});
+function chooseLayout(){const vw=innerWidth,vh=innerHeight,f=(w,h)=>Math.max(Math.min(w/1800,h/1125),Math.min(w/1125,h/1800));
+  const side=f(vw-236-24,vh-12),stack=f(vw-12,vh-12-46-(vw<600?118:104)-12),c=side>stack?'side':'stack';if($('app').className!==c)$('app').className=c}
+addEventListener('resize',chooseLayout);chooseLayout();
 $('bRules').onclick=()=>$('rules').classList.add('show');$('rclose').onclick=()=>$('rules').classList.remove('show');
 const cls={g:'',b:'b',p:'p',n:'n'};
 $('rtxt').innerHTML=`<ul><li>Én omgang rundt om banen. Første bil over <b>START / MÅL</b> vinder. Man behøver ikke slå præcist.</li><li>Slå med en rigtig terning, og tryk på det, den viste. Bilen kører selv.</li><li>Når der sker noget, bliver skiltet stående, til I trykker OK.</li></ul>

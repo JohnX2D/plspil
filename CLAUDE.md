@@ -17,4 +17,4 @@ Versionsnummeret står nederst på siden i `index.html` (`<footer class="ver">`)
 
 Nævn den nye version i commit-beskeden.
 
-Samme versionsnummer står også nederst i `galaxy.html` (`<div class="ver">`). Hold de to ens.
+Samme versionsnummer står også i `galaxy.html` (`<div class="ver">` i regel-vinduet). Hold de to ens.
