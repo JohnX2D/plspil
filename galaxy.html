@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#121417">
+<meta name="theme-color" content="#101214">
 <title>Galaxy Raceway</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,800&family=Barlow:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#121417;--panel:rgba(24,27,32,.94);--line:#30353d;--ink:#f2f3f5;--soft:#a0a8b4;--gold:#f5b829;--bad:#e5484d;--good:#30a46c}
+:root{--bg:#101214;--panel:rgba(22,25,29,.95);--line:#30353d;--ink:#f2f3f5;--soft:#a0a8b4;--gold:#f5b829;--bad:#e5484d;--good:#30a46c;--pw:#8b5cf6}
 *{box-sizing:border-box;min-width:0}
-html,body{margin:0;height:100%;background:radial-gradient(ellipse at 50% 40%,#1f2329,#0d0f12 75%);color:var(--ink);font:15px/1.4 Barlow,system-ui,sans-serif;overflow:hidden;overscroll-behavior:none}
+html,body{margin:0;height:100%;background:radial-gradient(ellipse at 50% 40%,#1c1f24,#0b0c0e 75%);color:var(--ink);font:15px/1.4 Barlow,system-ui,sans-serif;overflow:hidden;overscroll-behavior:none}
 button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .disp{font-family:"Barlow Condensed",Barlow,sans-serif;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.02em}
@@ -25,43 +25,62 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .pill[aria-pressed=true]{background:#fff;color:#121417;border-color:#fff}
 .pill:disabled{opacity:.4}
 #pl{grid-area:pl;display:flex;flex-direction:column;gap:10px;overflow:auto;align-self:start;max-height:100%;padding-top:8px}
-.pc{background:var(--panel);border:2px solid var(--line);border-left:6px solid var(--c);border-radius:12px;padding:8px 10px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:2px 8px;align-items:center;position:relative}
+.pc{background:var(--panel);border:2px solid var(--line);border-left:6px solid var(--c);border-radius:12px;padding:8px 10px;display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:2px 8px;align-items:center;position:relative}
 .pc.on{border-color:var(--c);box-shadow:0 0 0 2px var(--c),0 0 18px color-mix(in srgb,var(--c) 55%,transparent)}
 .pc.on::after{content:"Din tur";position:absolute;top:-10px;right:10px;background:var(--c);color:#fff;font-size:12px;font-weight:700;padding:0 8px;border-radius:6px}
 .pc img{width:44px;height:44px;grid-row:span 2}
 .pc b{font-size:16px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pc small{color:var(--soft);font-weight:600;font-size:12px}
+.pc small{color:var(--soft);font-weight:600;font-size:12px;grid-column:2/-1}
+.plc{font:800 italic 22px/1 "Barlow Condensed",sans-serif;color:var(--soft)}
+.plc.p1{color:var(--gold)}
 .pbar{grid-column:1/-1;height:6px;border-radius:6px;background:#0b0c0e;overflow:hidden;margin-top:4px}
 .pbar i{display:block;height:100%;background:var(--c);transition:width .5s}
 .mods{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 .mods:empty{display:none}
 .mod{font-size:12px;font-weight:700;border-radius:6px;padding:1px 7px;background:#0b0c0e;border:1px solid var(--good)}
-.mod.b{border-color:var(--bad)}
+.mod.b{border-color:var(--bad)}.mod.p{border-color:var(--pw);background:#21163a}
 #bw{grid-area:board;position:relative;min-height:0;min-width:0}
 #bw svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 #cars{pointer-events:none;overflow:visible}
-#pad{grid-area:pad;justify-self:center;width:min(100%,620px);background:var(--panel);border:2px solid var(--line);border-top:4px solid var(--c,var(--line));border-radius:16px;padding:8px 12px 12px;display:grid;gap:6px}
+#pad{grid-area:pad;justify-self:center;width:min(100%,640px);background:var(--panel);border:2px solid var(--line);border-top:4px solid var(--c,var(--line));border-radius:16px;padding:8px 12px 12px;display:grid;gap:6px}
 #pad[hidden],#pl[hidden]{display:none}
 #last{font-size:13px;font-weight:600;color:var(--soft);text-align:center;min-height:18px}
 #msg{font-size:clamp(16px,2.4vw,20px);font-weight:700;text-align:center;line-height:1.2}
 #msg b{color:var(--c);filter:brightness(1.3)}
 #hint{font-size:13px;font-weight:700;text-align:center;color:var(--gold);min-height:18px}
+#hint:empty{display:none}
 .keys{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.keys[hidden],#acts:empty{display:none}
 .key{border:0;background:transparent;padding:0;border-radius:12px;transition:transform .1s}
 .key svg{display:block;width:100%;height:auto;max-height:68px;filter:drop-shadow(0 4px 3px rgba(0,0,0,.55))}
 .key:active{transform:translateY(3px) scale(.96)}
 .key:disabled{opacity:.35}
-#banner{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);z-index:5;pointer-events:none;text-align:center;display:none;width:min(92vw,520px);background:rgba(16,18,22,.94);border:2px solid var(--line);border-top:6px solid var(--good);border-radius:16px;padding:14px 18px;box-shadow:0 18px 40px rgba(0,0,0,.6)}
-#banner.b{border-top-color:var(--bad)}
+.keys.tb .key{box-shadow:0 0 0 3px var(--good)}
+.keys.tb .key.lo{box-shadow:0 0 0 3px var(--bad)}
+#acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.act{border:0;border-radius:12px;padding:8px 10px;min-height:64px;font-weight:800;font-size:19px;color:#fff;text-align:center;display:grid;gap:1px;place-content:center;line-height:1.1}
+.act small{font-weight:600;font-size:12.5px;opacity:.92;line-height:1.25}
+.act:active{transform:translateY(3px)}
+.act.go{background:linear-gradient(#2f9a62,#1f7448);box-shadow:0 4px 0 #13502f}
+.act.tb{background:linear-gradient(#ff7a1a,#c9300f);box-shadow:0 4px 0 #7d1c08;animation:throb 1.1s ease-in-out infinite}
+.act.gv{background:linear-gradient(#c9461e,#8e2a10);box-shadow:0 4px 0 #5a1a08}
+.act.om{background:linear-gradient(#2f6fd0,#1d4a96);box-shadow:0 4px 0 #11305f}
+.act.pw{grid-column:1/-1;background:linear-gradient(#7a3cc8,#4f2391);box-shadow:0 4px 0 #2e1459;min-height:50px}
+.act.one{grid-column:1/-1}
+@keyframes throb{50%{filter:brightness(1.25)}}
+#banner{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);z-index:5;pointer-events:none;text-align:center;display:none;width:min(92vw,540px);background:rgba(14,16,19,.95);border:2px solid var(--line);border-top:6px solid var(--good);border-radius:16px;padding:14px 18px;box-shadow:0 18px 40px rgba(0,0,0,.6)}
+#banner.b{border-top-color:var(--bad)}#banner.p{border-top-color:var(--pw)}
 #banner.show{display:block;animation:pop .3s cubic-bezier(.3,1.5,.5,1) both}
+#banner.big .bt{font-size:clamp(40px,8vw,64px)}
 #banner .bi{font-size:clamp(40px,7vw,60px);line-height:1}
 #banner .bt{font-size:clamp(28px,5vw,42px);line-height:1.05;margin-top:4px}
-#banner.g .bt{color:var(--gold)}#banner.b .bt{color:#ff7a70}
+#banner.g .bt{color:var(--gold)}#banner.b .bt{color:#ff7a70}#banner.p .bt{color:#c4a8ff}
 #banner .bd{margin-top:6px;font-weight:600;font-size:clamp(14px,2.2vw,17px);color:#dfe3e8}
 @keyframes pop{from{transform:translate(-50%,-50%) scale(.6);opacity:0}}
+#flash{position:fixed;inset:0;z-index:4;pointer-events:none;background:#fff;opacity:0}
 .ov{position:fixed;inset:0;z-index:10;background:rgba(8,9,11,.72);backdrop-filter:blur(4px);display:none;overflow:auto;padding:16px}
 .ov.show{display:grid;place-items:center}
-.box{background:#16191e;border:2px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,28px);width:min(100%,720px);box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.box{background:#16191e;border:2px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,28px);width:min(100%,760px);box-shadow:0 20px 50px rgba(0,0,0,.6)}
 .title{font-size:clamp(36px,8vw,64px);line-height:.95;text-align:center;margin:0 0 6px}
 .sub{text-align:center;color:var(--soft);font-weight:600;margin:0 0 16px}
 .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
@@ -84,7 +103,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .rules ul{margin:0;padding-left:20px}.rules li{margin:3px 0}
 .rules .ev{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:6px;list-style:none;padding:0}
 .rules .ev li{background:#0d0f12;border-left:5px solid var(--good);border-radius:8px;padding:6px 10px}
-.rules .ev li.b{border-color:var(--bad)}
+.rules .ev li.b{border-color:var(--bad)}.rules .ev li.p{border-color:var(--pw)}.rules .ev li.n{border-color:#8a929b}
 #log{list-style:none;padding:0;margin:0;color:var(--soft);font-size:14px}
 .stand{list-style:none;padding:0;margin:14px auto 0;max-width:340px}
 .stand li{display:flex;align-items:center;gap:10px;font-weight:700;padding:4px 0}
@@ -93,21 +112,23 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
 .ver{position:fixed;right:10px;bottom:2px;font-size:11px;color:var(--soft);opacity:.7;pointer-events:none}
 #meas{position:absolute;width:0;height:0;overflow:hidden}
-/* svg car effects */
 .flm{animation:flm .12s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:100% 50%}
-@keyframes flm{to{transform:scaleX(.7)}}
-.dring{animation:dring 2.4s linear infinite;transform-box:fill-box;transform-origin:center}
-@keyframes dring{to{transform:rotate(360deg)}}
+@keyframes flm{to{transform:scaleX(.65)}}
 .smk circle{animation:smk 1.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
 .smk circle:nth-child(2){animation-delay:.45s}.smk circle:nth-child(3){animation-delay:.9s}
-@keyframes smk{from{transform:translate(0,0) scale(.5);opacity:.85}to{transform:translate(-26px,-10px) scale(2);opacity:0}}
+@keyframes smk{from{transform:translate(0,0) scale(.5);opacity:.85}to{transform:translate(-26px,-10px) scale(2.2);opacity:0}}
+.shl{animation:shl 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes shl{50%{opacity:.45;transform:scale(1.06)}}
+.hla{animation:hla .9s ease-in-out infinite alternate}
+@keyframes hla{to{opacity:.35}}
 @media (max-width:760px),(orientation:portrait){
  #app{grid-template:"top" auto "pl" auto "board" minmax(0,1fr) "pad" auto / minmax(0,1fr)}
  #pl{flex-direction:row;max-width:100%;padding-top:10px}
- .pc{flex:1 0 128px;grid-template-columns:32px minmax(0,1fr);padding:6px 8px}.pc img{width:32px;height:32px}.pc b{font-size:14px}
+ .pc{flex:1 0 118px;grid-template-columns:28px minmax(0,1fr) auto;padding:5px 8px;gap:0 6px}.pc img{width:28px;height:28px}.pc b{font-size:14px}.pc small{font-size:11px;white-space:nowrap}.pc .ar{display:none}.plc{font-size:18px}.pbar{margin-top:2px}
  .pill{padding:4px 10px;font-size:13px;min-height:38px}
+ .act{min-height:58px;font-size:17px}
 }
-@media (max-height:560px){.key svg{max-height:48px}#pad{padding:6px 10px 8px;gap:4px}#last{display:none}}
+@media (max-height:560px){.key svg{max-height:48px}#pad{padding:6px 10px 8px;gap:4px}#last{display:none}.act{min-height:50px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;transition:none!important}}
 </style>
 </head>
@@ -124,12 +145,13 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   </div>
   <div id="pl"></div>
   <div id="bw"><svg id="bstatic" role="img" aria-label="Spillebrættet set oppefra"></svg><svg id="cars" aria-hidden="true"></svg></div>
-  <div id="pad"><div id="last"></div><div id="msg"></div><div id="hint"></div><div class="keys" id="keys"></div></div>
+  <div id="pad"><div id="last"></div><div id="msg"></div><div id="hint"></div><div class="keys" id="keys"></div><div id="acts"></div></div>
 </div>
+<div id="flash"></div>
 <div id="banner"><div class="bi"></div><div class="bt disp"></div><div class="bd"></div></div>
 <div class="ov" id="setup"><div class="box">
   <h1 class="title disp">Galaxy <span>Raceway</span></h1>
-  <p class="sub">Slå med en rigtig terning, og tast slaget ind. Første bil i mål vinder!</p>
+  <p class="sub">Én omgang rundt om banen. Slå med en rigtig terning, og tast slaget ind. Tør du bruge turbo?</p>
   <div class="row"><b>Antal spillere</b><div class="seg" id="seg"><button data-n="2">2</button><button data-n="3">3</button><button data-n="4">4</button></div></div>
   <div id="srows"></div>
   <div class="acts"><a class="btn2" href="index.html">← LDA Spil</a><button class="cta" id="go">Start løbet!</button></div>
@@ -146,122 +168,159 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   <ul class="stand" id="stand"></ul>
   <div class="acts"><button class="btn2" id="wundo">Fortryd</button><button class="btn2" id="wsetup">Skift biler</button><button class="cta" id="again">Nyt løb</button></div>
 </div></div>
-<div class="ver">Galaxy Raceway · version 5.0</div>
+<div class="ver">Galaxy Raceway · version 6.0</div>
 <script>
 {
 /* ================= data ================= */
-const N=60,KEY='lda-galaxy';
+const KEY='lda-galaxy',VER=6;
 const CARS=[{n:'Hajen',def:'Rød',col:'#d0312d',c2:'#f4f4f4',num:7},{n:'Svæveren',def:'Blå',col:'#1d5fd0',c2:'#8fd0ff',num:21},{n:'Jungletrucken',def:'Grøn',col:'#2e7a3c',c2:'#e8c34a',num:4},{n:'Diskobilen',def:'Disko',col:'#7a3cc8',c2:'#f5b829',num:99}];
-const EV={
- star:{g:1,ic:'⭐',n:'Stjerne-boost',d:'+1 på alle slag resten af løbet (højst +3).'},
- rocket:{g:1,ic:'🚀',n:'Raket',d:'Slå med 2 terninger i dine næste 2 ture.'},
- dbl:{g:1,ic:'⚡',n:'Dobbelt fart',d:'Dit næste slag tæller dobbelt.'},
- tele:{g:1,ic:'🌀',n:'Teleport',d:'Zap! Du hopper frem til den næste portal.'},
- slide:{g:1,ic:'⏬',n:'Ned ad bakke',d:'Fuld fart ned ad bjerget: 3 felter frem.'},
- wheel:{g:0,ic:'🛞',n:'Hjulet faldt af',d:'Dit næste slag tæller 2 mindre.'},
- mud:{g:0,ic:'🟤',n:'Mudder',d:'Du sidder fast: næste slag rykker du kun 1 felt.'},
- ice:{g:0,ic:'❄️',n:'Glat is',d:'Næste tur skal du slå mindst 3, ellers spinner hjulene.'},
- hole:{g:0,ic:'🕳️',n:'Hul i banen',d:'Du falder tilbage til starten af området.'},
- warn:{g:0,ic:'⚠️',n:'Advarsel',d:'Du står over i din næste tur.'}
-};
-const BIO=[
- {id:'city',n:'Neonbyen',from:0,g:'#5d6268',acc:'#ff3fa4',ev:[[2,'star'],[4,'dbl']]},
- {id:'desert',n:'Ørkenen',from:8,g:'#d6ad74',acc:'#f5b829',ev:[[1,'wheel'],[3,'tele','lava',3],[5,'rocket'],[6,'warn']]},
- {id:'lava',n:'Lavaland',from:17,g:'#2a2320',acc:'#ff6a1a',ev:[[2,'wheel'],[5,'hole'],[6,'star'],[8,'hole']]},
- {id:'ice',n:'Isbjerget',from:26,g:'#e3ebf1',acc:'#5fc4ff',ev:[[1,'ice'],[3,'rocket'],[5,'ice'],[7,'dbl'],[9,'ice'],[11,'star'],[12,'slide']]},
- {id:'jungle',n:'Junglen',from:40,g:'#2c5427',acc:'#7ad35a',ev:[[1,'mud'],[3,'warn'],[4,'tele','water',3],[6,'mud'],[8,'wheel']]},
- {id:'water',n:'Glastunnelen',from:49,g:'#1d5d88',acc:'#7fe3ff',ev:[[1,'star'],[4,'dbl']]},
- {id:'space',n:'Rummet',from:54,g:'#15161d',acc:'#b48cff',ev:[[1,'rocket'],[2,'wheel'],[4,'hole'],[5,'warn']]}
+/* Feltkoder: S start, G mål, . asfalt, b power-kasse, > fartbånd, L toppen af loopet, a luft over kløften,
+   s sand, m mudder, i is, z tordensky, f brændende bro, h sort hul */
+const PATHS=[
+ {id:'p0',nm:'Neonbyen',spec:'S..b.....LLL..>.bss',to:['pa1','pa2'],up:[10,16],
+  pts:[[300,880],[470,882],[620,878],[740,862],[835,812],[870,735],[835,668],[765,652],[712,698],[712,780],[770,858],[880,888],[990,890],[1075,888]]},
+ {id:'pa1',nm:'Kløftspringet',alt:'Genvej',tip:'Kort, men stop ikke over kløften',spec:'s.>aa.s',to:['p1'],gap:[3,5],
+  pts:[[1105,852],[1200,800],[1300,725],[1400,640],[1470,565]]},
+ {id:'pa2',nm:'Karavanevejen',alt:'Omvej',tip:'Længere, men med power-kasser',spec:'.b..ss..b..',to:['p1'],
+  pts:[[1105,925],[1260,932],[1405,918],[1500,862],[1545,760],[1548,650],[1540,565]]},
+ {id:'p1',nm:'Lavaland',spec:'.z',to:['pb1','pb2'],pts:[[1505,525],[1505,465],[1505,400]]},
+ {id:'pb1',nm:'Vulkanbroen',alt:'Genvej',tip:'Kort, men broen brænder',spec:'fff.',to:['p2'],up:[0,4],
+  pts:[[1470,365],[1430,285],[1360,215],[1255,160]]},
+ {id:'pb2',nm:'Askestien',alt:'Omvej',tip:'Længere, med fartbånd og kasser',spec:'.b.>..b',to:['p2'],
+  pts:[[1540,365],[1545,260],[1525,165],[1460,105],[1340,88],[1255,92]]},
+ {id:'p2',nm:'Isbjerget',spec:'ii.ib..z.',to:['pc1','pc2'],pts:[[1220,125],[1100,112],[990,150],[880,185],[770,150],[640,125]]},
+ {id:'pc1',nm:'Mudderstien',alt:'Genvej',tip:'Kort, men mudderet er tungt',spec:'mm.mm.m.',to:['p3'],
+  pts:[[605,160],[500,240],[380,340],[260,450],[190,520]]},
+ {id:'pc2',nm:'Glastunnelen',alt:'Omvej',tip:'Længere, under søen med kasser',spec:'..b.>....b...',to:['p3'],
+  pts:[[605,92],[450,80],[300,85],[180,120],[110,210],[100,330],[110,450],[115,520]]},
+ {id:'p3',nm:'Rummet',spec:'.h.z.G',to:[],pts:[[150,560],[135,680],[150,790],[210,860],[290,882]]}
 ];
-BIO.forEach((b,i)=>b.to=i<BIO.length-1?BIO[i+1].from:N+1);
-const FIELDS=[];for(let i=0;i<=N;i++){const bi=BIO.findIndex(b=>i>=b.from&&i<b.to);FIELDS.push({b:bi,ev:null,cp:BIO[bi].from})}
-BIO.forEach(b=>b.ev.forEach(([o,e,tb,to])=>{const f=b.from+o;if(f>=b.to||f>=N||f<1)return;FIELDS[f].ev=e;
-  if(e==='tele'){const d=BIO.find(x=>x.id===tb).from+to;FIELDS[f].dest=d;FIELDS[d].ev='exit'}}));
+const FT={
+ b:{k:'p',ic:'❓',n:'Power-kasse',d:'Kør igennem, og få en tilfældig power, hvis du ikke allerede har én.'},
+ '>':{k:'g',ic:'⏩',n:'Fartbånd',d:'Stopper du her, skyder du 3 felter frem.'},
+ s:{k:'n',ic:'🏜️',n:'Dybt sand',d:'Hvert sandfelt koster 2 skridt.'},
+ m:{k:'n',ic:'🟤',n:'Mudder',d:'Hvert mudderfelt koster 2 skridt.'},
+ i:{k:'n',ic:'🧊',n:'Glat is',d:'Stopper du på isen, glider du 2 felter videre.'},
+ L:{k:'b',ic:'🔄',n:'Toppen af loopet',d:'Stopper du på toppen, falder du ned til foden af loopet.'},
+ a:{k:'b',ic:'🕳️',n:'Kløften',d:'Stopper du i luften, falder du ned og må starte forfra ved gaflen.'},
+ f:{k:'b',ic:'🔥',n:'Brændende bro',d:'Stopper du på broen, brænder motoren, og du står over næste tur.'},
+ z:{k:'b',ic:'⛈️',n:'Tordensky',d:'Lynet slår ned i den bil, der fører, og den ryger 3 felter tilbage. Også hvis det er dig!'},
+ h:{k:'b',ic:'🌑',n:'Sort hul',d:'Du bliver suget 4 felter tilbage.'}
+};
+const POW={
+ raket:{ic:'🚀',n:'Raket',d:'Brug den før du slår: +4 felter på slaget.'},
+ missil:{ic:'🎯',n:'Jagermissil',d:'Flyver selv hen til bilen lige foran dig og sender den 3 felter tilbage.'},
+ lyn:{ic:'⚡',n:'Lynstorm',d:'Alle de andre biler ryger 2 felter tilbage.'},
+ olie:{ic:'🛢️',n:'Olieplet',d:'Hældes ud bag dig. Den næste, der kører ind i den, snurrer rundt og stopper.'},
+ skjold:{ic:'🛡️',n:'Skjold',d:'Virker af sig selv: tager det næste angreb, skub eller lyn for dig.'}
+};
+const NODES=[],PI={};
+PATHS.forEach((P,pi)=>{PI[P.id]=pi;P.n=P.spec.length;P.ids=[];for(let k=0;k<P.n;k++){const c=P.spec[k];P.ids.push(NODES.length);NODES.push({id:NODES.length,pi,k,c,next:[],back:null,cost:c==='s'||c==='m'?2:1,ns:c==='L'||c==='a'})}});
+const link=(a,b)=>{NODES[a].next.push(b);if(NODES[b].back===null)NODES[b].back=a};
+PATHS.forEach(P=>{for(let k=0;k<P.n-1;k++)link(P.ids[k],P.ids[k+1]);P.to.forEach(t=>link(P.ids[P.n-1],PATHS[PI[t]].ids[0]))});
+const START=PATHS[0].ids[0],GOAL=NODES.find(n=>n.c==='G').id;
+/* felter tilbage til mål (korteste vej) */
+NODES.forEach(n=>n.d=1e9);NODES[GOAL].d=0;for(let r=0;r<99;r++)NODES.forEach(n=>n.next.forEach(x=>{if(NODES[x].d+1<n.d)n.d=NODES[x].d+1}));
+const TOTAL=NODES[START].d;
+NODES.forEach(n=>{if(n.c==='L'){let b=n.back;while(NODES[b].ns)b=NODES[b].back;n.fall=b}if(n.c==='a')n.fall=NODES[PATHS[n.pi].ids[0]].back});
 
 /* ================= state ================= */
-let S,hist=[],busy=false,mute=false;
+let S,hist=[],busy=false,mute=false,pend=null;
 const defPlayers=()=>{let nm=[];try{nm=(JSON.parse(localStorage.getItem('lda-spil'))||{}).names||[]}catch(e){}
   return CARS.map((c,i)=>({car:i,name:(nm[i]&&!['Rød','Blå','Grøn','Gul'].includes(nm[i]))?nm[i]:''}))};
-const newCar=()=>({pos:0,star:0,rocket:0,dbl:0,wheel:0,mud:0,ice:0,skip:0});
-const fresh=(players,n)=>({phase:'setup',n:n||2,players:players||defPlayers(),cars:[0,1,2,3].map(newCar),p:0,d1:null,chains:[],log:[],last:'',win:null});
+const newCar=()=>({pos:START,pw:null,skip:0});
+const fresh=(players,n)=>({v:VER,phase:'setup',n:n||2,players:players||defPlayers(),cars:[0,1,2,3].map(newCar),p:0,t:{ph:'roll'},oil:[],log:[],last:'',win:null});
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
-if(!S||!S.players||S.players.length!==4||!S.cars||!S.chains)S=fresh();
+if(!S||S.v!==VER||!S.players||S.players.length!==4||!S.cars||S.cars.some(c=>!NODES[c.pos]))S=fresh(S&&S.players&&S.players.length===4?S.players:null,S&&S.n);
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const snap=()=>{hist.push(JSON.stringify(S));if(hist.length>80)hist.shift()};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rawName=i=>(S.players[i].name||'').trim()||CARS[S.players[i].car].def;
 const nm=i=>esc(rawName(i));
 const col=i=>CARS[S.players[i].car].col;
-const log=t=>{S.log.unshift(t);S.log=S.log.slice(0,14)};
-const grp=i=>S.chains.find(g=>g.m.includes(i));
-const dropGrp=g=>{const k=S.chains.indexOf(g);if(k>=0)S.chains.splice(k,1)};
-const names=ids=>ids.map(rawName).join(' og ');
-const clone=o=>JSON.parse(JSON.stringify(o));
+const log=t=>{S.log.unshift(t);S.log=S.log.slice(0,16)};
+const dist=i=>NODES[S.cars[i].pos].d;
+const ids=()=>Array.from({length:S.n},(_,i)=>i);
+const leaders=()=>{const m=Math.min(...ids().map(dist));return ids().filter(i=>dist(i)===m)};
+const isLast=i=>{if(S.n<2)return false;const ds=ids().map(dist),mx=Math.max(...ds);return mx!==Math.min(...ds)&&dist(i)===mx};
+const place=i=>1+ids().filter(j=>dist(j)<dist(i)).length;
+const backOf=(id,n)=>{let b=id;for(let k=0;k<n;k++){const x=NODES[b].back;if(x===null)break;b=x}while(NODES[b].ns&&NODES[b].back!==null)b=NODES[b].back;return b};
 
 /* ================= sound ================= */
 let AC;
-function tone(f,d,type,v,when){if(mute)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime+(when||0),o=AC.createOscillator(),g=AC.createGain();
-  o.type=type||'square';o.frequency.value=f;g.gain.setValueAtTime(v||.05,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
-const sfx={step:()=>tone(520,.06,'triangle',.06),
- good:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.15,'square',.05,i*.09)),
- bad:()=>[392,330,262,196].forEach((f,i)=>tone(f,.18,'sawtooth',.05,i*.1)),
- crash:()=>{tone(90,.35,'sawtooth',.12);tone(140,.25,'square',.08,.06)},
+const ac=()=>AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,type,v,when,f2){if(mute)return;try{ac();const t=AC.currentTime+(when||0),o=AC.createOscillator(),g=AC.createGain();
+  o.type=type||'square';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(v||.05,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
+function noise(d,v,when,f){if(mute)return;try{ac();const t=AC.currentTime+(when||0),n=Math.floor(AC.sampleRate*d),b=AC.createBuffer(1,n,AC.sampleRate),ch=b.getChannelData(0);for(let i=0;i<n;i++)ch[i]=(Math.random()*2-1)*Math.pow(1-i/n,2);
+  const s=AC.createBufferSource(),fl=AC.createBiquadFilter(),g=AC.createGain();s.buffer=b;fl.type='lowpass';fl.frequency.value=f||900;g.gain.value=v||.3;s.connect(fl);fl.connect(g);g.connect(AC.destination);s.start(t)}catch(e){}}
+const sfx={step:()=>tone(420,.05,'triangle',.05),
+ good:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.15,'square',.045,i*.08)),
+ bad:()=>[392,330,262,196].forEach((f,i)=>tone(f,.18,'sawtooth',.045,i*.1)),
+ boom:()=>{noise(1.1,.6,0,500);tone(70,.8,'sawtooth',.12,0,30)},
+ bump:()=>{noise(.25,.35,0,1400);tone(160,.15,'square',.06,0,80)},
+ bolt:()=>{noise(.7,.5,0,4000);noise(1.2,.35,.12,300)},
+ whoosh:()=>{noise(.6,.25,0,2500);tone(300,.6,'sawtooth',.03,0,1200)},
+ rev:()=>{tone(90,.7,'sawtooth',.07,0,420);tone(140,.7,'square',.03,.05,600)},
  zap:()=>[300,600,1200,1800].forEach((f,i)=>tone(f,.08,'sine',.07,i*.05)),
+ beat:()=>{tone(70,.18,'sine',.25);tone(60,.2,'sine',.2,.16)},
  win:()=>[523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,.22,'square',.06,i*.13))};
+let beatT=null;const beat=on=>{clearInterval(beatT);beatT=on?setInterval(()=>sfx.beat(),760):null};
 
-/* ================= board geometry ================= */
+/* ================= geometry ================= */
 const $=id=>document.getElementById(id);
 const NS='http://www.w3.org/2000/svg';
-const LAND=[[150,840],[450,812],[750,844],[1050,810],[1330,832],[1475,750],[1420,650],[1150,615],[850,650],[550,610],[270,642],[125,550],[215,430],[520,400],[820,438],[1120,400],[1400,422],[1485,325],[1400,222],[1110,190],[800,222],[500,184],[230,160]];
-const TW=92,HW=TW/2;
+const TW=72,HW=TW/2;
 let G=null;
+function cr(P){let d=`M${P[0][0]} ${P[0][1]}`;for(let i=0;i<P.length-1;i++){const p0=P[Math.max(0,i-1)],p1=P[i],p2=P[i+1],p3=P[Math.min(P.length-1,i+2)];
+  d+=`C${p1[0]+(p2[0]-p0[0])/6} ${p1[1]+(p2[1]-p0[1])/6} ${p2[0]-(p3[0]-p1[0])/6} ${p2[1]-(p3[1]-p1[1])/6} ${p2[0]} ${p2[1]}`}return d}
 function geom(port){
-  const W=port?1000:1600,H=port?1600:1000,P=LAND.map(([x,y])=>port?[y,1600-x]:[x,y]);
-  let d=`M${P[0][0]} ${P[0][1]}`;
-  for(let i=0;i<P.length-1;i++){const p0=P[Math.max(0,i-1)],p1=P[i],p2=P[i+1],p3=P[Math.min(P.length-1,i+2)];
-    d+=`C${p1[0]+(p2[0]-p0[0])/6} ${p1[1]+(p2[1]-p0[1])/6} ${p2[0]-(p3[0]-p1[0])/6} ${p2[1]-(p3[1]-p1[1])/6} ${p2[0]} ${p2[1]}`}
-  const pe=document.createElementNS(NS,'path');pe.setAttribute('d',d);$('meas').appendChild(pe);
-  const tot=pe.getTotalLength(),pts=[];for(let s=0;s<tot;s+=4){const q=pe.getPointAtLength(s);pts.push([q.x,q.y])}
-  const q=pe.getPointAtLength(tot);pts.push([q.x,q.y]);pe.remove();
-  return {W,H,tot,pts,port,co:pts.filter((_,i)=>i%3===0)}}
-function at(s){const p=G.pts,k=Math.max(0,Math.min(p.length-1.001,s/4)),i=Math.floor(k),f=k-i,a=p[i],b=p[i+1];
-  const x=a[0]+(b[0]-a[0])*f,y=a[1]+(b[1]-a[1])*f,i0=Math.max(0,i-2),i1=Math.min(p.length-1,i+3);
-  let tx=p[i1][0]-p[i0][0],ty=p[i1][1]-p[i0][1];const l=Math.hypot(tx,ty)||1;tx/=l;ty/=l;
+  const W=port?1000:1600,H=port?1600:1000,M=port?(([x,y])=>[y,1600-x]):(p=>p.slice());
+  const P=PATHS.map(pa=>{const pts=pa.pts.map(M),e=document.createElementNS(NS,'path');e.setAttribute('d',cr(pts));$('meas').appendChild(e);
+    const L=e.getTotalLength(),a=[];for(let s=0;s<L;s+=4){const q=e.getPointAtLength(s);a.push([q.x,q.y])}const q=e.getPointAtLength(L);a.push([q.x,q.y]);e.remove();
+    return {L,a,FL:L/pa.n,pts}});
+  const g={W,H,port,M,P};
+  g.np=NODES.map(n=>atP(P[n.pi],(n.k+.5)*P[n.pi].FL));
+  g.co=[];P.forEach(p=>p.a.forEach((q,i)=>{if(i%3===0)g.co.push(q)}));
+  return g}
+function atP(p,s){const A=p.a,k=Math.max(0,Math.min(A.length-1.001,s/4)),i=Math.floor(k),f=k-i,a=A[i],b=A[i+1];
+  const x=a[0]+(b[0]-a[0])*f,y=a[1]+(b[1]-a[1])*f,i0=Math.max(0,i-2),i1=Math.min(A.length-1,i+3);
+  let tx=A[i1][0]-A[i0][0],ty=A[i1][1]-A[i0][1];const l=Math.hypot(tx,ty)||1;tx/=l;ty/=l;
   return {x,y,tx,ty,nx:-ty,ny:tx}}
-const FL=()=>G.tot/(N+1);
-const fs=f=>(Math.min(N,Math.max(0,f))+.5)*FL();
-const fr=f=>at(fs(f));
-const clear=(x,y,r)=>G.co.every(([a,b])=>(a-x)**2+(b-y)**2>(HW+14+r)**2);
-const nearField=(x,y)=>{let best=0,bd=1e9;G.co.forEach(([a,b],i)=>{const d=(a-x)**2+(b-y)**2;if(d<bd){bd=d;best=i}});return Math.min(N,Math.max(0,Math.floor(best*12/FL())))};
-const F1=v=>v.toFixed(1);
+const clear=(x,y,r)=>G.co.every(([a,b])=>(a-x)**2+(b-y)**2>(HW+12+r)**2);
+const F1=v=>(+v).toFixed(1);
+const ang=p=>Math.atan2(p.ty,p.tx)*57.2958;
+function poseBetween(a,b,t){const A=NODES[a],B=NODES[b];
+  if(A.pi===B.pi&&Math.abs(A.k-B.k)===1){const p=G.P[A.pi];return atP(p,(A.k+.5+(B.k-A.k)*t)*p.FL)}
+  const pa=G.np[a],pb=G.np[b];let tx=pa.tx+(pb.tx-pa.tx)*t,ty=pa.ty+(pb.ty-pa.ty)*t;const l=Math.hypot(tx,ty)||1;tx/=l;ty/=l;
+  return {x:pa.x+(pb.x-pa.x)*t,y:pa.y+(pb.y-pa.y)*t,tx,ty,nx:-ty,ny:tx}}
 
 /* ================= drawing helpers ================= */
 let seed=1;const R=()=>((seed=(seed*16807)%2147483647)/2147483647);
 const pick=a=>a[Math.floor(R()*a.length)];
 const blob=(x,y,r,n,j)=>{let d='';for(let k=0;k<n;k++){const a=k/n*6.283,rr=r*(1-j/2+R()*j);d+=(k?'L':'M')+F1(x+Math.cos(a)*rr)+' '+F1(y+Math.sin(a)*rr)}return d+'Z'};
-const rock=(x,y,s,c,c2)=>{const d=blob(x,y,s,7,.45);return `<path d="${d}" fill="rgba(0,0,0,.35)" transform="translate(4 5)"/><path d="${d}" fill="${c}" stroke="${c2}" stroke-width="1.5"/><path d="${blob(x-s*.2,y-s*.2,s*.45,6,.4)}" fill="rgba(255,255,255,.14)"/>`};
-const tree=(x,y,s,c1,c2,c3)=>`<circle cx="${F1(x+5)}" cy="${F1(y+7)}" r="${F1(s)}" fill="rgba(0,0,0,.32)"/>`+[0,1,2].map(k=>{const a=R()*6.28,o=s*.35;return `<circle cx="${F1(x+Math.cos(a)*o)}" cy="${F1(y+Math.sin(a)*o)}" r="${F1(s*(.62+R()*.2))}" fill="url(#cn)" stroke="${c3}" stroke-width="1"/>`}).join('');
-const pine=(x,y,s)=>`<circle cx="${F1(x+4)}" cy="${F1(y+6)}" r="${F1(s)}" fill="rgba(30,40,50,.35)"/>`+[1,.72,.45].map((k,j)=>{let d='';const n=9;for(let i=0;i<n*2;i++){const a=i/(n*2)*6.283+j*.3,rr=s*k*(i%2?.55:1);d+=(i?'L':'M')+F1(x+Math.cos(a)*rr)+' '+F1(y+Math.sin(a)*rr)}return `<path d="${d}Z" fill="${['#1d4a33','#24583d','#2f6a49'][j]}" stroke="#0f2a1d" stroke-width=".8"/>`}).join('')+`<circle cx="${F1(x-s*.2)}" cy="${F1(y-s*.25)}" r="${F1(s*.22)}" fill="#f4f8fb" opacity=".9"/>`;
+const sblob=(x,y,r,n,j)=>{const p=[];for(let k=0;k<n;k++){const a=k/n*6.283,rr=r*(1-j/2+R()*j);p.push([x+Math.cos(a)*rr,y+Math.sin(a)*rr])}
+  let d='';for(let k=0;k<n;k++){const a=p[k],b=p[(k+1)%n],m=[(a[0]+b[0])/2,(a[1]+b[1])/2];d+=(k?'':'M'+F1((p[n-1][0]+a[0])/2)+' '+F1((p[n-1][1]+a[1])/2))+'Q'+F1(a[0])+' '+F1(a[1])+' '+F1(m[0])+' '+F1(m[1])}return d+'Z'};
+const rock=(x,y,s,c,c2)=>{const d=blob(x,y,s,7,.45);return `<path d="${d}" fill="rgba(0,0,0,.38)" transform="translate(${F1(s*.35)} ${F1(s*.45)})"/><path d="${d}" fill="${c}" stroke="${c2}" stroke-width="1.2"/><path d="${blob(x-s*.22,y-s*.22,s*.5,6,.4)}" fill="rgba(255,255,255,.13)"/>`};
+const tree=(x,y,s,dark)=>`<circle cx="${F1(x+s*.35)}" cy="${F1(y+s*.5)}" r="${F1(s)}" fill="rgba(0,0,0,.35)"/>`+[0,1,2,3].map(k=>{const a=R()*6.28,o=s*.38;return `<circle cx="${F1(x+Math.cos(a)*o)}" cy="${F1(y+Math.sin(a)*o)}" r="${F1(s*(.55+R()*.2))}" fill="url(#${dark?'cn2':'cn'})"/>`}).join('');
+const pine=(x,y,s)=>`<circle cx="${F1(x+s*.35)}" cy="${F1(y+s*.5)}" r="${F1(s)}" fill="rgba(30,40,50,.33)"/>`+[1,.7,.42].map((k,j)=>{let d='';const n=9;for(let i=0;i<n*2;i++){const a=i/(n*2)*6.283+j*.3,rr=s*k*(i%2?.55:1);d+=(i?'L':'M')+F1(x+Math.cos(a)*rr)+' '+F1(y+Math.sin(a)*rr)}return `<path d="${d}Z" fill="${['#1b3f2e','#22503a','#2c6246'][j]}" stroke="#0e2419" stroke-width=".7"/>`}).join('')+`<circle cx="${F1(x-s*.15)}" cy="${F1(y-s*.2)}" r="${F1(s*.2)}" fill="#eef3f6" opacity=".85"/>`;
 const PROP={
- city:(x,y)=>{const w=24+R()*36,h=20+R()*32,a=Math.round(R()*4)*22.5,c=pick(['#8d9199','#a59f94','#6f747c','#b7b1a5','#7c8088','#9a8f86']);
-   return `<g transform="translate(${F1(x)} ${F1(y)}) rotate(${a})"><rect x="${F1(-w/2+6)}" y="${F1(-h/2+7)}" width="${F1(w)}" height="${F1(h)}" fill="rgba(0,0,0,.4)"/><rect x="${F1(-w/2)}" y="${F1(-h/2)}" width="${F1(w)}" height="${F1(h)}" fill="${c}" stroke="#2a2c30" stroke-width="1.2"/><rect x="${F1(-w/2+3)}" y="${F1(-h/2+3)}" width="${F1(w-6)}" height="${F1(h-6)}" fill="none" stroke="rgba(255,255,255,.2)"/>${R()<.6?`<rect x="${F1(-w/4)}" y="${F1(-h/4)}" width="9" height="7" fill="#55595f" stroke="#3a3d42"/>`:''}${R()<.4?`<rect x="${F1(w/6)}" y="${F1(h/8)}" width="6" height="6" fill="#4b4f55"/>`:''}${R()<.45?`<rect x="${F1(-w/2)}" y="${F1(h/2-3)}" width="${F1(w)}" height="3" fill="${pick(['#ff3fa4','#35d6ff','#f5b829'])}" filter="url(#glow)"/>`:''}</g>`},
- desert:(x,y)=>{const r=R();if(r<.3)return rock(x,y,8+R()*14,'#a77440','#7a5029');
-   if(r<.62)return `<ellipse cx="${F1(x)}" cy="${F1(y)}" rx="${F1(30+R()*34)}" ry="${F1(10+R()*9)}" transform="rotate(${F1(R()*30-15)} ${F1(x)} ${F1(y)})" fill="url(#dune)"/>`;
-   if(r<.8)return `<circle cx="${F1(x+3)}" cy="${F1(y+4)}" r="7" fill="rgba(0,0,0,.25)"/><path d="${blob(x,y,7,8,.5)}" fill="#3f7a3a" stroke="#244a22"/><circle cx="${F1(x)}" cy="${F1(y)}" r="2" fill="#e05a6a"/>`;
-   return [0,1,2,3].map(()=>`<circle cx="${F1(x+(R()-.5)*14)}" cy="${F1(y+(R()-.5)*14)}" r="${F1(3+R()*3)}" fill="#7d7a44" opacity=".85"/>`).join('')},
- lava:(x,y)=>{const r=R();if(r<.3){const d=blob(x,y,10+R()*16,9,.5);return `<path d="${d}" fill="url(#lv)" filter="url(#glow)"/>`}
-   if(r<.45){let d=`M${F1(x)} ${F1(y)}`;for(let k=0;k<4;k++)d+=`l${F1((R()-.5)*30)} ${F1((R()-.5)*30)}`;return `<path d="${d}" stroke="#ff7a1a" stroke-width="2.5" fill="none" filter="url(#glow)"/>`}
-   return rock(x,y,7+R()*15,'#2f2622','#130e0c')},
+ city:(x,y)=>{const w=26+R()*40,h=22+R()*36,a=Math.round(R()*3)*30,c=pick(['#7d8188','#8f8a82','#666a71','#a29c92','#72767d','#857c74']),tall=R();
+   return `<g transform="translate(${F1(x)} ${F1(y)}) rotate(${a})"><rect x="${F1(-w/2+4+tall*10)}" y="${F1(-h/2+6+tall*14)}" width="${F1(w)}" height="${F1(h)}" fill="rgba(0,0,0,.42)"/><rect x="${F1(-w/2)}" y="${F1(-h/2)}" width="${F1(w)}" height="${F1(h)}" fill="${c}" stroke="#25272b" stroke-width="1.1"/><rect x="${F1(-w/2+3)}" y="${F1(-h/2+3)}" width="${F1(w-6)}" height="${F1(h-6)}" fill="none" stroke="rgba(255,255,255,.16)"/>${R()<.6?`<rect x="${F1(-w/4)}" y="${F1(-h/4)}" width="9" height="7" fill="#50545a" stroke="#383b40"/>`:''}${R()<.4?`<circle cx="${F1(w/5)}" cy="${F1(h/6)}" r="3.5" fill="#4b4f55" stroke="#33363b"/>`:''}${R()<.25?`<rect x="${F1(-w/2+4)}" y="${F1(h/2-7)}" width="${F1(w-8)}" height="3" fill="${pick(['#ff5fb0','#45d6ff','#f5b829'])}" opacity=".85"/>`:''}</g>`},
+ desert:(x,y)=>{const r=R();if(r<.3)return rock(x,y,7+R()*14,'#a2703f','#6e4724');
+   if(r<.62)return `<ellipse cx="${F1(x)}" cy="${F1(y)}" rx="${F1(30+R()*40)}" ry="${F1(9+R()*9)}" transform="rotate(${F1(R()*24-12)} ${F1(x)} ${F1(y)})" fill="url(#dune)"/><ellipse cx="${F1(x+6)}" cy="${F1(y+7)}" rx="${F1(26+R()*20)}" ry="5" transform="rotate(${F1(R()*24-12)} ${F1(x)} ${F1(y)})" fill="rgba(120,80,40,.18)"/>`;
+   if(r<.78)return `<circle cx="${F1(x+3)}" cy="${F1(y+4)}" r="7" fill="rgba(0,0,0,.25)"/><path d="${blob(x,y,7,8,.5)}" fill="#4d7a3e" stroke="#2c4a22"/>`;
+   return [0,1,2,3].map(()=>`<circle cx="${F1(x+(R()-.5)*16)}" cy="${F1(y+(R()-.5)*16)}" r="${F1(2.5+R()*3)}" fill="#7a7442" opacity=".8"/>`).join('')},
+ lava:(x,y)=>{const r=R();if(r<.2){const d=blob(x,y,8+R()*12,9,.5);return `<path d="${d}" fill="url(#lv)" filter="url(#glow)" opacity=".9"/>`}
+   if(r<.38){let d=`M${F1(x)} ${F1(y)}`;for(let k=0;k<4;k++)d+=`l${F1((R()-.5)*34)} ${F1((R()-.5)*34)}`;return `<path d="${d}" stroke="#ff6a1a" stroke-width="2.2" fill="none" filter="url(#glow)"/>`}
+   return rock(x,y,7+R()*16,'#2c2420','#120d0b')},
  ice:(x,y)=>{const r=R();if(r<.5)return pine(x,y,10+R()*9);if(r<.75)return rock(x,y,7+R()*12,'#8a929b','#5d646c');
-   return `<ellipse cx="${F1(x)}" cy="${F1(y)}" rx="${F1(18+R()*20)}" ry="${F1(9+R()*8)}" fill="#bfe1f3" opacity=".85" stroke="#e9f7ff"/>`},
- jungle:(x,y)=>{const r=R();if(r<.82)return tree(x,y,13+R()*12,0,0,'#163a17');
-   return `<path d="${blob(x,y,9+R()*8,8,.4)}" fill="#5b4126" opacity=".8"/>`},
- water:(x,y)=>{const r=R();if(r<.5)return `<path d="M${F1(x-12)} ${F1(y)}q6 -5 12 0t12 0" stroke="rgba(255,255,255,.4)" stroke-width="2" fill="none"/>`;
-   if(r<.75)return `<g transform="translate(${F1(x)} ${F1(y)}) rotate(${F1(R()*360)})"><ellipse rx="7" ry="3.2" fill="${pick(['#ff9a3c','#ffd23f','#ff6fa8'])}"/><path d="M-6 0l-5 -3v6z" fill="${pick(['#ff9a3c','#ffd23f'])}"/></g>`;
-   return `<path d="${blob(x,y,8+R()*10,8,.6)}" fill="${pick(['#e8708f','#f29a5a','#c16be0'])}" opacity=".8"/>`},
- space:(x,y)=>{const r=R();if(r<.25){const s=8+R()*18;return `<circle cx="${F1(x)}" cy="${F1(y)}" r="${F1(s)}" fill="url(#cr)" stroke="#4a4c55" stroke-width="1.5"/><path d="M${F1(x-s*.7)} ${F1(y-s*.3)}a${F1(s)} ${F1(s)} 0 0 1 ${F1(s*1.2)} ${F1(-s*.5)}" stroke="rgba(255,255,255,.18)" stroke-width="2" fill="none"/>`}
-   if(r<.38)return rock(x,y,5+R()*9,'#5a5c64','#2e3036');
-   return [0,1,2].map(()=>`<circle cx="${F1(x+(R()-.5)*40)}" cy="${F1(y+(R()-.5)*40)}" r="${F1(.6+R()*1.4)}" fill="#fff" opacity="${F1(.5+R()*.5)}"/>`).join('')}
+   return `<ellipse cx="${F1(x)}" cy="${F1(y)}" rx="${F1(18+R()*20)}" ry="${F1(9+R()*8)}" fill="#c6dce8" opacity=".8"/>`},
+ jungle:(x,y)=>{const r=R();if(r<.85)return tree(x,y,13+R()*13,R()<.5);
+   return `<path d="${blob(x,y,9+R()*8,8,.4)}" fill="#4a3720" opacity=".8"/>`},
+ water:(x,y)=>{const r=R();if(r<.6)return tree(x,y,10+R()*9,true);return rock(x,y,6+R()*10,'#7d7f76','#4f514a')},
+ space:(x,y)=>{const r=R();if(r<.3){const s=8+R()*18;return `<circle cx="${F1(x)}" cy="${F1(y)}" r="${F1(s*1.18)}" fill="rgba(255,255,255,.06)"/><circle cx="${F1(x)}" cy="${F1(y)}" r="${F1(s)}" fill="url(#cr)"/><path d="M${F1(x-s)} ${F1(y)}a${F1(s)} ${F1(s)} 0 0 0 ${F1(s*2)} 0" stroke="rgba(255,255,255,.12)" stroke-width="${F1(s*.18)}" fill="none" transform="rotate(-35 ${F1(x)} ${F1(y)})"/>`}
+   if(r<.5)return rock(x,y,5+R()*10,'#5a5c64','#2e3036');
+   return ''}
 };
 
 /* ================= cars (top-down) ================= */
@@ -293,224 +352,348 @@ const carSvg=k=>carBody(k)+(k===2?'':roundel(k))+`<rect x="-28" y="-13" width="5
 const GLOSS=`<linearGradient id="gloss" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>`;
 const AV=CARS.map((_,k)=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-36 -36 72 72"><defs>${GLOSS}</defs><ellipse cx="3" cy="4" rx="17" ry="33" fill="rgba(0,0,0,.35)"/><g transform="rotate(-90)">${carSvg(k)}</g></svg>`));
 
+/* ================= field markings (drawn in local field space: x along the track) ================= */
+const FW=()=>0; // placeholder
+function mark(c,fl){const h=HW-5,w=fl/2-3;
+  switch(c){
+  case 'b':return `<g transform="rotate(-8)"><rect x="-15" y="-15" width="34" height="34" rx="4" fill="rgba(0,0,0,.45)" transform="translate(4 6)"/><rect x="-17" y="-17" width="34" height="34" rx="4" fill="url(#crate)" stroke="#5a3d06" stroke-width="1.5"/><rect x="-13" y="-13" width="26" height="26" rx="2" fill="none" stroke="rgba(255,240,190,.55)" stroke-width="1.5"/><text x="0" y="1.5" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="800" font-size="25" fill="#3a2604" stroke="#ffe8a0" stroke-width=".8" paint-order="stroke" transform="rotate(90)">?</text></g>`;
+  case '>':return [-1,0,1].map(k=>`<path d="M${k*16-6} -22L${k*16+6} 0L${k*16-6} 22" fill="none" stroke="#f5b829" stroke-width="7" stroke-linejoin="miter" opacity=".95"/>`).join('')+`<rect x="${-w}" y="${-h}" width="${2*w}" height="${2*h}" fill="url(#hz)" opacity=".18"/>`;
+  case 's':return `<rect x="${-w}" y="${-h}" width="${2*w}" height="${2*h}" fill="#c9a067" opacity=".35"/>`+[0,1,2,3,4].map(()=>`<path d="${sblob((R()-.5)*(fl-30),(R()-.5)*(TW-30),7+R()*8,7,.5)}" fill="#d9b57a" opacity="${F1(.5+R()*.3)}"/>`).join('')+`<path d="M${-w+4} ${-h+6}q12 -6 24 0t24 0" stroke="#b78e52" stroke-width="2" fill="none" opacity=".7"/>`;
+  case 'm':return `<rect x="${-w}" y="${-h}" width="${2*w}" height="${2*h}" fill="#3f2a16" opacity=".45"/>`+[0,1,2,3].map(()=>`<path d="${sblob((R()-.5)*(fl-30),(R()-.5)*(TW-30),8+R()*8,8,.5)}" fill="#4a3219" opacity=".85"/>`).join('')+[0,1].map(()=>`<ellipse cx="${F1((R()-.5)*fl*.5)}" cy="${F1((R()-.5)*TW*.4)}" rx="5" ry="2.5" fill="rgba(255,255,255,.18)"/>`).join('');
+  case 'i':return `<rect x="${-w-1}" y="${-h-2}" width="${2*w+2}" height="${2*h+4}" fill="url(#icef)" opacity=".85"/><path d="M${F1(-w*.6)} -14L${F1(-w*.1)} 2L${F1(w*.4)} -6M${F1(-w*.1)} 2L${F1(w*.1)} 18" stroke="rgba(255,255,255,.7)" stroke-width="1.3" fill="none"/>`;
+  case 'L':return `<rect x="${-w}" y="${-h}" width="${2*w}" height="${2*h}" fill="url(#hz)" opacity=".3"/><path d="M-12 -10a14 14 0 1 1 0 20" fill="none" stroke="#fff" stroke-width="4"/><path d="M-12 16l-6 -6h12z" fill="#fff" transform="rotate(20 -12 10)"/>`;
+  case 'f':return `<rect x="${-w}" y="${-h}" width="${2*w}" height="${2*h}" fill="url(#ember)"/>`+[0,1,2].map(()=>{let d=`M${F1((R()-.5)*fl*.6)} ${F1((R()-.5)*TW*.5)}`;for(let k=0;k<3;k++)d+=`l${F1((R()-.5)*20)} ${F1((R()-.5)*20)}`;return `<path d="${d}" stroke="#ffb02e" stroke-width="2.5" fill="none" filter="url(#glow)"/>`}).join('');
+  case 'z':return `<circle r="21" fill="rgba(18,20,26,.75)" stroke="#f5d02b" stroke-width="2.5"/><path d="M4 -16L-8 2H1L-4 17L9 -3H0Z" fill="#f5d02b" transform="rotate(90)"/>`;
+  case 'h':return `<circle r="24" fill="url(#bh)"/>`+[0,1,2].map(k=>`<path d="M0 0m${-20+k*4} 0a${20-k*4} ${16-k*4} ${k*40} 1 1 ${40-k*8} 0" fill="none" stroke="rgba(180,140,255,${.5-k*.12})" stroke-width="2" transform="rotate(${k*60})"/>`).join('');
+  }return ''}
+
 /* ================= static board ================= */
+const SEEDS=[['city',[520,760]],['city',[860,560]],['city',[1000,780]],['desert',[1330,830]],['desert',[1280,640]],['lava',[1440,250]],['lava',[1330,430]],['ice',[1040,260]],['ice',[820,300]],['jungle',[430,320]],['jungle',[600,420]],['water',[150,170]],['space',[110,760]],['space',[300,600]]];
+const AREAC={city:'#55585c',desert:'#c29a62',lava:'#2a2320',ice:'#d9e2e8',jungle:'#2d4a28',water:'#3f5a3a',space:'#34343b'};
+const LIT=(a,b,t)=>{const h=s=>[1,3,5].map(k=>parseInt(s.slice(k,k+2),16)),A=h(a),B=h(b);return 'rgb('+A.map((v,k)=>Math.round(v+(B[k]-v)*t)).join(',')+')'};
+function peak(cx,cy,r){const n=11,pk=[cx-r*.12,cy-r*.15],pts=[];for(let k=0;k<n;k++){const a=k/n*6.283+R()*.25,rr=r*(.72+R()*.35);pts.push([cx+Math.cos(a)*rr,cy+Math.sin(a)*rr])}
+  let o='';const facet=(sc,dark,light)=>{for(let k=0;k<n;k++){const a=pts[k],b=pts[(k+1)%n],A=[pk[0]+(a[0]-pk[0])*sc,pk[1]+(a[1]-pk[1])*sc],B=[pk[0]+(b[0]-pk[0])*sc,pk[1]+(b[1]-pk[1])*sc],mx=(A[0]+B[0])/2-pk[0],my=(A[1]+B[1])/2-pk[1],l=Math.hypot(mx,my)||1,t=.5+.5*((-.62*mx-.78*my)/l);
+    o+=`<polygon points="${F1(pk[0])},${F1(pk[1])} ${F1(A[0])},${F1(A[1])} ${F1(B[0])},${F1(B[1])}" fill="${LIT(dark,light,t)}" stroke="${LIT(dark,light,t)}" stroke-width=".8"/>`}};
+  facet(1,'#3e464f','#a9b3bc');facet(.5+R()*.12,'#8796a5','#ffffff');return o}
+function clipPoly(poly,f){const o=[];for(let i=0;i<poly.length;i++){const a=poly[i],b=poly[(i+1)%poly.length],fa=f(a),fb=f(b);if(fa<=0)o.push(a);if((fa<=0)!==(fb<=0)){const t=fa/(fa-fb);o.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t])}}return o}
 function boardSvg(){
-  seed=4711;const W=G.W,H=G.H;let o='';
-  const poly=(s0,s1,dd=0)=>{s0=Math.max(0,s0);s1=Math.min(G.tot,s1);const p=[];for(let s=s0;s<s1;s+=8){const a=at(s);p.push(F1(a.x+a.nx*dd)+','+F1(a.y+a.ny*dd))}const a=at(s1);p.push(F1(a.x+a.nx*dd)+','+F1(a.y+a.ny*dd));return p.join(' ')};
+  seed=4711;const W=G.W,H=G.H,M=G.M;let o='';
+  const P=G.P,poly=(pi,s0,s1,dd=0)=>{const p=P[pi];s0=Math.max(0,s0);s1=Math.min(p.L,s1);const r=[];for(let s=s0;s<s1;s+=6){const a=atP(p,s);r.push(F1(a.x+a.nx*dd)+','+F1(a.y+a.ny*dd))}const a=atP(p,s1);r.push(F1(a.x+a.nx*dd)+','+F1(a.y+a.ny*dd));return r.join(' ')};
+  const seeds=SEEDS.map(([a,p])=>[a,M(p)]);
+  const areaAt=(x,y)=>{let b=0,bd=1e12;seeds.forEach(([a,p],i)=>{const d=(p[0]-x)**2+(p[1]-y)**2;if(d<bd){bd=d;b=i}});return seeds[b][0]};
+  const lakeC=M([215,205]),lakeR=128,lavaC=M([1250,365]),river=[M([1462,205]),M([1400,250]),M([1330,300]),M([1270,350])];
+  const ravA=(()=>{const p=P[PI.pa1],a=atP(p,4*p.FL),cx=W/2,cy=H/2,sg=((cx-a.x)*a.nx+(cy-a.y)*a.ny)>0?1:-1;return {a,sg,fl:p.FL}})();
+  const inLake=(x,y,m)=>Math.hypot(x-lakeC[0],y-lakeC[1])<lakeR+m;
+  const inLava=(x,y,m)=>Math.hypot(x-lavaC[0],y-lavaC[1])<78+m||river.some(q=>Math.hypot(x-q[0],y-q[1])<44+m);
+  const inRav=(x,y,m)=>{const {a,sg,fl}=ravA,dx=x-a.x,dy=y-a.y,u=dx*a.tx+dy*a.ty,v=(dx*a.nx+dy*a.ny)*sg;return Math.abs(u)<fl+14+m&&v>-110-m&&v<240+m};
   o+=`<defs>${GLOSS}
-   <filter id="nz" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 0"/></filter>
+   <filter id="nz" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0"/></filter>
+   <filter id="mot" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="4" seed="11"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.1 -.35"/></filter>
+   <filter id="wob" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="70" xChannelSelector="R" yChannelSelector="G"/></filter>
    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-   <radialGradient id="cn" cx=".35" cy=".35"><stop offset="0" stop-color="#7cc457"/><stop offset=".55" stop-color="#3a7a2f"/><stop offset="1" stop-color="#1d4a1c"/></radialGradient>
-   <radialGradient id="lv"><stop offset="0" stop-color="#fff2a8"/><stop offset=".45" stop-color="#ff8a1f"/><stop offset="1" stop-color="#b8260a"/></radialGradient>
-   <radialGradient id="dune"><stop offset="0" stop-color="#f3d7a2" stop-opacity=".9"/><stop offset="1" stop-color="#f3d7a2" stop-opacity="0"/></radialGradient>
-   <radialGradient id="cr" cx=".6" cy=".6"><stop offset="0" stop-color="#2b2c33"/><stop offset="1" stop-color="#40424b"/></radialGradient>
-   <radialGradient id="pl1" cx=".35" cy=".35"><stop offset="0" stop-color="#e9c9a0"/><stop offset=".6" stop-color="#b4805a"/><stop offset="1" stop-color="#5a3a26"/></radialGradient>
-   <pattern id="chk" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#fff"/><rect width="8" height="8" fill="#111"/><rect x="8" y="8" width="8" height="8" fill="#111"/></pattern>
-   <marker id="arw" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c9a8ff"/></marker></defs>`;
-  o+=`<rect width="${W}" height="${H}" rx="26" fill="#3d4a35"/>`;
-  /* terrain bands per area */
-  BIO.forEach((b,i)=>{o+=`<polyline points="${poly(fs(b.from)-FL()*.5-(i?30:260),fs(b.to-1)+FL()*.5+(i<BIO.length-1?30:260))}" fill="none" stroke="${b.g}" stroke-width="250" stroke-linecap="round" stroke-linejoin="round"/>`});
-  /* scattered props */
-  for(let k=0;k<900;k++){const x=20+R()*(W-40),y=20+R()*(H-40);if(!clear(x,y,14))continue;const b=BIO[FIELDS[nearField(x,y)].b];if(b.id==='space'&&R()<.3){o+=PROP.space(x,y);continue}if(R()<(b.id==='city'?.5:b.id==='jungle'?.75:.55))o+=PROP[b.id](x,y)}
-  /* planet in a free corner */
-  {const cs=[[W-70,70],[70,70],[W-70,H-70],[70,H-70]].filter(([x,y])=>clear(x,y,50)&&BIO[FIELDS[nearField(x,y)].b].id==='space');if(cs.length){const[x,y]=cs[0];o+=`<circle cx="${x}" cy="${y}" r="44" fill="url(#pl1)"/><ellipse cx="${x}" cy="${y}" rx="68" ry="13" fill="none" stroke="#e9d6b8" stroke-width="5" opacity=".7" transform="rotate(-18 ${x} ${y})"/>`}}
-  /* grandstand at the start */
-  const gsd=(()=>{const a=fr(1);return clear(a.x-a.nx*(HW+46),a.y-a.ny*(HW+46),20)?-1:1})();
-  for(let k=0;k<14;k++){const a=at(fs(0)-FL()*.4+k*24),cx=a.x+gsd*a.nx*(HW+46),cy=a.y+gsd*a.ny*(HW+46),ang=Math.atan2(a.ty,a.tx)*57.3;
-    if(!clear(cx,cy,10))continue;o+=`<g transform="translate(${F1(cx)} ${F1(cy)}) rotate(${F1(ang)})"><rect x="-12" y="-18" width="24" height="36" fill="#8d949e" stroke="#4a5058"/>${[-12,-4,4,12].map(yy=>[-7,0,7].map(xx=>`<circle cx="${xx}" cy="${yy}" r="2.2" fill="${pick(['#e5484d','#f5b829','#3e8ef7','#fff','#30a46c'])}"/>`).join('')).join('')}<rect x="-12" y="-20" width="24" height="4" fill="#d0312d"/></g>`}
-  /* track */
-  const full=poly(0,G.tot);
-  o+=`<polyline points="${full}" fill="none" stroke="rgba(0,0,0,.4)" stroke-width="${TW+24}" stroke-linejoin="round" stroke-linecap="round" transform="translate(5 7)"/>`;
-  o+=`<polyline points="${full}" fill="none" stroke="#f1f1f1" stroke-width="${TW+14}" stroke-linejoin="round" stroke-linecap="butt"/>`;
-  [-1,1].forEach(sd=>o+=`<polyline points="${poly(0,G.tot,sd*(HW+3.5))}" fill="none" stroke="#c8282b" stroke-width="7" stroke-dasharray="14 14"/>`);
-  o+=`<polyline points="${full}" fill="none" stroke="#3b3e44" stroke-width="${TW}" stroke-linejoin="round"/>`;
-  o+=`<polyline points="${full}" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="${TW*.35}" stroke-linejoin="round"/>`;
-  /* fields */
-  const edge=(s,dd)=>{const a=at(s);return [a.x+a.nx*dd,a.y+a.ny*dd]};
-  const quad=(i,fill)=>{const s0=i*FL(),s1=(i+1)*FL(),m=(s0+s1)/2,p=[edge(s0,HW),edge(m,HW),edge(s1,HW),edge(s1,-HW),edge(m,-HW),edge(s0,-HW)];return `<polygon points="${p.map(q=>q.map(F1).join(',')).join(' ')}" fill="${fill}"/>`};
-  for(let i=0;i<=N;i++){const e=FIELDS[i].ev;
-    if(i===0||i===N)o+=quad(i,'url(#chk)');
-    else if(e)o+=quad(i,e==='exit'?'rgba(142,92,240,.42)':EV[e].g?'rgba(245,184,41,.38)':'rgba(229,72,77,.36)')}
-  for(let i=0;i<=N+1;i++){const a=edge(i*FL(),HW),b=edge(i*FL(),-HW);o+=`<line x1="${F1(a[0])}" y1="${F1(a[1])}" x2="${F1(b[0])}" y2="${F1(b[1])}" stroke="rgba(255,255,255,.8)" stroke-width="2.5"/>`}
-  for(let i=1;i<N;i++){const a=fr(i);o+=`<text x="${F1(a.x+a.nx*(HW-11))}" y="${F1(a.y+a.ny*(HW-11))}" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="700" font-size="15" fill="#fff" stroke="#16181b" stroke-width="3" paint-order="stroke">${i}</text>`}
-  /* glass tunnel */
-  {const w=BIO.find(b=>b.id==='water'),s0=fs(w.from)-FL()*.5,s1=fs(w.to-1)+FL()*.5;
-    o+=`<polyline points="${poly(s0,s1)}" fill="none" stroke="rgba(190,235,255,.18)" stroke-width="${TW+34}"/>`;
-    [-1,1].forEach(sd=>o+=`<polyline points="${poly(s0,s1,sd*(HW+16))}" fill="none" stroke="rgba(225,247,255,.75)" stroke-width="3"/>`);
-    for(let s=s0;s<=s1;s+=30){const a=edge(s,HW+16),b=edge(s,-HW-16);o+=`<line x1="${F1(a[0])}" y1="${F1(a[1])}" x2="${F1(b[0])}" y2="${F1(b[1])}" stroke="rgba(225,247,255,.4)" stroke-width="2"/>`}}
-  /* teleport links */
-  for(let i=1;i<N;i++){const f=FIELDS[i];if(f.ev!=='tele')continue;const a=fr(i),b=fr(f.dest),ax=a.x+a.nx*(HW+26),ay=a.y+a.ny*(HW+26),bx=b.x+b.nx*(HW+26),by=b.y+b.ny*(HW+26),mx=(ax+bx)/2+(by-ay)*.25,my=(ay+by)/2-(bx-ax)*.25;
-    o+=`<path d="M${F1(ax)} ${F1(ay)}Q${F1(mx)} ${F1(my)} ${F1(bx)} ${F1(by)}" fill="none" stroke="#c9a8ff" stroke-width="4" stroke-dasharray="10 9" opacity=".85" marker-end="url(#arw)"/>`;
-    [a,b].forEach(q=>o+=`<circle cx="${F1(q.x)}" cy="${F1(q.y)}" r="34" fill="none" stroke="#b48cff" stroke-width="3" stroke-dasharray="6 6" opacity=".8"/>`)}
-  /* event tokens on the verge */
-  for(let i=1;i<N;i++){const e=FIELDS[i].ev;if(!e)continue;const a=fr(i),x=a.x+a.nx*(HW+26),y=a.y+a.ny*(HW+26),c=e==='exit'?'#7b4ce0':EV[e].g?'#e9a91b':'#d23b3f';
-    o+=`<circle cx="${F1(x+2)}" cy="${F1(y+3)}" r="19" fill="rgba(0,0,0,.4)"/><circle cx="${F1(x)}" cy="${F1(y)}" r="18" fill="${c}" stroke="#fff" stroke-width="3"/><text x="${F1(x)}" y="${F1(y+1)}" text-anchor="middle" dominant-baseline="central" font-size="19">${e==='exit'?'🌀':EV[e].ic}</text>`}
-  /* start / finish signs */
-  [[0,'START'],[N,'MÅL']].forEach(([i,t])=>{const a=fr(i),x=a.x+a.nx*(HW+40),y=a.y+a.ny*(HW+40),w=t.length*15+24;
-    o+=`<rect x="${F1(x-w/2)}" y="${F1(y-15)}" width="${w}" height="30" rx="5" fill="#111" stroke="#fff" stroke-width="2"/><text x="${F1(x)}" y="${F1(y+1)}" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="800" font-style="italic" font-size="22" fill="#fff">${t}</text>`});
-  /* area signs */
-  BIO.forEach((b,i)=>{if(!i)return;const a=fr(b.from),w=b.n.length*10.5+26,sd=clear(a.x-a.nx*(HW+40),a.y-a.ny*(HW+40),18)?-1:1,x=a.x+sd*a.nx*(HW+(FIELDS[b.from].ev&&sd>0?70:40)),y=a.y+sd*a.ny*(HW+(FIELDS[b.from].ev&&sd>0?70:40));
-    o+=`<rect x="${F1(x-w/2+3)}" y="${F1(y-13+4)}" width="${F1(w)}" height="26" rx="5" fill="rgba(0,0,0,.45)"/><rect x="${F1(x-w/2)}" y="${F1(y-13)}" width="${F1(w)}" height="26" rx="5" fill="#141619" stroke="${b.acc}" stroke-width="2.5"/><text x="${F1(x)}" y="${F1(y+1)}" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="700" font-size="18" fill="#fff">${b.n.toUpperCase()}</text>`});
-  /* paper grain + board edge */
-  o+=`<rect width="${W}" height="${H}" rx="26" filter="url(#nz)" opacity=".3" pointer-events="none"/>`;
-  o+=`<rect x="5" y="5" width="${W-10}" height="${H-10}" rx="22" fill="none" stroke="#0c0d0f" stroke-width="10"/><rect x="14" y="14" width="${W-28}" height="${H-28}" rx="16" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2"/>`;
-  return o}
+   <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
+   <filter id="blur3"><feGaussianBlur stdDeviation="3"/></filter>
+   <pattern id="grain" width="220" height="220" patternUnits="userSpaceOnUse"><rect width="220" height="220" filter="url(#nz)"/></pattern>
+   <pattern id="hz" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="18" height="18" fill="#fff"/><rect width="9" height="18" fill="#c8282b"/></pattern>
+   <pattern id="chk" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#f2f2f2"/><rect width="8" height="8" fill="#111"/><rect x="8" y="8" width="8" height="8" fill="#111"/></pattern>
+   <pattern id="plank" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#4a3a2c"/><rect width="1.6" height="12" fill="#221912"/></pattern>
+   <radialGradient id="cn" cx=".35" cy=".35"><stop offset="0" stop-color="#6aa64a"/><stop offset=".55" stop-color="#346b2a"/><stop offset="1" stop-color="#1a3f19"/></radialGradient>
+   <radialGradient id="cn2" cx=".35" cy=".35"><stop offset="0" stop-color="#4f8a3c"/><stop offset=".6" stop-color="#255422"/><stop offset="1" stop-color="#102c10"/></radialGradient>
+   <radialGradient id="lv"><stop offset="0" stop-color="#fff2a8"/><stop offset=".45" stop-color="#ff8a1f"/><stop offset="1" stop-color="#a8220a"/></radialGradient>
+   <radialGradient id="ember"><stop offset="0" stop-color="#ff6a1a" stop-opacity=".55"/><stop offset="1" stop-color="#ff3a0a" stop-opacity=".15"/></radialGradient>
+   <radialGradient id="dune"><stop offset="0" stop-color="#efd09a" stop-opacity=".85"/><stop offset="1" stop-color="#efd09a" stop-opacity="0"/></radialGradient>
+   <radialGradient id="cr" cx=".42" cy=".38" r=".62"><stop offset="0" stop-color="#2a2b30"/><stop offset=".8" stop-color="#2e2f35"/><stop offset="1" stop-color="#1c1d21"/></radialGradient>
+   <radialGradient id="bh"><stop offset="0" stop-color="#000"/><stop offset=".55" stop-color="#120a22"/><stop offset="1" stop-color="#3a2470" stop-opacity=".2"/></radialGradient>
+   <radialGradient id="lake" cx=".4" cy=".4"><stop offset="0" stop-color="#2f7fa8"/><stop offset=".7" stop-color="#1d5b80"/><stop offset="1" stop-color="#173f5a"/></radialGradient>
+   <radialGradient id="mtn" cx=".35" cy=".3"><stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#dfe8ee"/><stop offset=".7" stop-color="#8b98a3"/><stop offset="1" stop-color="#55606a"/></radialGradient>
+   <radialGradient id="vig" cx=".5" cy=".5" r=".75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".5"/></radialGradient>
+   <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3d6" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#0a1630" stop-opacity=".22"/></linearGradient>
+   <linearGradient id="crate" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd86b"/><stop offset=".5" stop-color="#e9a91b"/><stop offset="1" stop-color="#9c6a0a"/></linearGradient>
+   <linearGradient id="icef" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9f7ff" stop-opacity=".75"/><stop offset=".5" stop-color="#9fd6f2" stop-opacity=".5"/><stop offset="1" stop-color="#d4f0ff" stop-opacity=".7"/></linearGradient>
+  </defs>`;
+  /* terrain: area cells */
+  o+=`<rect width="${W}" height="${H}" fill="#3a4632"/><g filter="url(#wob)">`;
+  seeds.forEach(([a,p],i)=>{let pg=[[-60,-60],[W+60,-60],[W+60,H+60],[-60,H+60]];seeds.forEach(([b,q],j)=>{if(i===j)return;const mx=(p[0]+q[0])/2,my=(p[1]+q[1])/2,dx=q[0]-p[0],dy=q[1]-p[1];pg=clipPoly(pg,z=>(z[0]-mx)*dx+(z[1]-my)*dy)});
+    o+=`<polygon points="${pg.map(z=>F1(z[0])+','+F1(z[1])).join(' ')}" fill="${AREAC[a]}" stroke="${AREAC[a]}" stroke-width="2"/>`});
+  o+=`</g><rect width="${W}" height="${H}" filter="url(#mot)" opacity=".55" style="mix-blend-mode:multiply"/><rect width="${W}" height="${H}" fill="url(#grain)" opacity=".35"/>`;
+  /* city streets */
+  {const cs=seeds.filter(s=>s[0]==='city');for(let k=0;k<26;k++){const c=pick(cs)[1],x=c[0]+(R()-.5)*360,y=c[1]+(R()-.5)*260;if(areaAt(x,y)!=='city')continue;const hz=R()<.5;
+    o+=`<rect x="${F1(hz?x-90:x-7)}" y="${F1(hz?y-7:y-90)}" width="${hz?180:14}" height="${hz?14:180}" fill="#3b3d41" opacity=".7"/>`}}
+  /* lake (land around), lava, ravine, mountain */
+  o+=`<path d="${sblob(lavaC[0],lavaC[1],80,11,.3)}" fill="#1a1210"/><path d="${sblob(lavaC[0],lavaC[1],66,11,.3)}" fill="url(#lv)" filter="url(#glow)"/><path d="${sblob(river[0][0],river[0][1],30,8,.3)}" fill="#1a1210"/>`;
+  o+=`<polyline points="${river.map(q=>q.map(F1).join(',')).join(' ')}" fill="none" stroke="#1a1210" stroke-width="86" stroke-linecap="round" stroke-linejoin="round"/><polyline points="${river.map(q=>q.map(F1).join(',')).join(' ')}" fill="none" stroke="#ff7a1a" stroke-width="58" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/><polyline points="${river.map(q=>q.map(F1).join(',')).join(' ')}" fill="none" stroke="#ffd36a" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" opacity=".7" stroke-dasharray="30 22"/>`;
+  {const {a,sg,fl}=ravA,P2=(u,v)=>{const x=a.x+a.tx*u+a.nx*v*sg,y=a.y+a.ty*u+a.ny*v*sg;return F1(x)+','+F1(y)};const ed=[];
+   for(let v=-110;v<=240;v+=25)ed.push([v,fl+6+(R()-.5)*16]);
+   const outer=ed.map(([v,u])=>P2(u+14,v)).concat(ed.slice().reverse().map(([v,u])=>P2(-u-14,v)));
+   const inner=ed.map(([v,u])=>P2(u-4,v)).concat(ed.slice().reverse().map(([v,u])=>P2(-u+4,v)));
+   o+=`<polygon points="${outer.join(' ')}" fill="#6e4a2a"/><polygon points="${inner.join(' ')}" fill="#2a1a10"/><polygon points="${ed.map(([v,u])=>P2(u*.45,v)).concat(ed.slice().reverse().map(([v,u])=>P2(-u*.45,v))).join(' ')}" fill="#120a06"/>`;
+   for(let k=0;k<10;k++)o+=rock(a.x+a.tx*(R()-.5)*fl*1.6+a.nx*sg*(R()*300-100),a.y+a.ty*(R()-.5)*fl*1.6+a.ny*sg*(R()*300-100),4+R()*6,'#5a3b22','#2a1a10')}
+  const mC=M([980,350]);
+  o+=`<path d="${sblob(mC[0]+30,mC[1]+40,135,12,.3)}" fill="rgba(0,0,0,.4)" filter="url(#soft)"/>`;
+  [[-40,10,120],[55,-20,100],[10,55,80]].forEach(([dx,dy,r])=>o+=peak(mC[0]+dx,mC[1]+dy,r));
+  o+=`<path d="${sblob(lakeC[0],lakeC[1],lakeR+14,11,.18)}" fill="#6d6a55"/><path d="${sblob(lakeC[0],lakeC[1],lakeR,11,.18)}" fill="url(#lake)"/>`;
+  for(let k=0;k<16;k++){const a=R()*6.28,rr=R()*lakeR*.85,x=lakeC[0]+Math.cos(a)*rr,y=lakeC[1]+Math.sin(a)*rr;o+=`<path d="M${F1(x-10)} ${F1(y)}q5 -4 10 0t10 0" stroke="rgba(255,255,255,.3)" stroke-width="1.6" fill="none"/>`}
+  /* props */
+  for(let k=0;k<1500;k++){const x=16+R()*(W-32),y=16+R()*(H-32);if(!clear(x,y,12)||inLake(x,y,14)||inLava(x,y,6)||inRav(x,y,6)||Math.hypot(x-mC[0],y-mC[1])<150)continue;
+    const a=areaAt(x,y);if(R()<({city:.55,jungle:.8,water:.45,desert:.5,lava:.5,ice:.5,space:.55})[a])o+=PROP[a](x,y)}
+  /* grandstand along the start straight */
+  {const p=P[0],side=(()=>{const a=atP(p,2*p.FL);return clear(a.x+a.nx*(HW+44),a.y+a.ny*(HW+44),16)?1:-1})();
+   for(let s=.3*p.FL;s<5.5*p.FL;s+=26){const a=atP(p,s),cx=a.x+side*a.nx*(HW+40),cy=a.y+side*a.ny*(HW+40);if(!clear(cx,cy,8))continue;
+    o+=`<g transform="translate(${F1(cx)} ${F1(cy)}) rotate(${F1(ang(a))})"><rect x="-13" y="-17" width="26" height="34" fill="rgba(0,0,0,.4)" transform="translate(3 5)"/><rect x="-13" y="-17" width="26" height="34" fill="#80868f" stroke="#40454c"/>${[-11,-4,3,10].map(yy=>[-8,-1,6].map(xx=>`<circle cx="${xx}" cy="${yy}" r="2.3" fill="${pick(['#c9473f','#d9a43a','#4a78c2','#e8e8e8','#3d8a5a','#2d2f33'])}"/>`).join('')).join('')}<rect x="-13" y="${side>0?13:-17}" width="26" height="4" fill="#2a2d33"/></g>`}}
+  /* track pieces */
+  const pieces=[];PATHS.forEach((pa,pi)=>{const p=P[pi],FL=p.FL,cuts=[[0,p.L,0]];
+    let segs=[[0,p.L]];if(pa.gap){const g0=pa.gap[0]*FL,g1=pa.gap[1]*FL;segs=[[0,g0],[g1,p.L]]}
+    const out=[];segs.forEach(([a,b])=>{if(pa.up){const u0=pa.up[0]*FL,u1=pa.up[1]*FL;[[a,Math.min(b,u0),0],[Math.max(a,u0),Math.min(b,u1),1],[Math.max(a,u1),b,0]].forEach(q=>{if(q[1]-q[0]>1)out.push(q)})}else out.push([a,b,0])});
+    out.forEach(([a,b,lv])=>pieces.push({pi,a,b,lv,first:a<1&&pa.alt,last:b>p.L-1&&pa.alt}))});
+  const J=pc=>{const pa=PATHS[pc.pi],p=P[pc.pi];let pre='',post='';
+    if(pc.first){const tr=PATHS.find(x=>x.to.includes(pa.id)),tp=P[PI[tr.id]],e=atP(tp,tp.L);pre=F1(e.x)+','+F1(e.y)+' '}
+    if(pc.last){const nx=P[PI[pa.to[0]]],e=atP(nx,0);post=' '+F1(e.x)+','+F1(e.y)}
+    return pre+poly(pc.pi,pc.a,pc.b)+post};
+  const kerb=pc=>{if(pc.lv)return '';const p=P[pc.pi];let r='',run=[],sd=0;const flush=()=>{if(run.length>4)r+=`<polyline points="${run.map(s=>{const a=atP(p,s);return F1(a.x+a.nx*sd*(HW+4))+','+F1(a.y+a.ny*sd*(HW+4))}).join(' ')}" fill="none" stroke="url(#hz)" stroke-width="9"/>`;run=[]};
+    for(let s=pc.a;s<=pc.b;s+=6){const a=atP(p,Math.max(0,s-14)),b=atP(p,Math.min(p.L,s+14)),x=a.tx*b.ty-a.ty*b.tx,c=Math.abs(Math.asin(Math.max(-1,Math.min(1,x)))),d=x>0?-1:1;if(c>.2&&(!run.length||d===sd)){sd=d;run.push(s)}else flush()}flush();return r};
+  const drawPieces=(lv)=>{const ps=pieces.filter(q=>q.lv===lv);let r='';
+    ps.forEach(q=>r+=`<polyline points="${J(q)}" fill="none" stroke="rgba(0,0,0,${lv?.5:.42})" stroke-width="${TW+(lv?26:20)}" stroke-linejoin="round" stroke-linecap="round" transform="translate(${lv?16:4} ${lv?22:6})" ${lv?'filter="url(#blur3)"':''}/>`);
+    if(lv)ps.forEach(q=>{const p=P[q.pi];for(let s=q.a+20;s<q.b-10;s+=58){const a=atP(p,s);r+=`<rect x="-9" y="${-HW-4}" width="18" height="${TW+8}" fill="#2c2f34" transform="translate(${F1(a.x+10)} ${F1(a.y+16)}) rotate(${F1(ang(a))})" opacity=".85"/>`}});
+    ps.forEach(q=>r+=`<polyline points="${J(q)}" fill="none" stroke="${lv?'#6b6f75':'#7b7466'}" stroke-width="${TW+16}" stroke-linejoin="round" stroke-linecap="butt"/>`);
+    ps.forEach(q=>r+=kerb(q));
+    ps.forEach(q=>r+=`<polyline points="${J(q)}" fill="none" stroke="#35373b" stroke-width="${TW}" stroke-linejoin="round" stroke-linecap="butt"/>`);
+    ps.forEach(q=>r+=`<polyline points="${J(q)}" fill="none" stroke="url(#grain)" stroke-width="${TW}" stroke-linejoin="round" opacity=".9"/><polyline points="${J(q)}" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="${TW*.35}" stroke-linejoin="round"/>`);
+    ps.forEach(q=>[-1,1].forEach(sd=>r+=`<polyline points="${poly(q.pi,q.a,q.b,sd*(HW-4))}" fill="none" stroke="#e9e9e4" stroke-width="2.6" opacity=".85"/>`));
+    if(lv)ps.forEach(q=>[-1,1].forEach(sd=>r+=`<polyline points="${poly(q.pi,q.a,q.b,sd*(HW+9))}" fill="none" stroke="#c9ced6" stroke-width="3.5"/><polyline points="${poly(q.pi,q.a,q.b,sd*(HW+9))}" fill="none" stroke="#3a3e44" stroke-width="3.5" stroke-dasharray="2 14"/>`));
+    /* skid marks */
+    ps.forEach(q=>{const p=P[q.pi];for(let s=q.a+30;s<q.b-30;s+=170+R()*120){const a=atP(p,s),b=atP(p,Math.min(q.b,s+60+R()*50)),off=(R()-.5)*TW*.5;
+      [-7,7].forEach(d=>r+=`<path d="M${F1(a.x+a.nx*(off+d))} ${F1(a.y+a.ny*(off+d))}L${F1(b.x+b.nx*(off+d+(R()-.5)*8))} ${F1(b.y+b.ny*(off+d+(R()-.5)*8))}" stroke="rgba(0,0,0,.28)" stroke-width="4" stroke-linecap="round"/>`)}});
+    /* fields on these pieces */
+    ps.forEach(q=>{const pa=PATHS[q.pi],p=P[q.pi];
+      for(let k=0;k<pa.n;k++){const c=pa.spec[k],sc=(k+.5)*p.FL;if(sc<q.a||sc>q.b)continue;if(c==='a')continue;const a=atP(p,sc);
+        if(c==='S'||c==='G'){r+=fieldQuad(q.pi,k,'url(#chk)',.95);continue}
+        const m=mark(c,p.FL);if(m)r+=`<g transform="translate(${F1(a.x)} ${F1(a.y)}) rotate(${F1(ang(a))})">${m}</g>`}
+      for(let k=0;k<=pa.n;k++){const s=k*p.FL;if(s<q.a-1||s>q.b+1)continue;const a=atP(p,s);r+=`<line x1="${F1(a.x+a.nx*(HW-4))}" y1="${F1(a.y+a.ny*(HW-4))}" x2="${F1(a.x-a.nx*(HW-4))}" y2="${F1(a.y-a.ny*(HW-4))}" stroke="rgba(236,236,230,.55)" stroke-width="2"/>`}});
+    return r};
+  const fieldQuad=(pi,k,fill,op)=>{const p=P[pi],e=(s,dd)=>{const a=atP(p,s);return F1(a.x+a.nx*dd)+','+F1(a.y+a.ny*dd)},s0=k*p.FL,s1=(k+1)*p.FL,m=(s0+s1)/2;return `<polygon points="${[e(s0,HW-4),e(m,HW-4),e(s1,HW-4),e(s1,-HW+4),e(m,-HW+4),e(s0,-HW+4)].join(' ')}" fill="${fill}" opacity="${op}"/>`};
+  o+=drawPieces(0);
+  /* lake over the tunnel */
+  {const tp=P[PI.pc2];let s0=null,s1=null;for(let s=0;s<tp.L;s+=6){const a=atP(tp,s);if(inLake(a.x,a.y,-18)){if(s0===null)s0=s;s1=s}}
+   if(s0!==null){o+=`<polyline points="${poly(PI.pc2,s0,s1)}" fill="none" stroke="rgba(70,170,220,.28)" stroke-width="${TW+16}"/>`;[-1,1].forEach(sd=>o+=`<polyline points="${poly(PI.pc2,s0,s1,sd*(HW+8))}" fill="none" stroke="rgba(210,245,255,.85)" stroke-width="4"/>`);
+     for(let s=s0;s<=s1;s+=26){const a=atP(tp,s);o+=`<line x1="${F1(a.x+a.nx*(HW+8))}" y1="${F1(a.y+a.ny*(HW+8))}" x2="${F1(a.x-a.nx*(HW+8))}" y2="${F1(a.y-a.ny*(HW+8))}" stroke="rgba(210,245,255,.35)" stroke-width="2.5"/>`}
+     o+=`<polyline points="${poly(PI.pc2,s0,s1,-HW*.45)}" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="6"/>`}}
+  o+=drawPieces(1);
+  /* air fields over the ravine */
+  {const pi=PI.pa1,p=P[pi],pa=PATHS[pi];for(let k=0;k<pa.n;k++)if(pa.spec[k]==='a')o+=fieldQuad(pi,k,'none',1).replace('fill="none"','fill="rgba(255,255,255,.06)" stroke="#f2f2f2" stroke-width="2.5" stroke-dasharray="9 7"');
+   [pa.gap[0],pa.gap[1]].forEach((k,j)=>{const a=atP(p,k*p.FL+(j?6:-6));o+=`<g transform="translate(${F1(a.x)} ${F1(a.y)}) rotate(${F1(ang(a))})"><rect x="${j?-2:-12}" y="${-HW}" width="14" height="${TW}" fill="${j?'#8a8f96':'#c9ced6'}" stroke="#2a2d33"/>${j?'':[-24,-12,0,12,24].map(y=>`<rect x="-10" y="${y-3}" width="10" height="6" fill="#d0312d"/>`).join('')}</g>`})}
+  /* clouds over storm fields */
+  NODES.forEach(n=>{if(n.c!=='z')return;const a=G.np[n.id];for(const sd of [1,-1]){const x=a.x+a.nx*sd*(HW+40),y=a.y+a.ny*sd*(HW+40);if(!clear(x,y,4)||x<50||x>G.W-50||y<50||y>G.H-50)continue;
+    o+=`<g opacity=".92"><path d="${sblob(x+14,y+18,30,9,.4)}" fill="rgba(0,0,0,.3)" filter="url(#soft)"/>${[0,1,2,3].map(()=>`<circle cx="${F1(x+(R()-.5)*34)}" cy="${F1(y+(R()-.5)*20)}" r="${F1(13+R()*8)}" fill="${pick(['#4a4f5a','#5a606b','#3d424c'])}"/>`).join('')}<path d="M${F1(x+2)} ${F1(y-6)}l-8 14h7l-5 13l12 -17h-7l5 -10z" fill="#f5d02b"/></g>`;break}});
+  /* signs: area names and fork options */
+  const sign=(x,y,t,acc,small)=>{const fs=small?15:18,w=t.length*(small?8.2:10.2)+24,h=small?22:28;return `<rect x="${F1(x-w/2+3)}" y="${F1(y-h/2+4)}" width="${F1(w)}" height="${h}" rx="5" fill="rgba(0,0,0,.45)"/><rect x="${F1(x-w/2)}" y="${F1(y-h/2)}" width="${F1(w)}" height="${h}" rx="5" fill="#121417" stroke="${acc}" stroke-width="2.5"/><text x="${F1(x)}" y="${F1(y+1)}" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="700" font-size="${fs}" fill="#fff">${t}</text>`};
+  const placed=[];const free=(x,y,w,h)=>placed.every(([a,b,c,d])=>Math.abs(a-x)>(c+w)/2+6||Math.abs(b-y)>(d+h)/2+6);
+  const SACC={p0:'#ff5fb0',pa1:'#e5484d',pa2:'#4a8fe0',p1:'#ff6a1a',pb1:'#e5484d',pb2:'#4a8fe0',p2:'#8fd6ff',pc1:'#e5484d',pc2:'#4a8fe0',p3:'#b48cff'};
+  PATHS.forEach((pa,pi)=>{if(pa.id==='p1')return;const p=P[pi],t=(pa.alt?pa.alt+': ':'')+pa.nm.toUpperCase(),w=t.length*(pa.alt?8.2:10.2)+24,h=pa.alt?22:28;
+    const ks=pa.alt?[2,3,1,4]:pa.id==='p0'?[5,6,4]:[Math.floor(pa.n/2),Math.floor(pa.n/2)-1,Math.floor(pa.n/2)+1];
+    for(const k of ks)for(const dd of [HW+30,HW+52,HW+76])for(const sd of [1,-1]){const a=atP(p,(k+.5)*p.FL),x=a.x+a.nx*sd*dd,y=a.y+a.ny*sd*dd;
+      if(x-w/2<24||x+w/2>W-24||y<30||y>H-30||!free(x,y,w,h))continue;let ok=true;for(let u=-w/2;u<=w/2;u+=12)if(!clear(x+u,y,h/2-4)){ok=false;break}if(!ok)continue;
+      placed.push([x,y,w,h]);o+=sign(x,y,t,SACC[pa.id],!!pa.alt);return}});
+  /* start/finish gantry */
+  {const a=G.np[START],b=G.np[GOAL],m={x:(a.x+b.x)/2,y:(a.y+b.y)/2},t={tx:a.x-b.x,ty:a.y-b.y},l=Math.hypot(t.tx,t.ty);t.tx/=l;t.ty/=l;const an=Math.atan2(t.ty,t.tx)*57.3;
+   o+=`<g transform="translate(${F1(m.x)} ${F1(m.y)}) rotate(${F1(an)})"><rect x="-5" y="${-HW-30}" width="10" height="${TW+60}" fill="rgba(0,0,0,.4)" transform="translate(8 10)"/><rect x="-5" y="${-HW-30}" width="10" height="${TW+60}" fill="#1c1e22" stroke="#c9ced6" stroke-width="1.5"/><rect x="-4" y="${-HW-10}" width="8" height="${TW+20}" fill="url(#chk)"/><circle cy="${-HW-30}" r="7" fill="#d0312d"/><circle cy="${HW+30}" r="7" fill="#d0312d"/></g>`;
+   const sx=a.x-a.nx*(HW+40),sy=a.y-a.ny*(HW+40);o+=sign(clear(sx,sy,10)?sx:a.x+a.nx*(HW+40),clear(sx,sy,10)?sy:a.y+a.ny*(HW+40),'START / MÅL','#f5b829')}
+  /* lighting, grain, frame */
+  o+=`<rect width="${W}" height="${H}" fill="url(#sun)"/><rect width="${W}" height="${H}" fill="url(#vig)"/>`;
+  o+=`<rect x="5" y="5" width="${W-10}" height="${H-10}" rx="22" fill="none" stroke="#0c0d0f" stroke-width="12"/><rect x="14" y="14" width="${W-28}" height="${H-28}" rx="16" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="2"/>`;
+  return `<clipPath id="bclip"><rect width="${W}" height="${H}" rx="26"/></clipPath><g clip-path="url(#bclip)">${o}</g>`}
 
 /* ================= car layer ================= */
-const CEL=[];let chainEl=[];
+const CEL=[];
 function buildCars(){const cs=$('cars');
-  cs.innerHTML=`<defs>${GLOSS}<radialGradient id="shd"><stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient></defs><g id="cl"></g><g id="chl"></g>`;
+  cs.innerHTML=`<defs>${GLOSS}<radialGradient id="shd"><stop offset="0" stop-color="#000" stop-opacity=".6"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="oilg" cx=".4" cy=".4"><stop offset="0" stop-color="#3a3550"/><stop offset=".6" stop-color="#121018"/><stop offset="1" stop-color="#050407"/></radialGradient><radialGradient id="fb"><stop offset="0" stop-color="#fff6c0"/><stop offset=".35" stop-color="#ffb02e"/><stop offset=".7" stop-color="#e2401a"/><stop offset="1" stop-color="#5a1a0a" stop-opacity="0"/></radialGradient></defs><g id="oil"></g><g id="hl"></g><g id="cl"></g><g id="fx"></g>`;
   const cl=cs.querySelector('#cl');
   for(let i=0;i<4;i++){const g=document.createElementNS(NS,'g');cl.appendChild(g);CEL[i]=g}
-  chainEl=[0,1].map(()=>{const t=document.createElementNS(NS,'text');t.setAttribute('text-anchor','middle');t.setAttribute('font-size','24');t.textContent='🔗';t.style.display='none';cs.querySelector('#chl').appendChild(t);return t});
   paintCars()}
 function paintCars(){for(let i=0;i<4;i++){const g=CEL[i],k=S.players[i].car;
-  g.innerHTML=`<ellipse class="sh" rx="34" ry="19" fill="url(#shd)"/><g class="bd"><path class="rk flm" d="M-31 -4L-48 0L-31 4Z" fill="#ffb02e"/><path class="rk flm" d="M-31 -2L-41 0L-31 2Z" fill="#fff3a0"/>
-    <circle class="dbl dring" r="36" fill="none" stroke="#30d07f" stroke-width="3" stroke-dasharray="8 6"/>${carSvg(k)}
-    <rect class="ic" x="-31" y="-16" width="62" height="32" rx="8" fill="rgba(175,228,255,.55)" stroke="#e6f7ff" stroke-width="2"/>
-    <g class="md">${[[-14,-6,5],[4,7,4],[16,-4,3.5],[-4,2,4.5],[-22,8,3]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#5b3a1e" stroke="#3a2412"/>`).join('')}</g>
-    <g class="smk"><circle cx="-14" cy="-14" r="5" fill="#9a9aa4"/><circle cx="-14" cy="-14" r="5" fill="#9a9aa4"/><circle cx="-14" cy="-14" r="5" fill="#9a9aa4"/></g></g>
-    <text class="bg" y="-30" text-anchor="middle" font-size="16"></text>`;
+  g.innerHTML=`<ellipse class="sh" rx="34" ry="19" fill="url(#shd)"/><g class="bd"><path class="rk flm" d="M-31 -5L-52 0L-31 5Z" fill="#ffb02e"/><path class="rk flm" d="M-31 -2.5L-43 0L-31 2.5Z" fill="#fff3a0"/>
+    <circle class="shl" r="38" fill="rgba(120,190,255,.12)" stroke="#8fd0ff" stroke-width="2.5"/>${carSvg(k)}
+    <g class="smk"><circle cx="-14" cy="-6" r="6" fill="#77777f"/><circle cx="-14" cy="-6" r="6" fill="#77777f"/><circle cx="-14" cy="-6" r="6" fill="#77777f"/></g></g>
+    <text class="bg" y="-32" text-anchor="middle" font-size="18"></text>`;
   g._sh=g.querySelector('.sh');g._b=g.querySelector('.bd');g._t=g.querySelector('.bg')}
-  syncMods(S.cars)}
+  syncMods()}
+function syncMods(){for(let i=0;i<4;i++){const g=CEL[i];if(!g||!g._b)continue;const c=S.cars[i],on=i<S.n,sh=(cls,v)=>g.querySelectorAll('.'+cls).forEach(e=>e.style.display=on&&v?'':'none');
+  sh('shl',c.pw==='skjold');sh('rk',Vv[i].fire>0);sh('smk',c.skip||Vv[i].smoke);g._t.textContent=on?(c.skip?'💤':''):''}
+  const og=$('cars')&&$('cars').querySelector('#oil');if(og&&G)og.innerHTML=S.oil.map(id=>{const a=G.np[id];seed=id*97+5;return `<g transform="translate(${F1(a.x)} ${F1(a.y)})"><path d="${sblob(0,0,26,9,.45)}" fill="url(#oilg)" opacity=".92"/><ellipse cx="-6" cy="-6" rx="8" ry="3" fill="rgba(160,140,255,.35)"/></g>`}).join('')}
 
 /* ================= visual state + loop ================= */
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches,SPD=RM?.35:1;
-const Vv=[0,1,2,3].map(()=>({f:0,lat:0,lon:0,tl:0,tn:0,hop:0,sc:1,spin:0,tilt:0,op:1,moving:false,trail:0}));
+const Vv=[0,1,2,3].map(()=>({x:0,y:0,tx:1,ty:0,lat:0,lon:0,hop:0,sc:1,spin:0,op:1,moving:false,fire:0,smoke:0,init:false}));
 const tweens=[];
 const tw=(ms,fn)=>window.GRFAST?(fn(1),Promise.resolve()):new Promise(r=>tweens.push({t0:performance.now(),ms:Math.max(1,ms*SPD),fn,r}));
 const wait=ms=>tw(ms,()=>{});
 let shake=0;
-function layout(){const by={};
-  for(let i=0;i<S.n;i++){const v=Vv[i];if(v.moving){v.tl=0;v.tn=-v.trail*24;continue}const k=Math.round(v.f);(by[k]=by[k]||[]).push(i)}
-  for(const k in by){const Ls=by[k],g=S.chains.find(g=>g.m.some(i=>Ls.includes(i)));
-    if(g)Ls.sort((a,b)=>{const x=g.m.indexOf(a),y=g.m.indexOf(b);return(x<0?9:x)-(y<0?9:y)});
-    const n=Ls.length;Ls.forEach((i,j)=>{let la=0,lo=0;
-      if(n===2){if(g&&g.m.includes(Ls[0])&&g.m.includes(Ls[1]))lo=j?-19:19;else la=j?-18:18}
-      else if(n>2){la=j%2?-18:18;lo=j<2?20:-20}
-      Vv[i].tl=la;Vv[i].tn=lo})}}
+function slots(){const by={},off=[];for(let i=0;i<S.n;i++){if(Vv[i].moving)continue;(by[S.cars[i].pos]=by[S.cars[i].pos]||[]).push(i)}
+  for(const k in by){const L=by[k],n=L.length;L.forEach((i,j)=>{let la=0,lo=0;if(n===2)la=j?-17:17;else if(n>2){la=j%2?-17:17;lo=j<2?16:-16}if(+k===START){la=[-24,-8,8,24][j]*(n>1?1:0);lo=j%2?-12:12;if(n===1)lo=0}off[i]=[la,lo]})}return off}
 function tick(now){requestAnimationFrame(tick);
   for(let i=tweens.length-1;i>=0;i--){const t=tweens[i],k=Math.min(1,(now-t.t0)/t.ms);t.fn(k);if(k>=1){tweens.splice(i,1);t.r()}}
   if(!G||!CEL.length)return;
-  const race=S.phase==='race';if(race)layout();
-  const pos=[];
+  const off=slots();
   for(let i=0;i<4;i++){const el=CEL[i],v=Vv[i];const show=i<S.n;el.style.display=show?'':'none';if(!show)continue;
-    v.lat+=(v.tl-v.lat)*.2;v.lon+=(v.tn-v.lon)*.2;const a=fr(v.f),x=a.x+a.nx*v.lat+a.tx*v.lon,y=a.y+a.ny*v.lat+a.ty*v.lon;pos[i]=[x,y];
-    const ang=Math.atan2(a.ty,a.tx)*57.2958+v.spin*57.2958+v.tilt,s=Math.max(.001,v.sc)*(1+v.hop*.3)*1.22;
-    el.setAttribute('transform',`translate(${F1(x)} ${F1(y)})`);el.style.opacity=v.op;
-    el._b.setAttribute('transform',`rotate(${F1(ang)}) scale(${s.toFixed(3)})`);
-    el._sh.setAttribute('transform',`translate(${F1(3+v.hop*14)} ${F1(5+v.hop*14)}) rotate(${F1(ang)}) scale(${(s*(1-v.hop*.15)).toFixed(3)})`)}
-  for(let i=0;i<4;i++)if(i===S.p&&CEL[i].parentNode.lastChild!==CEL[i]&&Vv[i].moving)CEL[i].parentNode.appendChild(CEL[i]);
-  chainEl.forEach((t,k)=>{const g=race&&S.chains[k];t.style.display=g?'':'none';if(g){let x=0,y=0;g.m.forEach(i=>{x+=pos[i][0];y+=pos[i][1]});t.setAttribute('x',F1(x/g.m.length));t.setAttribute('y',F1(y/g.m.length-26+Math.sin(now/250)*3))}});
-  const bw=$('bw');if(shake>0){shake-=.016;bw.style.transform=`translate(${F1((Math.random()-.5)*shake*24)}px,${F1((Math.random()-.5)*shake*24)}px)`}else if(bw.style.transform)bw.style.transform=''}
-function build(force){const r=$('bw').getBoundingClientRect();if(r.width<10||r.height<10)return;const port=r.height>r.width*1.05;
+    if(!v.moving){const a=G.np[S.cars[i].pos],o=off[i]||[0,0],tx=a.x+a.nx*o[0]+a.tx*o[1],ty=a.y+a.ny*o[0]+a.ty*o[1];
+      if(!v.init){v.x=tx;v.y=ty;v.tx=a.tx;v.ty=a.ty;v.init=true}v.x+=(tx-v.x)*.2;v.y+=(ty-v.y)*.2;v.tx+=(a.tx-v.tx)*.2;v.ty+=(a.ty-v.ty)*.2}
+    const an=Math.atan2(v.ty,v.tx)*57.2958+v.spin*57.2958,s=Math.max(.001,v.sc)*(1+v.hop*.3)*1.3;
+    el.setAttribute('transform',`translate(${F1(v.x)} ${F1(v.y)})`);el.style.opacity=v.op;
+    el._b.setAttribute('transform',`rotate(${F1(an)}) scale(${s.toFixed(3)})`);
+    el._sh.setAttribute('transform',`translate(${F1(3+v.hop*16)} ${F1(5+v.hop*16)}) rotate(${F1(an)}) scale(${(s*(1-v.hop*.15)).toFixed(3)})`)}
+  for(let i=0;i<4;i++)if(Vv[i].moving&&CEL[i].parentNode.lastChild!==CEL[i])CEL[i].parentNode.appendChild(CEL[i]);
+  const bw=$('bw');if(shake>0){shake-=.016;bw.style.transform=`translate(${F1((Math.random()-.5)*shake*26)}px,${F1((Math.random()-.5)*shake*26)}px)`}else if(bw.style.transform)bw.style.transform=''}
+function build(force){const r=$('bw').getBoundingClientRect();if(r.width<10||r.height<10)return;const port=Math.min(r.width/1000,r.height/1600)>Math.min(r.width/1600,r.height/1000);
   if(G&&G.port===port&&!force)return;G=geom(port);const vb=`0 0 ${G.W} ${G.H}`;$('bstatic').setAttribute('viewBox',vb);$('cars').setAttribute('viewBox',vb);
-  $('bstatic').innerHTML=boardSvg();if(!CEL.length)buildCars()}
+  $('bstatic').innerHTML=boardSvg();if(!CEL.length)buildCars();Vv.forEach(v=>v.init=false);syncMods();if(pend&&pend.type==='fork')hlFork(pend.node)}
 new ResizeObserver(()=>build()).observe($('bw'));
+function syncAll(){for(let i=0;i<4;i++){const v=Vv[i];v.moving=false;v.hop=v.spin=0;v.sc=1;v.op=1;v.fire=0;v.smoke=0}syncMods()}
 
-function syncMods(st){for(let i=0;i<4;i++){const g=CEL[i];if(!g||!g._b)continue;const c=st[i],on=i<S.n,sh=(cls,v)=>g.querySelectorAll('.'+cls).forEach(e=>e.style.display=on&&v?'':'none');
-  sh('rk',c.rocket>0);sh('ic',c.ice);sh('md',c.mud);sh('dbl',c.dbl);sh('smk',c.wheel);Vv[i].tilt=c.wheel?9:0;
-  g._t.textContent=on?'⭐'.repeat(c.star)+(c.skip?'💤':''):''}}
-function syncAll(){for(let i=0;i<4;i++){const v=Vv[i];v.f=S.cars[i].pos;v.moving=false;v.hop=v.spin=0;v.sc=1;v.op=1}syncMods(S.cars)}
+/* ================= effects ================= */
+const fxL=()=>$('cars').querySelector('#fx');
+const mk=(html)=>{const g=document.createElementNS(NS,'g');g.innerHTML=html;fxL().appendChild(g);return g};
+const carXY=i=>[Vv[i].x,Vv[i].y];
+function flash(c,ms){const f=$('flash');f.style.background=c||'#fff';f.animate([{opacity:.75},{opacity:0}],{duration:(ms||450)*SPD,easing:'ease-out'})}
+async function fxBoom(x,y,s){sfx.boom();shake=Math.max(shake,.6);const g=mk(`<circle cx="${F1(x)}" cy="${F1(y)}" r="10" fill="url(#fb)"/>`+[0,1,2,3,4,5].map(k=>`<circle cx="${F1(x)}" cy="${F1(y)}" r="8" fill="#5c5d63" opacity=".8"/>`).join(''));
+  const cs=[...g.children],dirs=cs.map(()=>[Math.random()*6.28,20+Math.random()*30]);
+  await tw(900,k=>{cs[0].setAttribute('r',F1((10+k*60)*(s||1)));cs[0].setAttribute('opacity',F1(1-k));cs.slice(1).forEach((c,j)=>{const[a,d]=dirs[j+1];c.setAttribute('cx',F1(x+Math.cos(a)*d*k*1.6));c.setAttribute('cy',F1(y+Math.sin(a)*d*k*1.6));c.setAttribute('r',F1(8+k*22));c.setAttribute('opacity',F1(.8*(1-k)))})});g.remove()}
+async function fxBolt(x,y){sfx.bolt();flash('#eaf2ff',500);shake=Math.max(shake,.5);let d=`M${F1(x+(Math.random()-.5)*120)} ${F1(Math.max(-40,y-520))}`,cx=+d.split(' ')[0].slice(1),cy=y-520;
+  for(let k=1;k<=7;k++){const t=k/7;cx=cx+(x-cx)*t+(k<7?(Math.random()-.5)*60:0);cy=y-520+520*t;d+=`L${F1(k<7?cx:x)} ${F1(k<7?cy:y)}`}
+  const g=mk(`<path d="${d}" stroke="#fff" stroke-width="7" fill="none" filter="url(#glow)"/><path d="${d}" stroke="#bcd6ff" stroke-width="16" fill="none" opacity=".35"/><circle cx="${F1(x)}" cy="${F1(y)}" r="40" fill="#fff" opacity=".5"/>`);
+  await tw(520,k=>g.setAttribute('opacity',F1(k<.3?1:1-(k-.3)/.7)));g.remove()}
+async function fxMissile(i,j){sfx.whoosh();const[a,b]=[carXY(i),carXY(j)],mx=(a[0]+b[0])/2+(b[1]-a[1])*.3,my=(a[1]+b[1])/2-(b[0]-a[0])*.3;
+  const g=mk(`<g><path d="M-14 -5L10 -5L18 0L10 5L-14 5Z" fill="#e5484d" stroke="#111" stroke-width="1.2"/><path d="M-14 -5L-20 -10L-16 0L-20 10L-14 5Z" fill="#333"/><path class="flm" d="M-18 -3L-34 0L-18 3Z" fill="#ffb02e"/></g>`),r=g.firstChild;let last=0;
+  await tw(1000,k=>{const x=(1-k)*(1-k)*a[0]+2*(1-k)*k*mx+k*k*b[0],y=(1-k)*(1-k)*a[1]+2*(1-k)*k*my+k*k*b[1],dx=2*(1-k)*(mx-a[0])+2*k*(b[0]-mx),dy=2*(1-k)*(my-a[1])+2*k*(b[1]-my);
+    r.setAttribute('transform',`translate(${F1(x)} ${F1(y)}) rotate(${F1(Math.atan2(dy,dx)*57.3)}) scale(1.4)`);
+    if(k-last>.06){last=k;const p=document.createElementNS(NS,'circle');p.setAttribute('cx',F1(x));p.setAttribute('cy',F1(y));p.setAttribute('r','6');p.setAttribute('fill','#8a8a92');p.setAttribute('opacity','.6');g.appendChild(p);p.animate([{opacity:.6,r:6},{opacity:0,r:16}],{duration:700,fill:'forwards'})}});
+  g.remove();await fxBoom(b[0],b[1],.8)}
 
 /* ================= banner ================= */
 const bn=$('banner');
-async function banner(ic,t,d,good,ms){bn.className=good?'g':'b';bn.children[0].textContent=ic;bn.children[1].textContent=t;bn.children[2].textContent=d;bn.children[2].style.display=d?'':'none';
+async function banner(ic,t,d,kind,ms){bn.className=(kind||'g')+(ms>2000?' big':'');bn.children[0].textContent=ic;bn.children[1].textContent=t;bn.children[2].textContent=d||'';bn.children[2].style.display=d?'':'none';
   void bn.offsetWidth;bn.classList.add('show');await wait(ms||1700);bn.classList.remove('show')}
 
-/* ================= animations ================= */
-async function play(A){
-  for(const a of A){
-    if(a.t==='move'){const n=a.to-a.from;if(!n){await wait(400);continue}
-      a.ids.forEach((i,k)=>{Vv[i].moving=true;Vv[i].trail=k});const ms=Math.max(160,Math.min(300,1700/n));
-      for(let k=a.from;k<a.to;k++){sfx.step();await tw(ms,x=>a.ids.forEach(i=>{Vv[i].f=k+x;Vv[i].hop=Math.sin(x*Math.PI)*.7}))}
-      a.ids.forEach(i=>{Vv[i].moving=false;Vv[i].hop=0;Vv[i].f=a.to})}
-    else if(a.t==='sync')syncMods(a.st);
-    else if(a.t==='ev'){const e=EV[a.e];(e.g?sfx.good:sfx.bad)();if(!e.g)shake=.3;await banner(e.ic,e.n+'!',e.d+(a.ids.length>1?' Det gælder hele klyngen!':''),e.g)}
-    else if(a.t==='jump'){const ids=a.ids;
-      if(a.style==='slide'){sfx.zap();await tw(900,x=>ids.forEach(i=>Vv[i].f=a.from+(a.to-a.from)*(1-(1-x)*(1-x))))}
-      else if(a.style==='tele'){sfx.zap();await tw(450,x=>ids.forEach(i=>{Vv[i].sc=1-x;Vv[i].spin=x*10;Vv[i].op=1-x}));ids.forEach(i=>Vv[i].f=a.to);await wait(400);sfx.zap();await tw(450,x=>ids.forEach(i=>{Vv[i].sc=x;Vv[i].spin=(1-x)*10;Vv[i].op=x}))}
-      else{await tw(600,x=>ids.forEach(i=>{Vv[i].sc=1-x*.85;Vv[i].spin=x*6;Vv[i].op=1-x*.8}));ids.forEach(i=>Vv[i].f=a.to);await wait(350);await tw(450,x=>ids.forEach(i=>{Vv[i].sc=.15+x*.85;Vv[i].spin=0;Vv[i].op=.2+x*.8;Vv[i].hop=Math.sin(x*Math.PI)*.6}))}
-      ids.forEach(i=>{Vv[i].f=a.to;Vv[i].sc=1;Vv[i].spin=0;Vv[i].op=1;Vv[i].hop=0})}
-    else if(a.t==='crash'){sfx.crash();shake=.55;await banner('💥','Krasj!',a.txt,false,1900)}
-    else if(a.t==='free')await banner('🔓','Fri igen!',a.txt,true,1300);
-    else if(a.t==='skip')await banner('💤','Står over',a.txt,false,1300);
-    else if(a.t==='win'){sfx.win();await wait(700)}
-  }}
+/* ================= movement ================= */
+async function stepTo(i,to,ms,back){const v=Vv[i],from=S.cars[i].pos;v.moving=true;
+  await tw(ms,k=>{const p=poseBetween(from,to,k);v.x=p.x;v.y=p.y;v.tx=p.tx;v.ty=p.ty;v.hop=back?0:Math.sin(k*Math.PI)*.55});
+  S.cars[i].pos=to;v.hop=0}
+async function slideBack(i,n,spin){const c=S.cars[i];let to=backOf(c.pos,n);const path=[];let b=c.pos;while(b!==to&&path.length<20){b=NODES[b].back;if(b===null)break;path.push(b)}
+  Vv[i].moving=true;for(const nd of path){await tw(170,k=>{const p=poseBetween(c.pos,nd,k);Vv[i].x=p.x;Vv[i].y=p.y;Vv[i].tx=p.tx;Vv[i].ty=p.ty;if(spin)Vv[i].spin+=.25});c.pos=nd}
+  await tw(300,k=>{if(spin)Vv[i].spin=Vv[i].spin*(1-k)});Vv[i].spin=0;Vv[i].moving=false}
+async function hit(j,n,why){const c=S.cars[j];if(c.pw==='skjold'){c.pw=null;syncMods();sfx.zap();await banner('🛡️','Skjoldet holdt!',`${rawName(j)} slipper for ${why}.`,'p',1400);log(`${rawName(j)}s skjold tog ${why}.`);return false}
+  await slideBack(j,n,true);syncMods();return true}
+const shown={};
+async function drive(i,steps,free){const c=S.cars[i];let r=steps,moved=0;
+  while(r>0){const nd=NODES[c.pos];if(nd.c==='G')return 'goal';
+    let nx=nd.next[0];if(nd.next.length>1)nx=await chooseFork(i,nd,r);
+    const cost=free?1:NODES[nx].cost;
+    if(r<cost){const t=NODES[nx].c==='s'?'Sandet er for dybt':'Mudderet er for tungt';log(`${rawName(i)}: ${t}, bilen sidder fast.`);await banner(NODES[nx].c==='s'?'🏜️':'🟤',t+'!',`Næste felt koster 2 skridt, og ${rawName(i)} har kun 1 tilbage.`,'b',1400);return 'stuck'}
+    r-=cost;sfx.step();await stepTo(i,nx,cost>1?420:Math.max(150,Math.min(260,1500/Math.max(1,steps))));moved++;
+    if(cost>1){Vv[i].smoke=1;syncMods()}
+    for(let j=0;j<S.n;j++)if(j!==i&&S.cars[j].pos===nx){sfx.bump();shake=Math.max(shake,.3);const ok=await hit(j,1,'skubbet');if(ok){log(`${rawName(i)} skubbede ${rawName(j)} et felt tilbage.`);await banner('💥','Skub!',`${rawName(i)} kører ind i ${rawName(j)}, som ryger et felt tilbage.`,'b',1300)}}
+    const oi=S.oil.indexOf(nx);if(oi>=0){S.oil.splice(oi,1);syncMods();sfx.bad();if(c.pw==='skjold'){c.pw=null;syncMods();await banner('🛡️','Skjoldet holdt!',`${rawName(i)} kører lige igennem oliepletten.`,'p',1300)}
+      else{await tw(800,k=>Vv[i].spin=k*12.56);Vv[i].spin=0;log(`${rawName(i)} snurrede rundt i en olieplet.`);await banner('🛢️','Olieplet!',`${rawName(i)} snurrer rundt og stopper her.`,'b',1500);Vv[i].moving=false;return 'oil'}}
+    if(NODES[nx].c==='b'&&!c.pw){const pw=drawPower(i);c.pw=pw;syncMods();sfx.zap();log(`${rawName(i)} fik en power: ${POW[pw].n}.`);hud(true);await banner(POW[pw].ic,POW[pw].n+'!',POW[pw].d,'p',1700)}
+    if(NODES[nx].c==='G'){Vv[i].moving=false;return 'goal'}}
+  Vv[i].moving=false;Vv[i].smoke=0;syncMods();return moved?'ok':'none'}
+async function land(i,depth){const c=S.cars[i],nd=NODES[c.pos],v=Vv[i];if(nd.c==='G')return;
+  if(nd.ns){const loop=nd.c==='L';sfx.bad();shake=.5;log(`${rawName(i)} ${loop?'faldt ned fra loopet':'faldt ned i kløften'}.`);
+    await banner(loop?'🔄':'🕳️',loop?'Ingen fart nok!':'Ned i kløften!',loop?'Bilen falder ned fra toppen af loopet og lander ved foden.':'Bilen falder ned og bliver hejst op ved gaflen.','b',1700);
+    v.moving=true;await tw(600,k=>{v.sc=1-k*.8;v.spin=k*(loop?3:8);v.op=1-k*.7});c.pos=nd.fall;const p=G.np[nd.fall];v.x=p.x;v.y=p.y;v.tx=p.tx;v.ty=p.ty;await wait(250);
+    await tw(450,k=>{v.sc=.2+k*.8;v.spin=0;v.op=.3+k*.7;v.hop=Math.sin(k*Math.PI)*.5});v.sc=1;v.op=1;v.hop=0;v.moving=false;return}
+  if(nd.c==='f'){sfx.boom();v.fire=1;syncMods();shake=.4;c.skip=1;log(`${rawName(i)} brændte på Vulkanbroen og står over.`);await banner('🔥','Motoren brænder!',`${rawName(i)} stoppede på den brændende bro og står over næste tur.`,'b',1800);v.fire=0;syncMods();return}
+  if(nd.c==='z'){const L=leaders();log(`Tordensky! Lynet ramte ${L.map(rawName).join(' og ')}.`);await banner('⛈️','Tordensky!',L.includes(i)?'Lynet rammer den forreste bil … og det er dig selv!':`Lynet rammer den forreste bil: ${L.map(rawName).join(' og ')}.`,'b',1700);
+    for(const j of L){await fxBolt(Vv[j].x,Vv[j].y);await hit(j,3,'lynet')}return}
+  if(nd.c==='h'){sfx.whoosh();log(`${rawName(i)} blev suget ind i det sorte hul.`);await banner('🌑','Sort hul!',`${rawName(i)} bliver suget 4 felter tilbage.`,'b',1500);await tw(500,k=>v.spin=k*6);await slideBack(i,4,true);return}
+  if(nd.c==='>'&&depth<3){sfx.rev();v.fire=1;syncMods();await banner('⏩','Fartbånd!','Bilen skyder 3 felter frem.','g',1100);const r=await drive(i,3,true);v.fire=0;syncMods();if(r==='ok')await land(i,depth+1);return}
+  if(nd.c==='i'&&depth<3){log(`${rawName(i)} gled på isen.`);await banner('🧊','Glat is!','Bilen glider 2 felter videre.','b',1100);const r=await drive(i,2,true);if(r==='ok'&&NODES[c.pos].c!=='i')await land(i,depth+1);return}}
 
-/* ================= rules engine ================= */
-function fieldEvent(at,ids,A){const f=FIELDS[at],e=f.ev;if(!e||e==='exit')return;
-  ids.forEach(i=>{const c=S.cars[i];if(e==='star')c.star=Math.min(3,c.star+1);else if(e==='rocket')c.rocket=2;else if(e==='dbl')c.dbl=1;else if(e==='wheel')c.wheel=1;else if(e==='mud')c.mud=1;else if(e==='ice')c.ice=1;else if(e==='warn')c.skip=1});
-  A.push({t:'ev',e,ids:ids.slice()},{t:'sync',st:clone(S.cars)});log(`${names(ids)}: ${EV[e].n} på felt ${at}.`);
-  let dest=null;if(e==='tele')dest=f.dest;else if(e==='slide')dest=Math.min(N-1,at+3);else if(e==='hole')dest=f.cp;
-  if(dest!==null){ids.forEach(i=>S.cars[i].pos=dest);A.push({t:'jump',ids:ids.slice(),from:at,to:dest,style:e})}
-  return EV[e]}
-function advance(A){for(let k=0;k<12;k++){S.p=(S.p+1)%S.n;const c=S.cars[S.p];if(!c.skip)return;
-  c.skip--;log(`${rawName(S.p)} står over.`);A.push({t:'sync',st:clone(S.cars)},{t:'skip',txt:`${rawName(S.p)} står over denne tur.`});
-  const g=grp(S.p);if(g&&g.br===S.p){dropGrp(g);A.push({t:'free',txt:`${names(g.m)} hænger ikke sammen længere.`})}}}
-async function roll(v){
-  if(busy||S.win!==null||S.phase!=='race')return;snap();
-  const p=S.p,c=S.cars[p];
-  if(c.rocket>0&&S.d1===null){S.d1=v;save();hud();return}
-  const two=S.d1!==null,base=two?S.d1+v:v;S.d1=null;
-  let steps=base;const why=[];
-  if(c.ice&&base<3){steps=0;why.push('hjulene spinner på isen')}
-  if(steps>0){if(c.mud){steps=1;why.push('mudder')}else{if(c.dbl){steps*=2;why.push('dobbelt fart')}if(c.star){steps+=c.star;why.push('+'+c.star+' stjerne')}if(c.wheel){steps=Math.max(0,steps-2);why.push('hjul af −2')}}}
-  c.ice=c.mud=c.dbl=c.wheel=0;if(two)c.rocket--;
-  const A=[],g=grp(p),ids=g?g.m.slice():[p],from=c.pos,to=Math.min(N,from+steps);
-  ids.forEach(i=>S.cars[i].pos=to);
-  const rolled=two?`${base} (to terninger)`:String(base);
-  S.last=`${rawName(p)} slog ${rolled} og ${to-from?`rykkede ${to-from} felt${to-from===1?'':'er'}`:'blev stående'}${why.length?' ('+why.join(', ')+')':''}.`;log(S.last);
-  A.push({t:'move',ids,from,to},{t:'sync',st:clone(S.cars)});
-  if(to>=N){S.win=ids[0];log(`${rawName(S.win)} vinder løbet!`);A.push({t:'win'})}
-  else{
-    if(to>from){const e=fieldEvent(to,ids,A);if(e)S.last+=` ${e.ic} ${e.n}!`}
-    if(g&&g.br===p){dropGrp(g);A.push({t:'free',txt:`${names(g.m)} hænger ikke sammen længere.`})}
-    const f=S.cars[p].pos,others=[];for(let j=0;j<S.n;j++)if(!ids.includes(j)&&S.cars[j].pos===f)others.push(j);
-    if(f>0&&others.length){const m=[];others.forEach(j=>{const og=grp(j);if(og){og.m.forEach(k=>m.includes(k)||m.push(k));dropGrp(og)}else if(!m.includes(j))m.push(j)});
-      const mg=grp(p);if(mg)dropGrp(mg);const front=m.slice();ids.forEach(k=>m.includes(k)||m.push(k));S.chains.push({m,br:p});
-      const txt=`${names(ids)} hænger fast bag ${names(front)}. De følges ad i én runde og deler alt!`;log(`Krasj på felt ${f}: ${txt}`);S.last+=' 💥 Krasj!';A.push({t:'crash',txt})}
-    advance(A)}
-  save();busy=true;padLock(S.last);
-  await play(A);busy=false;syncAll();hud()}
+/* ================= powers ================= */
+function drawPower(i){const pl=place(i),last=pl===S.n&&S.n>1,first=pl===1;
+  const w=first?{olie:3,skjold:3,missil:1,raket:1,lyn:0}:last?{raket:3,lyn:2,missil:2,skjold:1,olie:0}:{missil:3,raket:2,olie:1,skjold:1,lyn:1};
+  let t=Math.random()*Object.values(w).reduce((a,b)=>a+b,0);for(const k in w){t-=w[k];if(t<=0)return k}return 'raket'}
+function missileTarget(i){const me=dist(i),o=ids().filter(j=>j!==i);const ahead=o.filter(j=>dist(j)<me).sort((a,b)=>dist(b)-dist(a));if(ahead.length)return ahead[0];
+  const beh=o.filter(j=>dist(j)>=me).sort((a,b)=>dist(a)-dist(b));return beh[0]}
+async function usePower(){if(busy||S.win!==null||S.t.ph!=='roll')return;const i=S.p,c=S.cars[i],pw=c.pw;if(!pw||pw==='skjold')return;
+  snap();busy=true;c.pw=null;syncMods();padLock(`${rawName(i)} bruger ${POW[pw].n}!`);
+  if(pw==='raket'){S.t.plus=(S.t.plus||0)+4;sfx.rev();Vv[i].fire=1;syncMods();await banner('🚀','Raket klar!','+4 felter på dit slag.','p',1300);log(`${rawName(i)} tændte raketten: +4 på slaget.`)}
+  else if(pw==='missil'){const j=missileTarget(i);if(j===undefined){await banner('🎯','Ingen at ramme','Missilet fløj ud i rummet.','p',1200)}else{log(`${rawName(i)}s jagermissil ramte ${rawName(j)}.`);await banner('🎯','Jagermissil!',`Missilet finder selv bilen lige foran: ${rawName(j)}.`,'p',1300);await fxMissile(i,j);await hit(j,3,'missilet')}}
+  else if(pw==='lyn'){log(`${rawName(i)} sendte en lynstorm.`);await banner('⚡','Lynstorm!','Alle de andre biler ryger 2 felter tilbage.','p',1300);for(const j of ids()){if(j===i)continue;await fxBolt(Vv[j].x,Vv[j].y);await hit(j,2,'lynet')}}
+  else if(pw==='olie'){const b=NODES[c.pos].back;if(b===null||b===START){await banner('🛢️','Ingen plads','Der er ikke noget felt bag dig. Oliepletten er spildt.','p',1200)}else{S.oil.push(b);syncMods();sfx.bad();log(`${rawName(i)} hældte olie ud bag sig.`);await banner('🛢️','Olieplet!','Den ligger bag dig og venter på den næste bil.','p',1300)}}
+  save();busy=false;syncMods();hud()}
+
+/* ================= turn flow ================= */
+function bonus(i){return (S.t.plus||0)+(isLast(i)?1:0)}
+function chooseFork(i,node,r){return new Promise(res=>{pend={type:'fork',node:node.id,i,r,res:v=>{pend=null;hlFork(null);hud();res(v)}};hlFork(node.id);hud(true)})}
+function hlFork(id){const g=$('cars').querySelector('#hl');if(!g)return;if(id===null){g.innerHTML='';return}
+  g.innerHTML=NODES[id].next.map(n=>{const pa=PATHS[NODES[n].pi],P=G.P[NODES[n].pi],gv=pa.alt==='Genvej',c=gv?'#ff6a3a':'#4aa3ff';let pts=[];for(let s=0;s<Math.min(P.L,2.2*P.FL);s+=8){const a=atP(P,s);pts.push(F1(a.x)+','+F1(a.y))}
+    const a=atP(P,1.1*P.FL);return `<polyline class="hla" points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="${TW+10}" stroke-opacity=".45" stroke-linecap="round"/><g transform="translate(${F1(a.x)} ${F1(a.y)})"><rect x="-44" y="-15" width="88" height="30" rx="7" fill="${c}" stroke="#fff" stroke-width="2"/><text y="1" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="800" font-style="italic" font-size="20" fill="#fff">${pa.alt.toUpperCase()}</text></g>`}).join('')}
+async function advance(){for(let k=0;k<8;k++){S.p=(S.p+1)%S.n;const c=S.cars[S.p];if(!c.skip)return;c.skip--;syncMods();log(`${rawName(S.p)} står over.`);await banner('💤','Står over',`${rawName(S.p)} står over denne tur.`,'b',1300)}}
+async function go(steps,why){const i=S.p;busy=true;padLock(`${rawName(i)} kører ${steps} skridt${why?' ('+why+')':''}.`);S.last=`${rawName(i)} kørte ${steps} skridt${why?' ('+why+')':''}.`;log(S.last);
+  Vv[i].fire=S.t.plus?1:Vv[i].fire;syncMods();
+  const r=await drive(i,steps,false);Vv[i].fire=0;syncMods();
+  if(r!=='goal'&&r!=='oil'&&r!=='stuck'&&r!=='none')await land(i,0);
+  await endTurn()}
+async function endTurn(){const w=ids().find(j=>S.cars[j].pos===GOAL);
+  if(w!==undefined){S.win=w;log(`${rawName(w)} vinder løbet!`);sfx.win();await banner('🏁','I mål!',`${rawName(w)} kører over målstregen først!`,'g',2200)}
+  else await advance();
+  S.t={ph:'roll'};save();busy=false;syncAll();hud()}
+async function roll(v){if(busy||S.win!==null||S.phase!=='race')return;const t=S.t,i=S.p;
+  if(t.ph==='roll'){snap();t.d1=v;t.ph='decide';save();sfx.step();hud();return}
+  if(t.ph==='turbo'){beat(false);t.d2=v;const base=t.d1+bonus(i);busy=true;
+    if(v<=3){padLock(`Turbo: ${v} … ÅH NEJ!`);log(`${rawName(i)} prøvede turbo og slog ${v}: motoren sprang.`);S.last=`${rawName(i)} prøvede turbo, slog ${v}, og motoren sprang. Ingen felter denne tur.`;
+      Vv[i].smoke=1;syncMods();await fxBoom(Vv[i].x,Vv[i].y,1.1);flash('#ff7a3a',500);await banner('💥','Motoren sprang!',`Turbo-slaget var ${v}. ${rawName(i)} kører ingen felter denne tur.`,'b',2300);Vv[i].smoke=0;await endTurn();return}
+    padLock(`Turbo: ${v}!`);sfx.rev();flash('#ffb02e',350);await banner('🔥','TURBO!',`${t.d1} + ${v}${bonus(i)?' + '+bonus(i):''} = ${base+v} skridt!`,'g',1300);await go(base+v,'turbo');return}}
+function act(a){if(pend&&pend.type==='fork'){if(a==='f0'||a==='f1')pend.res(NODES[pend.node].next[+a[1]]);return}
+  if(busy||S.win!==null)return;const t=S.t,i=S.p;
+  if(t.ph==='decide'&&a==='kor'){const b=bonus(i);go(t.d1+b,b?bonusTxt(i):'')}
+  else if(t.ph==='decide'&&a==='turbo'){t.ph='turbo';save();sfx.rev();beat(true);hud()}
+  else if(a==='pw')usePower()}
+const bonusTxt=i=>[S.t.plus?'🚀 +'+S.t.plus:'',isLast(i)?'bagerst +1':''].filter(Boolean).join(', ');
 
 /* ================= HUD ================= */
 const PIPS={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
 const dieSvg=v=>`<svg viewBox="0 0 60 60" aria-hidden="true"><defs><linearGradient id="dg${v}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9dde3"/></linearGradient></defs><rect x="3" y="3" width="54" height="54" rx="11" fill="url(#dg${v})" stroke="#9aa1ab" stroke-width="1.5"/>${PIPS[v].map(k=>`<circle cx="${16+(k%3)*14}" cy="${16+Math.floor(k/3)*14}" r="5" fill="#16181b"/>`).join('')}</svg>`;
-$('keys').innerHTML=[1,2,3,4,5,6].map(v=>`<button class="key" data-v="${v}" aria-label="Terningen viste ${v}">${dieSvg(v)}</button>`).join('');
-function modChips(c,i){const o=[];if(c.star)o.push(['⭐ +'+c.star,1]);if(c.rocket)o.push([`🚀 2 terninger (${c.rocket} tur${c.rocket>1?'e':''})`,1]);if(c.dbl)o.push(['⚡ ×2',1]);
-  if(c.wheel)o.push(['🛞 −2',0]);if(c.mud)o.push(['🟤 kun 1 felt',0]);if(c.ice)o.push(['❄️ slå 3+',0]);if(c.skip)o.push(['💤 står over',0]);if(grp(i))o.push(['🔗 hænger fast',0]);
-  return o.map(([t,g])=>`<span class="mod${g?'':' b'}">${t}</span>`).join('')}
-function padLock(t){$('last').textContent='';$('msg').textContent=t;$('hint').textContent='';document.querySelectorAll('.key').forEach(b=>b.disabled=true);$('bUndo').disabled=true}
-function hud(){
+$('keys').innerHTML=[1,2,3,4,5,6].map(v=>`<button class="key${v<=3?' lo':''}" data-v="${v}" aria-label="Terningen viste ${v}">${dieSvg(v)}</button>`).join('');
+function modChips(c,i){const o=[];if(c.pw)o.push([POW[c.pw].ic+' '+POW[c.pw].n,'p']);if(c.skip)o.push(['💤 står over','b']);if(isLast(i))o.push(['🔼 bagerst: +1','']);
+  return o.map(([t,k])=>`<span class="mod${k?' '+k:''}">${t}</span>`).join('')}
+function padLock(t){$('last').textContent='';$('msg').textContent=t;$('hint').textContent='';$('keys').hidden=true;$('acts').innerHTML='';$('bUndo').disabled=true}
+function hud(keepPad){
   const race=S.phase==='race';$('setup').classList.toggle('show',!race);$('pad').hidden=!race;$('pl').hidden=!race;
   ['bUndo','bNew'].forEach(id=>$(id).style.display=race?'':'none');
   requestAnimationFrame(()=>build());
-  if(CEL.length)syncMods(S.cars);
+  if(CEL.length)syncMods();
   if(!race){setupUI();return}
-  $('pl').innerHTML=Array.from({length:S.n},(_,i)=>{const c=S.cars[i];return `<div class="pc${i===S.p&&S.win===null?' on':''}" style="--c:${col(i)}"><img src="${AV[S.players[i].car]}" alt=""><b>${nm(i)}</b><small>Felt ${c.pos} af ${N} · ${BIO[FIELDS[c.pos].b].n}</small><div class="pbar"><i style="width:${c.pos/N*100}%"></i></div><div class="mods">${modChips(c,i)}</div></div>`}).join('');
-  const p=S.p,c=S.cars[p],pad=$('pad');pad.style.setProperty('--c',col(p));
-  $('last').textContent=S.last;
-  $('msg').innerHTML=S.win!==null?`<b>${nm(S.win)}</b> har vundet!`:S.d1!==null?`<b>${nm(p)}</b>: første terning var ${S.d1}. Tast den anden terning.`:c.rocket>0?`<b>${nm(p)}</b>: slå 2 terninger, og tast den første.`:`<b>${nm(p)}</b>: slå terningen, og tast slaget.`;
-  const h=[];if(c.ice)h.push('❄️ under 3 = du bliver stående');if(c.mud)h.push('🟤 du rykker kun 1 felt');else{if(c.dbl)h.push('⚡ slaget tæller dobbelt');if(c.star)h.push('⭐ +'+c.star);if(c.wheel)h.push('🛞 −2')}
-  const g=grp(p);if(g)h.push('🔗 hele klyngen rykker med');
-  $('hint').textContent=S.win!==null?'':h.join(' · ');
-  document.querySelectorAll('.key').forEach(b=>b.disabled=S.win!==null);
-  $('bUndo').disabled=!hist.length;
+  $('pl').innerHTML=ids().map(i=>{const c=S.cars[i],pl=place(i),d=NODES[c.pos].d;return `<div class="pc${i===S.p&&S.win===null?' on':''}" style="--c:${col(i)}"><img src="${AV[S.players[i].car]}" alt=""><b>${nm(i)}</b><span class="plc${pl===1?' p1':''}">${pl}.</span><small>${d?d+' felter til mål':'I mål'}<span class="ar"> · ${PATHS[NODES[c.pos].pi].nm}</span></small><div class="pbar"><i style="width:${(1-d/TOTAL)*100}%"></i></div><div class="mods">${modChips(c,i)}</div></div>`}).join('');
   $('log').innerHTML=S.log.map(t=>`<li>${esc(t)}</li>`).join('')||'<li>Ingen træk endnu.</li>';
   const w=$('win');if(S.win!==null){$('wtxt').innerHTML=`<span style="color:${col(S.win)}">${nm(S.win)}</span> vinder!`;
-    const ord=Array.from({length:S.n},(_,i)=>i).sort((a,b)=>(b===S.win)-(a===S.win)||S.cars[b].pos-S.cars[a].pos);
-    $('stand').innerHTML=ord.map((i,k)=>`<li><span>${k+1}.</span><img src="${AV[S.players[i].car]}" alt=""><span>${nm(i)}</span><span style="margin-left:auto;color:var(--soft)">felt ${S.cars[i].pos}</span></li>`).join('');
-    if(!w.classList.contains('show')){w.classList.add('show');confetti()}}else w.classList.remove('show')}
+    const ord=ids().sort((a,b)=>(b===S.win)-(a===S.win)||dist(a)-dist(b));
+    $('stand').innerHTML=ord.map((i,k)=>`<li><span>${k+1}.</span><img src="${AV[S.players[i].car]}" alt=""><span>${nm(i)}</span><span style="margin-left:auto;color:var(--soft)">${dist(i)?dist(i)+' felter fra mål':'I mål'}</span></li>`).join('');
+    if(!w.classList.contains('show')){w.classList.add('show');confetti()}}else w.classList.remove('show');
+  if(busy&&!(pend&&pend.type==='fork'))return;
+  const p=S.p,c=S.cars[p],t=S.t,pad=$('pad'),keys=$('keys'),acts=$('acts');pad.style.setProperty('--c',col(p));
+  $('last').textContent=S.last;keys.classList.toggle('tb',t.ph==='turbo');
+  let msg='',hint='',a='',showKeys=false;const b=bonus(p);
+  if(pend&&pend.type==='fork'){const nx=NODES[pend.node].next.map(n=>PATHS[NODES[n].pi]);msg=`<b>${nm(pend.i)}</b> er ved en gaffel med ${pend.r} skridt tilbage. Hvilken vej?`;
+    a=nx.map((pa,k)=>`<button class="act ${pa.alt==='Genvej'?'gv':'om'}" data-a="f${k}">${pa.alt}: ${pa.nm}<small>${pa.tip}</small></button>`).join('')}
+  else if(S.win!==null)msg=`<b>${nm(S.win)}</b> har vundet!`;
+  else if(t.ph==='roll'){showKeys=true;msg=`<b>${nm(p)}</b>: slå terningen, og tast slaget.`;hint=bonusTxt(p);
+    if(c.pw&&c.pw!=='skjold')a=`<button class="act pw" data-a="pw">Brug ${POW[c.pw].ic} ${POW[c.pw].n}<small>${POW[c.pw].d}</small></button>`;else if(c.pw==='skjold')hint=(hint?hint+' · ':'')+'🛡️ skjoldet beskytter dig';}
+  else if(t.ph==='decide'){msg=`<b>${nm(p)}</b> slog ${t.d1}. Kør, eller tør du turbo?`;hint=b?bonusTxt(p):'';
+    a=`<button class="act go" data-a="kor">Kør ${t.d1+b} skridt<small>Sikkert</small></button><button class="act tb" data-a="turbo">🔥 TURBO<small>Slå igen: 4-5-6 lægges til<br>1-2-3: motoren springer</small></button>`}
+  else if(t.ph==='turbo'){showKeys=true;msg=`<b>${nm(p)}</b>: TURBO! Slå igen, og tast slaget.`;hint=`Du har ${t.d1+b}. Grøn = lægges til · Rød = motoren springer`}
+  $('msg').innerHTML=msg;$('hint').textContent=hint;keys.hidden=!showKeys;acts.innerHTML=a;
+  document.querySelectorAll('.key').forEach(k=>k.disabled=!showKeys);
+  $('bUndo').disabled=!hist.length||!!pend}
 function confetti(){if(RM)return;const em=['🏁','🏆','✨','🎉'];for(let i=0;i<30;i++){const s=document.createElement('span');s.className='conf';s.textContent=em[i%4];s.style.left=Math.random()*100+'vw';s.style.animationDuration=2+Math.random()*2.5+'s';s.style.animationDelay=Math.random()*1.2+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),6000)}}
 function setupUI(){
   document.querySelectorAll('#seg button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===S.n));
   $('srows').innerHTML=Array.from({length:S.n},(_,i)=>{const pc=S.players[i].car;return `<div class="srow" style="--c:${CARS[pc].col}"><input data-i="${i}" maxlength="14" value="${esc(S.players[i].name)}" placeholder="${CARS[pc].def}" aria-label="Navn på spiller ${i+1}">
    <div class="pick">${CARS.map((c,k)=>`<button data-i="${i}" data-k="${k}" style="--k:${c.col}" aria-pressed="${k===pc}" aria-label="${c.n}" title="${c.n}"><img src="${AV[k]}" alt=""></button>`).join('')}</div></div>`}).join('')}
-function startRace(){hist=[];const pl=S.players,n=S.n;S=fresh(pl,n);S.phase='race';S.last='Løbet er i gang!';save();if(CEL.length)paintCars();syncAll();hud()}
-function undo(){if(busy||!hist.length)return;S=JSON.parse(hist.pop());save();syncAll();hud()}
+function startRace(){hist=[];beat(false);const pl=S.players,n=S.n;S=fresh(pl,n);S.phase='race';S.last='Løbet er i gang!';save();if(CEL.length)paintCars();syncAll();hud()}
+function undo(){if(busy||pend||!hist.length)return;beat(false);S=JSON.parse(hist.pop());save();syncAll();hud()}
 $('keys').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)roll(+b.dataset.v)});
-addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey)return;if(S.phase==='race'&&e.key>='1'&&e.key<='6')roll(+e.key)});
+$('acts').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b)act(b.dataset.a)});
+addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||S.phase!=='race')return;if(e.key>='1'&&e.key<='6')roll(+e.key);else if(e.key==='Enter')act('kor');else if(e.key==='t')act('turbo')});
 $('seg').addEventListener('click',e=>{const b=e.target.closest('[data-n]');if(!b)return;S.n=+b.dataset.n;save();hud()});
 $('srows').addEventListener('input',e=>{const i=e.target.dataset.i;if(i!==undefined){S.players[i].name=e.target.value;save()}});
 $('srows').addEventListener('click',e=>{const b=e.target.closest('button[data-k]');if(!b)return;const i=+b.dataset.i,k=+b.dataset.k,o=S.players.findIndex(p=>p.car===k);if(o===i)return;S.players[o].car=S.players[i].car;S.players[i].car=k;save();if(CEL.length)paintCars();hud()});
@@ -518,14 +701,20 @@ $('go').onclick=startRace;
 $('bUndo').onclick=undo;$('wundo').onclick=undo;
 $('again').onclick=startRace;
 $('wsetup').onclick=()=>{S.phase='setup';S.win=null;save();hud();$('win').classList.remove('show')};
-$('bNew').onclick=()=>{if(busy)return;if(S.win===null&&S.cars.some(c=>c.pos>0)&&!confirm('Vil du stoppe løbet og starte et nyt?'))return;S.phase='setup';S.win=null;save();hud()};
-$('bSnd').onclick=()=>{mute=!mute;$('bSnd').setAttribute('aria-pressed',!mute)};
+$('bNew').onclick=()=>{if(busy)return;if(S.win===null&&S.cars.some(c=>c.pos!==START)&&!confirm('Vil du stoppe løbet og starte et nyt?'))return;beat(false);S.phase='setup';S.win=null;save();hud()};
+$('bSnd').onclick=()=>{mute=!mute;$('bSnd').setAttribute('aria-pressed',!mute);if(mute)beat(false)};
 $('bRules').onclick=()=>$('rules').classList.add('show');$('rclose').onclick=()=>$('rules').classList.remove('show');
-$('rtxt').innerHTML=`<ul><li>Slå med en rigtig terning, og tryk på det, den viste. Bilen kører selv.</li><li>Første bil på <b>MÅL</b> (felt ${N}) vinder. Man behøver ikke slå præcist.</li><li>Guldfelter er gode, røde felter er dårlige. Mærket ved siden af banen viser, hvad der sker. De lilla pile viser, hvor en teleport fører hen.</li></ul>
-<h3>Felter</h3><ul class="ev">${Object.values(EV).map(e=>`<li class="${e.g?'':'b'}"><b>${e.ic} ${e.n}</b><br>${e.d}</li>`).join('')}</ul>
-<h3>Krasj</h3><ul><li>Lander du på et felt, hvor der allerede står en bil, hænger I fast i hinanden.</li><li>Så længe I hænger sammen, rykker alle biler i klyngen med, hver gang en af jer slår, og I deler alle felter, I lander på.</li><li>I slipper fri igen, når den, der kørte ind i de andre, har haft sin næste tur.</li><li>Kører I i mål sammen, vinder den forreste bil (den, der stod der først).</li></ul>`;
+const cls={g:'',b:'b',p:'p',n:'n'};
+$('rtxt').innerHTML=`<ul><li>Én omgang rundt om banen. Første bil over <b>START / MÅL</b> vinder. Man behøver ikke slå præcist.</li><li>Slå med en rigtig terning, og tryk på det, den viste. Bilen kører selv.</li></ul>
+<h3>Turbo</h3><ul><li>Når du har slået, vælger du: <b>Kør</b>, eller <b>Turbo</b> og slå én gang til.</li><li>Viser turbo-slaget 4, 5 eller 6, lægges det til. Viser det 1, 2 eller 3, springer motoren, og du kører ingen felter den tur.</li><li>Godt tip: turbo kan betale sig, når første slag er lavt.</li></ul>
+<h3>Gafler</h3><ul><li>Tre steder deler banen sig. Når bilen kommer til en gaffel, vælger du <b>Genvej</b> (kort, men farlig) eller <b>Omvej</b> (længere, men med power-kasser og fartbånd).</li></ul>
+<h3>Felter og underlag</h3><ul class="ev">${Object.values(FT).map(e=>`<li class="${cls[e.k]}"><b>${e.ic} ${e.n}</b><br>${e.d}</li>`).join('')}</ul>
+<h3>Powers</h3><ul class="ev">${Object.values(POW).map(e=>`<li class="p"><b>${e.ic} ${e.n}</b><br>${e.d}</li>`).join('')}</ul>
+<ul><li>Du kan have én power ad gangen. Du bestemmer selv, hvornår du bruger den, men aldrig hvem den rammer. Det klarer spillet.</li><li>Bilerne bagerst får oftere de stærke powers.</li></ul>
+<h3>Biler, der mødes</h3><ul><li>Kører du ind i en anden bil, skubber du den et felt tilbage.</li><li>Den bil, der ligger sidst, får +1 på hvert slag, så ingen falder helt af.</li></ul>`;
 syncAll();hud();build();requestAnimationFrame(tick);
-window.GR={get S(){return S},FIELDS,BIO,roll,sync(){syncAll();hud()},build};
+if(S.t&&S.t.ph==='turbo')beat(true);
+window.GR={get S(){return S},NODES,PATHS,roll,act,usePower,sync(){syncAll();hud()},build,get pend(){return pend},get busy(){return busy}};
 }
 </script>
 </body>

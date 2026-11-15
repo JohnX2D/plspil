@@ -20,16 +20,18 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 
 ## Galaxy Raceway
 
-Et racerbrætspil i sin egen fil, `galaxy.html`, med link fra spilmenuen i `index.html`. Hele banen ses oppefra som et trykt spillebræt.
+Et racerbrætspil i sin egen fil, `galaxy.html`, med link fra spilmenuen i `index.html`. Hele banen ses oppefra som et trykt spillebræt: én omgang rundt, hvor start og mål ligger samme sted.
 
 - 2–4 spillere vælger hver sin bil: Hajen, Svæveren, Jungletrucken eller Diskobilen
 - Slå med en rigtig terning og tast slaget ind. Bilen kører selv felt for felt
-- Én bane på 60 felter gennem Neonbyen, Ørkenen, Lavaland, Isbjerget, Junglen, Glastunnelen og Rummet
-- Gode felter: stjerne-boost (+1 resten af løbet), raket (2 terninger i 2 ture), dobbelt fart, teleport, ned ad bakke
-- Dårlige felter: hjul af (−2), mudder (kun 1 felt), glat is (slå mindst 3), hul (tilbage til områdets start), advarsel (stå over)
-- Krasj: lander man på en anden bil, hænger bilerne sammen i én runde, rykker sammen og deler alle felter
+- **Turbo:** efter slaget kan man slå igen. 4–6 lægges til, 1–3 får motoren til at springe, og man kører ingen felter
+- **Gafler:** tre steder vælger man mellem en kort, farlig genvej og en længere omvej med power-kasser og fartbånd
+- **Underlag:** sand og mudder koster 2 skridt pr. felt, og på is glider bilen 2 felter videre
+- **Farer:** toppen af loopet og luften over kløften (stopper man der, falder man ned), den brændende bro (stå over), tordensky (lynet rammer den forreste) og sort hul (4 felter tilbage)
+- **Powers fra kasserne:** raket, jagermissil, lynstorm, olieplet og skjold. Man vælger selv hvornår, men aldrig hvem der rammes
+- Kører man ind i en anden bil, ryger den 1 felt tilbage. Den bagerste bil får +1 på hvert slag
 - Fortryd, lyd og automatisk gemt løb
-- Brættet vender sig selv på højkant på telefon
+- Brættet vender sig selv på højkant, når det passer bedst til skærmen
 
 ## Brug
 
