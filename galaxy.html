@@ -42,6 +42,13 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 #bw{grid-area:board;position:relative;min-height:0;min-width:0}
 #bw svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 #cars{pointer-events:none;overflow:visible}
+#bstatic{cursor:crosshair;touch-action:manipulation}
+#bZoom.on{background:var(--gold);border-color:var(--gold);color:#121417}
+#boardtip{position:absolute;z-index:3;left:8px;bottom:8px;max-width:min(310px,75%);background:rgba(15,18,23,.96);border:2px solid #aeb8c5;border-left:5px solid var(--gold);border-radius:12px;padding:9px 38px 9px 12px;box-shadow:0 8px 20px #0009;font-size:13px;line-height:1.35}
+#boardtip[hidden]{display:none}#boardtip strong{display:block;color:#ffe09a;font-size:16px}#boardtip button{position:absolute;right:5px;top:4px;width:32px;height:32px;background:transparent;border:0;color:white;font-size:22px}
+#boardhint{position:absolute;right:10px;bottom:8px;color:white;background:#111a;padding:4px 9px;border-radius:8px;font-size:12px;font-weight:700;pointer-events:none}
+#digital{justify-self:center;background:#292f39;border:1px solid #596373;border-radius:9px;padding:6px 12px;color:#fff;font-weight:700;min-height:36px;font-size:13px}#digital[hidden]{display:none}
+
 #pad{grid-area:pad;justify-self:center;width:min(100%,620px);background:var(--panel);border:2px solid var(--line);border-top:4px solid var(--c,var(--line));border-radius:14px;padding:6px 8px 8px;display:grid;gap:5px}
 #app.side #pad{width:100%;align-self:start}
 #app.side .keys{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -132,12 +139,13 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   <div id="top">
     <a class="ib" href="index.html" title="Tilbage til LDA Spil" aria-label="Tilbage til LDA Spil">←</a>
     <button class="ib" id="bUndo" title="Fortryd" aria-label="Fortryd">↶</button>
+    <button class="ib" id="bZoom" title="Følg aktiv bil" aria-label="Zoom ind på aktiv bil" aria-pressed="false">🔍</button>
     <button class="ib" id="bMenu" title="Menu" aria-label="Menu" aria-expanded="false">☰</button>
     <div id="menu"><button id="bRules">📖 Regler og log</button><button id="bSnd" aria-pressed="true">🔊 Lyd: til</button><button id="bNew">🏁 Nyt løb</button></div>
   </div>
   <div id="pl"></div>
-  <div id="bw"><svg id="bstatic" role="img" aria-label="Spillebrættet set oppefra"></svg><svg id="cars" aria-hidden="true"></svg></div>
-  <div id="pad"><div id="last" hidden></div><div id="msg"></div><div id="hint"></div><div class="keys" id="keys"></div><div id="acts"></div></div>
+  <div id="bw"><svg id="bstatic" role="img" aria-label="Spillebrættet set oppefra"></svg><svg id="cars" aria-hidden="true"></svg><div id="boardhint">Tryk på et felt for at se, hvad det gør</div><div id="boardtip" role="status" hidden><button id="closeTip" aria-label="Luk feltbeskrivelse">×</button><strong id="tipTitle"></strong><span id="tipBody"></span></div></div>
+  <div id="pad"><div id="last" hidden></div><div id="msg"></div><div id="hint"></div><div class="keys" id="keys"></div><button id="digital" type="button">🎲 Slå digitalt</button><div id="acts"></div></div>
 </div>
 <div id="flash"></div>
 <div id="bcatch"></div>
@@ -154,7 +162,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   <div id="rtxt"></div>
   <h3>Seneste træk</h3><ul id="log"></ul>
   <div class="acts"><button class="cta" id="rclose">Luk</button></div>
-  <div class="ver">Galaxy Raceway · version 15.0</div>
+  <div class="ver">Galaxy Raceway · version 16.0</div>
 </div></div>
 <div class="ov" id="win"><div class="box" style="text-align:center">
   <div style="font-size:64px;line-height:1">🏆</div>
@@ -470,7 +478,7 @@ function boardSvg(){
         if(c==='S'||c==='G'){r+=fieldQuad(q.pi,k,'url(#chk)',.95);continue}
         const m=mark(c,p.FL);if(m)r+=`<g transform="translate(${F1(a.x)} ${F1(a.y)}) rotate(${F1(ang(a))})">${m}</g>`}
       for(let k=0;k<pa.n;k++){const c=pa.spec[k],sc=(k+.5)*p.FL;if(sc<q.a||sc>q.b||c==='S'||c==='G'||c==='a')continue;const a=atP(p,sc-p.FL/2+11),x=a.x+a.nx*(HW-12),y=a.y+a.ny*(HW-12);
-        r+=`<text x="${F1(x)}" y="${F1(y)}" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="700" font-size="14" fill="#f4f4ef" stroke="#1b1c1f" stroke-width="3" paint-order="stroke" opacity=".92">${NODES[pa.ids[k]].num}</text>`}
+        r+=`<text x="${F1(x)}" y="${F1(y)}" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="700" font-size="18" fill="#ffffff" stroke="#1b1c1f" stroke-width="3" paint-order="stroke" opacity=".92">${NODES[pa.ids[k]].num}</text>`}
       for(let k=0;k<=pa.n;k++){const s=k*p.FL;if(s<q.a-1||s>q.b+1)continue;const a=atP(p,s);r+=`<line x1="${F1(a.x+a.nx*(HW-4))}" y1="${F1(a.y+a.ny*(HW-4))}" x2="${F1(a.x-a.nx*(HW-4))}" y2="${F1(a.y-a.ny*(HW-4))}" stroke="rgba(236,236,230,.55)" stroke-width="2"/>`}});
     return r};
   const fieldQuad=(pi,k,fill,op)=>{const p=P[pi],e=(s,dd)=>{const a=atP(p,s);return F1(a.x+a.nx*dd)+','+F1(a.y+a.ny*dd)},s0=k*p.FL,s1=(k+1)*p.FL,m=(s0+s1)/2;return `<polygon points="${[e(s0,HW-4),e(m,HW-4),e(s1,HW-4),e(s1,-HW+4),e(m,-HW+4),e(s0,-HW+4)].join(' ')}" fill="${fill}" opacity="${op}"/>`};
@@ -508,19 +516,19 @@ function boardSvg(){
 /* ================= car layer ================= */
 const CEL=[];
 function buildCars(){const cs=$('cars');
-  cs.innerHTML=`<defs>${GLOSS}<radialGradient id="shd"><stop offset="0" stop-color="#000" stop-opacity=".6"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="oilg" cx=".4" cy=".4"><stop offset="0" stop-color="#3a3550"/><stop offset=".6" stop-color="#121018"/><stop offset="1" stop-color="#050407"/></radialGradient><radialGradient id="fb"><stop offset="0" stop-color="#fff6c0"/><stop offset=".35" stop-color="#ffb02e"/><stop offset=".7" stop-color="#e2401a"/><stop offset="1" stop-color="#5a1a0a" stop-opacity="0"/></radialGradient><radialGradient id="crt"><stop offset="0" stop-color="#120a06"/><stop offset=".6" stop-color="#2a1a10"/><stop offset=".85" stop-color="#ff7a1a"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/></radialGradient><filter id="eblur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter></defs><g id="ev"></g><g id="oil"></g><g id="hl"></g><g id="cl"></g><g id="fx"></g>`;
+  cs.innerHTML=`<defs>${GLOSS}<radialGradient id="shd"><stop offset="0" stop-color="#000" stop-opacity=".6"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="oilg" cx=".4" cy=".4"><stop offset="0" stop-color="#3a3550"/><stop offset=".6" stop-color="#121018"/><stop offset="1" stop-color="#050407"/></radialGradient><radialGradient id="fb"><stop offset="0" stop-color="#fff6c0"/><stop offset=".35" stop-color="#ffb02e"/><stop offset=".7" stop-color="#e2401a"/><stop offset="1" stop-color="#5a1a0a" stop-opacity="0"/></radialGradient><radialGradient id="crt"><stop offset="0" stop-color="#120a06"/><stop offset=".6" stop-color="#2a1a10"/><stop offset=".85" stop-color="#ff7a1a"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/></radialGradient><filter id="eblur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter></defs><g id="ev"></g><g id="oil"></g><g id="info-hl"></g><g id="hl"></g><g id="cl"></g><g id="fx"></g>`;
   const cl=cs.querySelector('#cl');
   for(let i=0;i<4;i++){const g=document.createElementNS(NS,'g');cl.appendChild(g);CEL[i]=g}
   paintCars()}
 function paintCars(){for(let i=0;i<4;i++){const g=CEL[i],k=S.players[i].car;
-  g.innerHTML=`<ellipse class="sh" rx="34" ry="19" fill="url(#shd)"/><g class="bd"><path class="rk flm" d="M-31 -5L-52 0L-31 5Z" fill="#ffb02e"/><path class="rk flm" d="M-31 -2.5L-43 0L-31 2.5Z" fill="#fff3a0"/>
+  g.innerHTML=`<circle class="active-ring" r="48" fill="none" stroke="${col(i)}" stroke-width="5" stroke-dasharray="8 5"/><ellipse class="sh" rx="34" ry="19" fill="url(#shd)"/><g class="bd"><path class="rk flm" d="M-31 -5L-52 0L-31 5Z" fill="#ffb02e"/><path class="rk flm" d="M-31 -2.5L-43 0L-31 2.5Z" fill="#fff3a0"/>
     <circle class="shl" r="38" fill="rgba(120,190,255,.12)" stroke="#8fd0ff" stroke-width="2.5"/>${carSvg(k)}
     <g class="smk"><circle cx="-14" cy="-6" r="6" fill="#77777f"/><circle cx="-14" cy="-6" r="6" fill="#77777f"/><circle cx="-14" cy="-6" r="6" fill="#77777f"/></g></g>
     <text class="bg" y="-32" text-anchor="middle" font-size="18"></text>`;
   g._sh=g.querySelector('.sh');g._b=g.querySelector('.bd');g._t=g.querySelector('.bg')}
   syncMods()}
 function syncMods(){for(let i=0;i<4;i++){const g=CEL[i];if(!g||!g._b)continue;const c=S.cars[i],on=i<S.n,sh=(cls,v)=>g.querySelectorAll('.'+cls).forEach(e=>e.style.display=on&&v?'':'none');
-  sh('shl',c.pw==='skjold');sh('rk',Vv[i].fire>0);sh('smk',c.skip||Vv[i].smoke);g._t.textContent=on?(c.skip?'💤':''):''}
+  sh('active-ring',i===S.p&&S.win===null&&S.phase==='race');sh('shl',c.pw==='skjold');sh('rk',Vv[i].fire>0);sh('smk',c.skip||Vv[i].smoke);g._t.textContent=on?(c.skip?'💤':''):''}
   drawEv();
   const og=$('cars')&&$('cars').querySelector('#oil');if(og&&G)og.innerHTML=S.oil.map(id=>{const a=G.np[id];seed=id*97+5;return `<g transform="translate(${F1(a.x)} ${F1(a.y)})"><path d="${sblob(0,0,26,9,.45)}" fill="url(#oilg)" opacity=".92"/><ellipse cx="-6" cy="-6" rx="8" ry="3" fill="rgba(160,140,255,.35)"/></g>`}).join('')}
 
@@ -530,7 +538,12 @@ const Vv=[0,1,2,3].map(()=>({x:0,y:0,tx:1,ty:0,lat:0,lon:0,hop:0,sc:1,spin:0,op:
 const tweens=[];
 const tw=(ms,fn)=>window.GRFAST?(fn(1),Promise.resolve()):new Promise(r=>tweens.push({t0:performance.now(),ms:Math.max(1,ms*SPD),fn,r}));
 const wait=ms=>tw(ms,()=>{});
-let shake=0;
+let shake=0,follow=false;
+function updateView(){if(!G)return;let vb=G.vb;
+  if(follow&&S.phase==='race'){const v=Vv[S.p],a=v.init?v:G.np[S.cars[S.p].pos],w=G.vb[2]*.46,h=G.vb[3]*.46;
+    const x=Math.max(G.vb[0],Math.min(G.vb[0]+G.vb[2]-w,a.x-w/2)),y=Math.max(G.vb[1],Math.min(G.vb[1]+G.vb[3]-h,a.y-h/2));vb=[x,y,w,h]}
+  const next=vb.map(F1).join(' ');if($('bstatic').getAttribute('viewBox')!==next){$('bstatic').setAttribute('viewBox',next);$('cars').setAttribute('viewBox',next)}}
+
 function slots(){const by={},off=[];for(let i=0;i<S.n;i++){if(Vv[i].moving)continue;(by[S.cars[i].pos]=by[S.cars[i].pos]||[]).push(i)}
   for(const k in by){const L=by[k],n=L.length;L.forEach((i,j)=>{let la=0,lo=0;if(n===2)la=j?-17:17;else if(n>2){la=j%2?-17:17;lo=j<2?16:-16}if(+k===START){la=[-24,-8,8,24][j]*(n>1?1:0);lo=j%2?-12:12;if(n===1)lo=0}off[i]=[la,lo]})}return off}
 function tick(now){requestAnimationFrame(tick);
@@ -545,7 +558,7 @@ function tick(now){requestAnimationFrame(tick);
     el._b.setAttribute('transform',`rotate(${F1(an)}) scale(${s.toFixed(3)})`);
     el._sh.setAttribute('transform',`translate(${F1(3+v.hop*16)} ${F1(5+v.hop*16)}) rotate(${F1(an)}) scale(${(s*(1-v.hop*.15)).toFixed(3)})`)}
   for(let i=0;i<4;i++)if(Vv[i].moving&&CEL[i].parentNode.lastChild!==CEL[i])CEL[i].parentNode.appendChild(CEL[i]);
-  const bw=$('bw');if(shake>0){shake-=.016;bw.style.transform=`translate(${F1((Math.random()-.5)*shake*26)}px,${F1((Math.random()-.5)*shake*26)}px)`}else if(bw.style.transform)bw.style.transform=''}
+  updateView();const bw=$('bw');if(shake>0){shake-=.016;bw.style.transform=`translate(${F1((Math.random()-.5)*shake*26)}px,${F1((Math.random()-.5)*shake*26)}px)`}else if(bw.style.transform)bw.style.transform=''}
 function build(force){const r=$('bw').getBoundingClientRect();if(r.width<10||r.height<10)return;const port=Math.min(r.width/1000,r.height/1600)>Math.min(r.width/1600,r.height/1000);
   if(G&&G.port===port&&!force)return;G=geom(port);const vb=G.vb.map(F1).join(' ');$('bstatic').setAttribute('viewBox',vb);$('cars').setAttribute('viewBox',vb);
   $('bstatic').innerHTML=boardSvg();if(!CEL.length)buildCars();Vv.forEach(v=>v.init=false);syncMods();if(pend&&pend.type==='fork')hlFork(pend.node)}
@@ -672,7 +685,7 @@ async function usePower(){if(busy||S.win!==null||S.t.ph!=='roll')return;const i=
 
 /* ================= turn flow ================= */
 function bonus(i){return (S.t.plus||0)+(isLast(i)?1:0)}
-function chooseFork(i,node,r){return new Promise(res=>{pend={type:'fork',node:node.id,i,r,res:v=>{pend=null;hlFork(null);hud();res(v)}};hlFork(node.id);hud(true)})}
+function chooseFork(i,node,r){return new Promise(res=>{pend={type:'fork',node:node.id,i,r,res:v=>{pend=null;hlFork(null);padLock(`${rawName(i)} kører videre.`);res(v)}};hlFork(node.id);hud(true)})}
 function hlFork(id){const g=$('cars').querySelector('#hl');if(!g)return;if(id===null){g.innerHTML='';return}
   g.innerHTML=NODES[id].next.map(n=>{const pa=PATHS[NODES[n].pi],P=G.P[NODES[n].pi],gv=pa.alt==='Genvej',c=gv?'#ff6a3a':'#4aa3ff';let pts=[];for(let s=0;s<Math.min(P.L,2.2*P.FL);s+=8){const a=atP(P,s);pts.push(F1(a.x)+','+F1(a.y))}
     const a=atP(P,1.1*P.FL);return `<polyline class="hla" points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="${TW+10}" stroke-opacity=".45" stroke-linecap="round"/><g transform="translate(${F1(a.x)} ${F1(a.y)})"><rect x="-44" y="-15" width="88" height="30" rx="7" fill="${c}" stroke="#fff" stroke-width="2"/><text y="1" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="800" font-style="italic" font-size="20" fill="#fff">${pa.alt.toUpperCase()}</text></g>`}).join('')}
@@ -686,7 +699,7 @@ async function go(steps,why){const i=S.p;busy=true;padLock(`${rawName(i)} kører
 async function endTurn(){const fin=()=>ids().find(j=>S.cars[j].pos===GOAL);let w=fin();if(w===undefined){await advance();w=fin()}
   if(w!==undefined){S.win=w;log(`${rawName(w)} vinder løbet!`);sfx.win();await banner('🏁','I mål!',`${rawName(w)} kører over målstregen først!`,'g',2200)}
   S.t={ph:'roll'};save();busy=false;syncAll();hud()}
-function roll(v){if(busy||bnDone||S.win!==null||S.phase!=='race')return;const i=S.p;snap();const b=bonus(i);go(v+b,b?bonusTxt(i):'')}
+function roll(v,digital=false){if(busy||bnDone||S.win!==null||S.phase!=='race')return;closeTip();const i=S.p;snap();const b=bonus(i),why=[digital?`digital terning ${v}`:'',b?bonusTxt(i):''].filter(Boolean).join(', ');go(v+b,why)}
 function act(a){if(pend&&pend.type==='fork'){if(a==='f0'||a==='f1')pend.res(NODES[pend.node].next[+a[1]]);return}
   if(busy||S.win!==null)return;if(a==='pw')usePower()}
 const bonusTxt=i=>[S.t.plus?'🚀 +'+S.t.plus:'',isLast(i)?'bagerst +1':''].filter(Boolean).join(', ');
@@ -697,7 +710,7 @@ const dieSvg=v=>`<svg viewBox="0 0 60 60" aria-hidden="true"><defs><linearGradie
 $('keys').innerHTML=[1,2,3,4,5,6].map(v=>`<button class="key" data-v="${v}" aria-label="Terningen viste ${v}">${dieSvg(v)}</button>`).join('');
 function modChips(c,i){const o=[];if(c.pw)o.push([POW[c.pw].ic+' '+POW[c.pw].n,'p']);if(c.skip)o.push(['💤 står over','b']);if(isLast(i))o.push(['🔼 bagerst: +1','']);
   return o.map(([t,k])=>`<span class="mod${k?' '+k:''}">${t}</span>`).join('')}
-function padLock(t){$('last').textContent='';$('msg').textContent=t;$('hint').textContent='';$('keys').hidden=true;$('acts').innerHTML='';$('bUndo').disabled=true}
+function padLock(t){$('digital').hidden=true;$('last').textContent='';$('msg').textContent=t;$('hint').textContent='';$('keys').hidden=true;$('acts').innerHTML='';$('bUndo').disabled=true}
 function hud(keepPad){
   const race=S.phase==='race';$('setup').classList.toggle('show',!race);$('pad').hidden=!race;$('pl').hidden=!race;
   $('bUndo').style.visibility=race?'':'hidden';
@@ -714,12 +727,12 @@ function hud(keepPad){
   const p=S.p,c=S.cars[p],t=S.t,pad=$('pad'),keys=$('keys'),acts=$('acts');pad.style.setProperty('--c',col(p));
   $('last').textContent=S.last;
   let msg='',hint='',a='',showKeys=false;const b=bonus(p);
-  if(pend&&pend.type==='fork'){const nx=NODES[pend.node].next.map(n=>PATHS[NODES[n].pi]);msg=`<b>${nm(pend.i)}</b> er ved en gaffel med ${pend.r} skridt tilbage. Hvilken vej?`;
+  if(pend&&pend.type==='fork'){const nx=NODES[pend.node].next.map(n=>PATHS[NODES[n].pi]);msg=`<b>${nm(pend.i)}</b> er ved en gaffel med ${pend.r} skridt tilbage. Tryk på en vej eller vælg her:`;
     a=nx.map((pa,k)=>`<button class="act ${pa.alt==='Genvej'?'gv':'om'}" data-a="f${k}">${pa.alt}: ${pa.nm}<small>${pa.tip}</small></button>`).join('')}
   else if(S.win!==null)msg=`<b>${nm(S.win)}</b> har vundet!`;
   else{showKeys=true;msg=`<b>${nm(p)}</b>: slå terningen, og tast slaget.`;hint=[bonusTxt(p),S.ev?EVT[S.ev.k].ic+' '+EVT[S.ev.k].n+' på '+evRange():''].filter(Boolean).join(' · ');
     if(c.pw&&c.pw!=='skjold')a=`<button class="act pw" data-a="pw">Brug ${POW[c.pw].ic} ${POW[c.pw].n}<small>${POW[c.pw].d}</small></button>`;else if(c.pw==='skjold')hint=(hint?hint+' · ':'')+'🛡️ skjoldet beskytter dig';}
-  $('msg').innerHTML=msg;$('hint').textContent=hint;keys.hidden=!showKeys;acts.innerHTML=a;
+  $('msg').innerHTML=msg;$('hint').textContent=hint;keys.hidden=!showKeys;$('digital').hidden=!showKeys;acts.innerHTML=a;
   document.querySelectorAll('.key').forEach(k=>k.disabled=!showKeys);
   $('bUndo').disabled=!hist.length||!!pend}
 function confetti(){if(RM)return;const em=['🏁','🏆','✨','🎉'];for(let i=0;i<30;i++){const s=document.createElement('span');s.className='conf';s.textContent=em[i%4];s.style.left=Math.random()*100+'vw';s.style.animationDuration=2+Math.random()*2.5+'s';s.style.animationDelay=Math.random()*1.2+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),6000)}}
@@ -729,6 +742,17 @@ function setupUI(){
    <div class="pick">${CARS.map((c,k)=>`<button data-i="${i}" data-k="${k}" style="--k:${c.col}" aria-pressed="${k===pc}" aria-label="${c.n}" title="${c.n}"><img src="${AV[k]}" alt=""></button>`).join('')}</div></div>`}).join('')}
 function startRace(){hist=[];const pl=S.players,n=S.n;S=fresh(pl,n);S.phase='race';S.last='Løbet er i gang!';save();if(CEL.length)paintCars();syncAll();hud()}
 function undo(){if(busy||pend||!hist.length)return;S=JSON.parse(hist.pop());save();syncAll();hud()}
+$('digital').addEventListener('click',()=>{if(busy||bnDone||S.win!==null||S.phase!=='race')return;const v=Math.floor(Math.random()*6)+1;roll(v,true)});
+$('bZoom').addEventListener('click',()=>{follow=!follow;$('bZoom').classList.toggle('on',follow);$('bZoom').setAttribute('aria-pressed',follow);$('bZoom').setAttribute('aria-label',follow?'Vis hele banen':'Zoom ind på aktiv bil');$('bZoom').title=follow?'Vis hele banen':'Følg aktiv bil';updateView()});
+function closeTip(){$('boardtip').hidden=true;const g=$('cars').querySelector('#info-hl');if(g)g.innerHTML=''}
+$('closeTip').addEventListener('click',e=>{e.stopPropagation();closeTip()});
+$('bstatic').addEventListener('click',e=>{if(!G||S.phase!=='race'||S.win!==null||bnDone)return;const svg=$('bstatic'),pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const matrix=svg.getScreenCTM();if(!matrix)return;const q=pt.matrixTransform(matrix.inverse());
+  if(pend&&pend.type==='fork'){const choices=NODES[pend.node].next.map(n=>{const p=G.P[NODES[n].pi];let d=Infinity;for(let t=0;t<Math.min(p.L,3*p.FL);t+=8){const a=atP(p,t);d=Math.min(d,Math.hypot(a.x-q.x,a.y-q.y))}return d});const k=choices[0]<choices[1]?0:1;if(choices[k]<HW+50){closeTip();act('f'+k);return}}
+  let best=null,dist=Infinity;NODES.forEach(n=>{const a=G.np[n.id],d=Math.hypot(q.x-a.x,q.y-a.y);if(d<dist){dist=d;best=n}});if(!best||dist>HW+35){closeTip();return}
+  const field=FT[best.c],name=best.c==='S'?'Start':best.c==='G'?'Mål':field?field.n:'Almindeligt felt',desc=best.c==='S'?'Her begynder løbet.':best.c==='G'?'Første bil i mål vinder!':field?field.d:'Ingen særlig effekt. Kør videre på næste tur.';
+  $('tipTitle').textContent=(best.c==='S'||best.c==='G'?'':`Felt ${best.num} · `)+name;$('tipBody').textContent=desc;$('boardtip').hidden=false;
+  const a=G.np[best.id],g=$('cars').querySelector('#info-hl');if(g)g.innerHTML=`<circle cx="${F1(a.x)}" cy="${F1(a.y)}" r="${HW+8}" fill="rgba(255,230,150,.15)" stroke="#fff1a8" stroke-width="5" stroke-dasharray="9 6"/>`;
+});
 $('keys').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)roll(+b.dataset.v)});
 $('acts').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b)act(b.dataset.a)});
 addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||S.phase!=='race')return;if(bnDone&&(e.key==='Enter'||e.key===' '||e.key==='Escape')){e.preventDefault();bnClose();return}if(e.key>='1'&&e.key<='6')roll(+e.key)});
@@ -749,7 +773,7 @@ function chooseLayout(){const vw=innerWidth,vh=innerHeight,f=(w,h)=>Math.max(Mat
 addEventListener('resize',chooseLayout);chooseLayout();
 $('bRules').onclick=()=>$('rules').classList.add('show');$('rclose').onclick=()=>$('rules').classList.remove('show');
 const cls={g:'',b:'b',p:'p',n:'n'};
-$('rtxt').innerHTML=`<ul><li>Én omgang rundt om banen. Første bil over <b>START / MÅL</b> vinder. Man behøver ikke slå præcist.</li><li>Slå med en rigtig terning, og tryk på det, den viste. Bilen kører selv.</li><li>Når der sker noget, bliver skiltet stående, til I trykker OK.</li></ul>
+$('rtxt').innerHTML=`<ul><li>Én omgang rundt om banen. Første bil over <b>START / MÅL</b> vinder. Man behøver ikke slå præcist.</li><li>Slå med en rigtig terning og tryk på resultatet, eller vælg Slå digitalt. Bilen kører selv.</li><li>Brug forstørrelsesglasset for at følge den aktive bil tæt på. Tryk på et felt for at se, hvad det betyder.</li><li>Når der sker noget, bliver skiltet stående, til I trykker OK.</li></ul>
 <h3>Gafler</h3><ul><li>Tre steder deler banen sig. Når bilen kommer til en gaffel, vælger du <b>Genvej</b> (kort, men farlig) eller <b>Omvej</b> (længere, men med power-kasser og fartbånd).</li></ul>
 <h3>Felter og underlag</h3><ul class="ev">${Object.values(FT).map(e=>`<li class="${cls[e.k]}"><b>${e.ic} ${e.n}</b><br>${e.d}</li>`).join('')}</ul>
 <h3>Begivenheder</h3><ul class="ev">${Object.values(EVT).map(e=>`<li class="${cls[e.k]}"><b>${e.ic} ${e.n}</b><br>${e.d}</li>`).join('')}</ul>
