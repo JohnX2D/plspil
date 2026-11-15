@@ -23,7 +23,9 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 Et racerbrætspil i sin egen fil, `galaxy.html`, med link fra spilmenuen i `index.html`. Hele banen ses oppefra som et trykt spillebræt med nummererede felter: én omgang rundt, hvor start og mål ligger samme sted.
 
 - 2–4 spillere vælger hver sin bil: Hajen, Svæveren, Jungletrucken eller Diskobilen
-- Slå med en rigtig terning og tast slaget ind. Bilen kører selv felt for felt
+- Slå med en rigtig terning og tast slaget ind, eller brug den digitale terning. Bilen kører selv felt for felt
+- Følg den aktive bil tæt på med forstørrelsesglasset, eller vis hele banen. Tryk på et felt for at se dets betydning
+- Ved en gaffel kan du vælge en rute ved at trykke direkte på banen eller bruge knapperne
 - **Gafler:** tre steder vælger man mellem en kort, farlig genvej og en længere omvej med power-kasser, fartbånd og hopperamper. Genvejen springer feltnumre over
 - **Underlag:** sand og mudder koster 2 skridt pr. felt, og på is glider bilen 2 felter videre
 - **Hopperamper:** bilen flyver 4 felter frem hen over alt, hvad der ligger under den
