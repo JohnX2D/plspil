@@ -55,27 +55,26 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .key svg{display:block;width:100%;height:auto;max-height:68px;filter:drop-shadow(0 4px 3px rgba(0,0,0,.55))}
 .key:active{transform:translateY(3px) scale(.96)}
 .key:disabled{opacity:.35}
-.keys.tb .key{box-shadow:0 0 0 3px var(--good)}
-.keys.tb .key.lo{box-shadow:0 0 0 3px var(--bad)}
 #acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .act{border:0;border-radius:12px;padding:8px 10px;min-height:64px;font-weight:800;font-size:19px;color:#fff;text-align:center;display:grid;gap:1px;place-content:center;line-height:1.1}
 .act small{font-weight:600;font-size:12.5px;opacity:.92;line-height:1.25}
 .act:active{transform:translateY(3px)}
 .act.go{background:linear-gradient(#2f9a62,#1f7448);box-shadow:0 4px 0 #13502f}
-.act.tb{background:linear-gradient(#ff7a1a,#c9300f);box-shadow:0 4px 0 #7d1c08;animation:throb 1.1s ease-in-out infinite}
 .act.gv{background:linear-gradient(#c9461e,#8e2a10);box-shadow:0 4px 0 #5a1a08}
 .act.om{background:linear-gradient(#2f6fd0,#1d4a96);box-shadow:0 4px 0 #11305f}
 .act.pw{grid-column:1/-1;background:linear-gradient(#7a3cc8,#4f2391);box-shadow:0 4px 0 #2e1459;min-height:50px}
 .act.one{grid-column:1/-1}
-@keyframes throb{50%{filter:brightness(1.25)}}
-#banner{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);z-index:5;pointer-events:none;text-align:center;display:none;width:min(92vw,540px);background:rgba(14,16,19,.95);border:2px solid var(--line);border-top:6px solid var(--good);border-radius:16px;padding:14px 18px;box-shadow:0 18px 40px rgba(0,0,0,.6)}
+#bcatch{position:fixed;inset:0;z-index:5;display:none;background:rgba(5,6,8,.35)}#bcatch.show{display:block}
+#banner{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:6;text-align:center;display:none;width:min(92vw,540px);background:rgba(14,16,19,.95);border:2px solid var(--line);border-top:6px solid var(--good);border-radius:16px;padding:14px 18px;box-shadow:0 18px 40px rgba(0,0,0,.6)}
 #banner.b{border-top-color:var(--bad)}#banner.p{border-top-color:var(--pw)}
 #banner.show{display:block;animation:pop .3s cubic-bezier(.3,1.5,.5,1) both}
 #banner.big .bt{font-size:clamp(40px,8vw,64px)}
 #banner .bi{font-size:clamp(40px,7vw,60px);line-height:1}
 #banner .bt{font-size:clamp(28px,5vw,42px);line-height:1.05;margin-top:4px}
 #banner.g .bt{color:var(--gold)}#banner.b .bt{color:#ff7a70}#banner.p .bt{color:#c4a8ff}
-#banner .bd{margin-top:6px;font-weight:600;font-size:clamp(14px,2.2vw,17px);color:#dfe3e8}
+#banner .bd{margin-top:6px;font-weight:600;font-size:clamp(15px,2.3vw,18px);color:#dfe3e8}
+#banner .bok{margin-top:12px;border:0;border-radius:12px;background:#fff;color:#121417;font-weight:800;font-size:20px;min-width:140px;min-height:52px;box-shadow:0 4px 0 #8a9099}
+#banner .bok:active{transform:translateY(3px);box-shadow:0 1px 0 #8a9099}
 @keyframes pop{from{transform:translate(-50%,-50%) scale(.6);opacity:0}}
 #flash{position:fixed;inset:0;z-index:4;pointer-events:none;background:#fff;opacity:0}
 .ov{position:fixed;inset:0;z-index:10;background:rgba(8,9,11,.72);backdrop-filter:blur(4px);display:none;overflow:auto;padding:16px}
@@ -148,10 +147,11 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   <div id="pad"><div id="last"></div><div id="msg"></div><div id="hint"></div><div class="keys" id="keys"></div><div id="acts"></div></div>
 </div>
 <div id="flash"></div>
-<div id="banner"><div class="bi"></div><div class="bt disp"></div><div class="bd"></div></div>
+<div id="bcatch"></div>
+<div id="banner" role="alertdialog" aria-live="assertive"><div class="bi"></div><div class="bt disp"></div><div class="bd"></div><button class="bok" id="bok">OK</button></div>
 <div class="ov" id="setup"><div class="box">
   <h1 class="title disp">Galaxy <span>Raceway</span></h1>
-  <p class="sub">Én omgang rundt om banen. Slå med en rigtig terning, og tast slaget ind. Tør du bruge turbo?</p>
+  <p class="sub">Én omgang rundt om banen. Slå med en rigtig terning, og tast slaget ind. Pas på vulkaner, meteorer og kløfter!</p>
   <div class="row"><b>Antal spillere</b><div class="seg" id="seg"><button data-n="2">2</button><button data-n="3">3</button><button data-n="4">4</button></div></div>
   <div id="srows"></div>
   <div class="acts"><a class="btn2" href="index.html">← LDA Spil</a><button class="cta" id="go">Start løbet!</button></div>
@@ -168,44 +168,45 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   <ul class="stand" id="stand"></ul>
   <div class="acts"><button class="btn2" id="wundo">Fortryd</button><button class="btn2" id="wsetup">Skift biler</button><button class="cta" id="again">Nyt løb</button></div>
 </div></div>
-<div class="ver">Galaxy Raceway · version 6.0</div>
+<div class="ver">Galaxy Raceway · version 7.0</div>
 <script>
 {
 /* ================= data ================= */
-const KEY='lda-galaxy',VER=6;
+const KEY='lda-galaxy',VER=7;
 const CARS=[{n:'Hajen',def:'Rød',col:'#d0312d',c2:'#f4f4f4',num:7},{n:'Svæveren',def:'Blå',col:'#1d5fd0',c2:'#8fd0ff',num:21},{n:'Jungletrucken',def:'Grøn',col:'#2e7a3c',c2:'#e8c34a',num:4},{n:'Diskobilen',def:'Disko',col:'#7a3cc8',c2:'#f5b829',num:99}];
-/* Feltkoder: S start, G mål, . asfalt, b power-kasse, > fartbånd, L toppen af loopet, a luft over kløften,
+/* Feltkoder: S start, G mål, . asfalt, b power-kasse, > fartbånd, J hopperampe, L toppen af loopet, a luft over kløften,
    s sand, m mudder, i is, z tordensky, f brændende bro, h sort hul */
 const PATHS=[
- {id:'p0',nm:'Neonbyen',spec:'S..b.....LLL..>.bss',to:['pa1','pa2'],up:[10,16],
+ {id:'p0',nm:'Neonbyen',spec:'S..b..>....LLL..>..bss',to:['pa1','pa2'],up:[11.6,18.5],
   pts:[[300,880],[470,882],[620,878],[740,862],[835,812],[870,735],[835,668],[765,652],[712,698],[712,780],[770,858],[880,888],[990,890],[1075,888]]},
- {id:'pa1',nm:'Kløftspringet',alt:'Genvej',tip:'Kort, men stop ikke over kløften',spec:'s.>aa.s',to:['p1'],gap:[3,5],
+ {id:'pa1',nm:'Kløftspringet',alt:'Genvej',tip:'Kort, men stop ikke over kløften',spec:'s.>aa..s',to:['p1'],gap:[3,5],
   pts:[[1105,852],[1200,800],[1300,725],[1400,640],[1470,565]]},
- {id:'pa2',nm:'Karavanevejen',alt:'Omvej',tip:'Længere, men med power-kasser',spec:'.b..ss..b..',to:['p1'],
+ {id:'pa2',nm:'Karavanevejen',alt:'Omvej',tip:'Længere, men med power-kasser',spec:'.b..ss.J...b',to:['p1'],
   pts:[[1105,925],[1260,932],[1405,918],[1500,862],[1545,760],[1548,650],[1540,565]]},
  {id:'p1',nm:'Lavaland',spec:'.z',to:['pb1','pb2'],pts:[[1505,525],[1505,465],[1505,400]]},
- {id:'pb1',nm:'Vulkanbroen',alt:'Genvej',tip:'Kort, men broen brænder',spec:'fff.',to:['p2'],up:[0,4],
+ {id:'pb1',nm:'Vulkanbroen',alt:'Genvej',tip:'Kort, men broen brænder',spec:'fff..',to:['p2'],up:[0,5],
   pts:[[1470,365],[1430,285],[1360,215],[1255,160]]},
- {id:'pb2',nm:'Askestien',alt:'Omvej',tip:'Længere, med fartbånd og kasser',spec:'.b.>..b',to:['p2'],
+ {id:'pb2',nm:'Askestien',alt:'Omvej',tip:'Længere, med fartbånd og kasser',spec:'.b.>...b',to:['p2'],
   pts:[[1540,365],[1545,260],[1525,165],[1460,105],[1340,88],[1255,92]]},
- {id:'p2',nm:'Isbjerget',spec:'ii.ib..z.',to:['pc1','pc2'],pts:[[1220,125],[1100,112],[990,150],[880,185],[770,150],[640,125]]},
- {id:'pc1',nm:'Mudderstien',alt:'Genvej',tip:'Kort, men mudderet er tungt',spec:'mm.mm.m.',to:['p3'],
+ {id:'p2',nm:'Isbjerget',spec:'ii.J...b.z',to:['pc1','pc2'],pts:[[1220,125],[1100,112],[990,150],[880,185],[770,150],[640,125]]},
+ {id:'pc1',nm:'Mudderstien',alt:'Genvej',tip:'Kort, men mudderet er tungt',spec:'mm.mm.m..',to:['p3'],
   pts:[[605,160],[500,240],[380,340],[260,450],[190,520]]},
- {id:'pc2',nm:'Glastunnelen',alt:'Omvej',tip:'Længere, under søen med kasser',spec:'..b.>....b...',to:['p3'],
+ {id:'pc2',nm:'Glastunnelen',alt:'Omvej',tip:'Længere, under søen med kasser',spec:'..b.>....b..J.',to:['p3'],
   pts:[[605,92],[450,80],[300,85],[180,120],[110,210],[100,330],[110,450],[115,520]]},
- {id:'p3',nm:'Rummet',spec:'.h.z.G',to:[],pts:[[150,560],[135,680],[150,790],[210,860],[290,882]]}
+ {id:'p3',nm:'Rummet',spec:'.h.z..G',to:[],pts:[[150,560],[135,680],[150,790],[210,860],[290,882]]}
 ];
 const FT={
  b:{k:'p',ic:'❓',n:'Power-kasse',d:'Kør igennem, og få en tilfældig power, hvis du ikke allerede har én.'},
  '>':{k:'g',ic:'⏩',n:'Fartbånd',d:'Stopper du her, skyder du 3 felter frem.'},
+ J:{k:'g',ic:'🛫',n:'Hopperampe',d:'Stopper du her, flyver bilen 4 felter frem hen over alt, hvad der ligger under den.'},
  s:{k:'n',ic:'🏜️',n:'Dybt sand',d:'Hvert sandfelt koster 2 skridt.'},
  m:{k:'n',ic:'🟤',n:'Mudder',d:'Hvert mudderfelt koster 2 skridt.'},
  i:{k:'n',ic:'🧊',n:'Glat is',d:'Stopper du på isen, glider du 2 felter videre.'},
  L:{k:'b',ic:'🔄',n:'Toppen af loopet',d:'Stopper du på toppen, falder du ned til foden af loopet.'},
  a:{k:'b',ic:'🕳️',n:'Kløften',d:'Stopper du i luften, falder du ned og må starte forfra ved gaflen.'},
  f:{k:'b',ic:'🔥',n:'Brændende bro',d:'Stopper du på broen, brænder motoren, og du står over næste tur.'},
- z:{k:'b',ic:'⛈️',n:'Tordensky',d:'Lynet slår ned i den bil, der fører, og den ryger 3 felter tilbage. Også hvis det er dig!'},
- h:{k:'b',ic:'🌑',n:'Sort hul',d:'Du bliver suget 4 felter tilbage.'}
+ z:{k:'b',ic:'⛈️',n:'Tordensky',d:'Lynet slår ned i den bil, der fører, og den ryger 2 felter tilbage. Også hvis det er dig!'},
+ h:{k:'b',ic:'🌑',n:'Sort hul',d:'Du bliver suget 3 felter tilbage.'}
 };
 const POW={
  raket:{ic:'🚀',n:'Raket',d:'Brug den før du slår: +4 felter på slaget.'},
@@ -213,6 +214,12 @@ const POW={
  lyn:{ic:'⚡',n:'Lynstorm',d:'Alle de andre biler ryger 2 felter tilbage.'},
  olie:{ic:'🛢️',n:'Olieplet',d:'Hældes ud bag dig. Den næste, der kører ind i den, snurrer rundt og stopper.'},
  skjold:{ic:'🛡️',n:'Skjold',d:'Virker af sig selv: tager det næste angreb, skub eller lyn for dig.'}
+};
+const EVT={
+ vulkan:{k:'b',ic:'🌋',n:'Vulkanudbrud',col:'#ff4a12',d:'Lavabomber regner ned over det røde stykke af banen. Biler, der holder der, ryger 2 felter tilbage, og det samme sker for alle, der stopper der i denne runde.'},
+ meteor:{k:'b',ic:'☄️',n:'Meteorregn',col:'#ffb02e',d:'Meteorer slår ned og laver kratere på banen. Stopper du i et krater i denne runde, ryger du 2 felter tilbage.'},
+ nordlys:{k:'g',ic:'🌌',n:'Nordlys',col:'#3dffa8',d:'Et grønt lys danser over banen. Biler i lyset kører 2 felter frem, og stopper du i lyset i denne runde, skyder du 3 felter frem.'},
+ stjerne:{k:'p',ic:'🌠',n:'Stjerneskud',col:'#c4a8ff',d:'Stjerneskud lander på banen. Stopper du på et i denne runde, får du en power.'}
 };
 const NODES=[],PI={};
 PATHS.forEach((P,pi)=>{PI[P.id]=pi;P.n=P.spec.length;P.ids=[];for(let k=0;k<P.n;k++){const c=P.spec[k];P.ids.push(NODES.length);NODES.push({id:NODES.length,pi,k,c,next:[],back:null,cost:c==='s'||c==='m'?2:1,ns:c==='L'||c==='a'})}});
@@ -222,6 +229,7 @@ const START=PATHS[0].ids[0],GOAL=NODES.find(n=>n.c==='G').id;
 /* felter tilbage til mål (korteste vej) */
 NODES.forEach(n=>n.d=1e9);NODES[GOAL].d=0;for(let r=0;r<99;r++)NODES.forEach(n=>n.next.forEach(x=>{if(NODES[x].d+1<n.d)n.d=NODES[x].d+1}));
 const TOTAL=NODES[START].d;
+NODES.forEach(n=>n.num=0);for(let r=0;r<99;r++)NODES.forEach(n=>n.next.forEach(x=>{if(NODES[x].num<n.num+1)NODES[x].num=n.num+1}));
 NODES.forEach(n=>{if(n.c==='L'){let b=n.back;while(NODES[b].ns)b=NODES[b].back;n.fall=b}if(n.c==='a')n.fall=NODES[PATHS[n.pi].ids[0]].back});
 
 /* ================= state ================= */
@@ -229,7 +237,7 @@ let S,hist=[],busy=false,mute=false,pend=null;
 const defPlayers=()=>{let nm=[];try{nm=(JSON.parse(localStorage.getItem('lda-spil'))||{}).names||[]}catch(e){}
   return CARS.map((c,i)=>({car:i,name:(nm[i]&&!['Rød','Blå','Grøn','Gul'].includes(nm[i]))?nm[i]:''}))};
 const newCar=()=>({pos:START,pw:null,skip:0});
-const fresh=(players,n)=>({v:VER,phase:'setup',n:n||2,players:players||defPlayers(),cars:[0,1,2,3].map(newCar),p:0,t:{ph:'roll'},oil:[],log:[],last:'',win:null});
+const fresh=(players,n)=>({v:VER,phase:'setup',n:n||2,players:players||defPlayers(),cars:[0,1,2,3].map(newCar),p:0,t:{ph:'roll'},oil:[],round:1,ev:null,log:[],last:'',win:null});
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 if(!S||S.v!==VER||!S.players||S.players.length!==4||!S.cars||S.cars.some(c=>!NODES[c.pos]))S=fresh(S&&S.players&&S.players.length===4?S.players:null,S&&S.n);
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
@@ -262,19 +270,17 @@ const sfx={step:()=>tone(420,.05,'triangle',.05),
  whoosh:()=>{noise(.6,.25,0,2500);tone(300,.6,'sawtooth',.03,0,1200)},
  rev:()=>{tone(90,.7,'sawtooth',.07,0,420);tone(140,.7,'square',.03,.05,600)},
  zap:()=>[300,600,1200,1800].forEach((f,i)=>tone(f,.08,'sine',.07,i*.05)),
- beat:()=>{tone(70,.18,'sine',.25);tone(60,.2,'sine',.2,.16)},
  win:()=>[523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,.22,'square',.06,i*.13))};
-let beatT=null;const beat=on=>{clearInterval(beatT);beatT=on?setInterval(()=>sfx.beat(),760):null};
 
 /* ================= geometry ================= */
 const $=id=>document.getElementById(id);
 const NS='http://www.w3.org/2000/svg';
-const TW=72,HW=TW/2;
+const TW=72,HW=TW/2,K=1.125;
 let G=null;
 function cr(P){let d=`M${P[0][0]} ${P[0][1]}`;for(let i=0;i<P.length-1;i++){const p0=P[Math.max(0,i-1)],p1=P[i],p2=P[i+1],p3=P[Math.min(P.length-1,i+2)];
   d+=`C${p1[0]+(p2[0]-p0[0])/6} ${p1[1]+(p2[1]-p0[1])/6} ${p2[0]-(p3[0]-p1[0])/6} ${p2[1]-(p3[1]-p1[1])/6} ${p2[0]} ${p2[1]}`}return d}
 function geom(port){
-  const W=port?1000:1600,H=port?1600:1000,M=port?(([x,y])=>[y,1600-x]):(p=>p.slice());
+  const W=(port?1000:1600)*K,H=(port?1600:1000)*K,M=port?(([x,y])=>[y*K,(1600-x)*K]):(([x,y])=>[x*K,y*K]);
   const P=PATHS.map(pa=>{const pts=pa.pts.map(M),e=document.createElementNS(NS,'path');e.setAttribute('d',cr(pts));$('meas').appendChild(e);
     const L=e.getTotalLength(),a=[];for(let s=0;s<L;s+=4){const q=e.getPointAtLength(s);a.push([q.x,q.y])}const q=e.getPointAtLength(L);a.push([q.x,q.y]);e.remove();
     return {L,a,FL:L/pa.n,pts}});
@@ -361,6 +367,7 @@ function mark(c,fl){const h=HW-5,w=fl/2-3;
   case 's':return `<rect x="${-w}" y="${-h}" width="${2*w}" height="${2*h}" fill="#c9a067" opacity=".35"/>`+[0,1,2,3,4].map(()=>`<path d="${sblob((R()-.5)*(fl-30),(R()-.5)*(TW-30),7+R()*8,7,.5)}" fill="#d9b57a" opacity="${F1(.5+R()*.3)}"/>`).join('')+`<path d="M${-w+4} ${-h+6}q12 -6 24 0t24 0" stroke="#b78e52" stroke-width="2" fill="none" opacity=".7"/>`;
   case 'm':return `<rect x="${-w}" y="${-h}" width="${2*w}" height="${2*h}" fill="#3f2a16" opacity=".45"/>`+[0,1,2,3].map(()=>`<path d="${sblob((R()-.5)*(fl-30),(R()-.5)*(TW-30),8+R()*8,8,.5)}" fill="#4a3219" opacity=".85"/>`).join('')+[0,1].map(()=>`<ellipse cx="${F1((R()-.5)*fl*.5)}" cy="${F1((R()-.5)*TW*.4)}" rx="5" ry="2.5" fill="rgba(255,255,255,.18)"/>`).join('');
   case 'i':return `<rect x="${-w-1}" y="${-h-2}" width="${2*w+2}" height="${2*h+4}" fill="url(#icef)" opacity=".85"/><path d="M${F1(-w*.6)} -14L${F1(-w*.1)} 2L${F1(w*.4)} -6M${F1(-w*.1)} 2L${F1(w*.1)} 18" stroke="rgba(255,255,255,.7)" stroke-width="1.3" fill="none"/>`;
+  case 'J':return `<path d="M${-w+6} ${-h+4}L${w-4} ${-h+12}L${w-4} ${h-12}L${-w+6} ${h-4}Z" fill="#c9ced6" stroke="#2a2d33" stroke-width="1.5"/><path d="M${w-4} ${-h+12}L${w+4} ${-h+16}L${w+4} ${h-16}L${w-4} ${h-12}Z" fill="#6b717a"/>`+[-1,0,1].map(k=>`<path d="M${k*14-8} -16L${k*14+4} 0L${k*14-8} 16" fill="none" stroke="#d0312d" stroke-width="5"/>`).join('');
   case 'L':return `<rect x="${-w}" y="${-h}" width="${2*w}" height="${2*h}" fill="url(#hz)" opacity=".3"/><path d="M-12 -10a14 14 0 1 1 0 20" fill="none" stroke="#fff" stroke-width="4"/><path d="M-12 16l-6 -6h12z" fill="#fff" transform="rotate(20 -12 10)"/>`;
   case 'f':return `<rect x="${-w}" y="${-h}" width="${2*w}" height="${2*h}" fill="url(#ember)"/>`+[0,1,2].map(()=>{let d=`M${F1((R()-.5)*fl*.6)} ${F1((R()-.5)*TW*.5)}`;for(let k=0;k<3;k++)d+=`l${F1((R()-.5)*20)} ${F1((R()-.5)*20)}`;return `<path d="${d}" stroke="#ffb02e" stroke-width="2.5" fill="none" filter="url(#glow)"/>`}).join('');
   case 'z':return `<circle r="21" fill="rgba(18,20,26,.75)" stroke="#f5d02b" stroke-width="2.5"/><path d="M4 -16L-8 2H1L-4 17L9 -3H0Z" fill="#f5d02b" transform="rotate(90)"/>`;
@@ -381,11 +388,11 @@ function boardSvg(){
   const P=G.P,poly=(pi,s0,s1,dd=0)=>{const p=P[pi];s0=Math.max(0,s0);s1=Math.min(p.L,s1);const r=[];for(let s=s0;s<s1;s+=6){const a=atP(p,s);r.push(F1(a.x+a.nx*dd)+','+F1(a.y+a.ny*dd))}const a=atP(p,s1);r.push(F1(a.x+a.nx*dd)+','+F1(a.y+a.ny*dd));return r.join(' ')};
   const seeds=SEEDS.map(([a,p])=>[a,M(p)]);
   const areaAt=(x,y)=>{let b=0,bd=1e12;seeds.forEach(([a,p],i)=>{const d=(p[0]-x)**2+(p[1]-y)**2;if(d<bd){bd=d;b=i}});return seeds[b][0]};
-  const lakeC=M([215,205]),lakeR=128,lavaC=M([1250,365]),river=[M([1462,205]),M([1400,250]),M([1330,300]),M([1270,350])];
-  const ravA=(()=>{const p=P[PI.pa1],a=atP(p,4*p.FL),cx=W/2,cy=H/2,sg=((cx-a.x)*a.nx+(cy-a.y)*a.ny)>0?1:-1;return {a,sg,fl:p.FL}})();
+  const lakeC=M([215,205]),lakeR=128*K,lavaC=M([1250,365]),river=[M([1462,205]),M([1400,250]),M([1330,300]),M([1270,350])];
+  const ravA=(()=>{const p=P[PI.pa1],a=atP(p,4*p.FL),cx=W/2,cy=H/2,sg=((cx-a.x)*a.nx+(cy-a.y)*a.ny)>0?1:-1;return {a,sg,fl:p.FL}})(),RV0=-110*K,RV1=240*K;
   const inLake=(x,y,m)=>Math.hypot(x-lakeC[0],y-lakeC[1])<lakeR+m;
   const inLava=(x,y,m)=>Math.hypot(x-lavaC[0],y-lavaC[1])<78+m||river.some(q=>Math.hypot(x-q[0],y-q[1])<44+m);
-  const inRav=(x,y,m)=>{const {a,sg,fl}=ravA,dx=x-a.x,dy=y-a.y,u=dx*a.tx+dy*a.ty,v=(dx*a.nx+dy*a.ny)*sg;return Math.abs(u)<fl+14+m&&v>-110-m&&v<240+m};
+  const inRav=(x,y,m)=>{const {a,sg,fl}=ravA,dx=x-a.x,dy=y-a.y,u=dx*a.tx+dy*a.ty,v=(dx*a.nx+dy*a.ny)*sg;return Math.abs(u)<fl+14+m&&v>RV0-m&&v<RV1+m};
   o+=`<defs>${GLOSS}
    <filter id="nz" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0"/></filter>
    <filter id="mot" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="4" seed="11"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.1 -.35"/></filter>
@@ -423,18 +430,18 @@ function boardSvg(){
   o+=`<path d="${sblob(lavaC[0],lavaC[1],80,11,.3)}" fill="#1a1210"/><path d="${sblob(lavaC[0],lavaC[1],66,11,.3)}" fill="url(#lv)" filter="url(#glow)"/><path d="${sblob(river[0][0],river[0][1],30,8,.3)}" fill="#1a1210"/>`;
   o+=`<polyline points="${river.map(q=>q.map(F1).join(',')).join(' ')}" fill="none" stroke="#1a1210" stroke-width="86" stroke-linecap="round" stroke-linejoin="round"/><polyline points="${river.map(q=>q.map(F1).join(',')).join(' ')}" fill="none" stroke="#ff7a1a" stroke-width="58" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/><polyline points="${river.map(q=>q.map(F1).join(',')).join(' ')}" fill="none" stroke="#ffd36a" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" opacity=".7" stroke-dasharray="30 22"/>`;
   {const {a,sg,fl}=ravA,P2=(u,v)=>{const x=a.x+a.tx*u+a.nx*v*sg,y=a.y+a.ty*u+a.ny*v*sg;return F1(x)+','+F1(y)};const ed=[];
-   for(let v=-110;v<=240;v+=25)ed.push([v,fl+6+(R()-.5)*16]);
+   for(let v=RV0;v<=RV1;v+=25)ed.push([v,fl+6+(R()-.5)*16]);
    const outer=ed.map(([v,u])=>P2(u+14,v)).concat(ed.slice().reverse().map(([v,u])=>P2(-u-14,v)));
    const inner=ed.map(([v,u])=>P2(u-4,v)).concat(ed.slice().reverse().map(([v,u])=>P2(-u+4,v)));
    o+=`<polygon points="${outer.join(' ')}" fill="#6e4a2a"/><polygon points="${inner.join(' ')}" fill="#2a1a10"/><polygon points="${ed.map(([v,u])=>P2(u*.45,v)).concat(ed.slice().reverse().map(([v,u])=>P2(-u*.45,v))).join(' ')}" fill="#120a06"/>`;
    for(let k=0;k<10;k++)o+=rock(a.x+a.tx*(R()-.5)*fl*1.6+a.nx*sg*(R()*300-100),a.y+a.ty*(R()-.5)*fl*1.6+a.ny*sg*(R()*300-100),4+R()*6,'#5a3b22','#2a1a10')}
   const mC=M([980,350]);
   o+=`<path d="${sblob(mC[0]+30,mC[1]+40,135,12,.3)}" fill="rgba(0,0,0,.4)" filter="url(#soft)"/>`;
-  [[-40,10,120],[55,-20,100],[10,55,80]].forEach(([dx,dy,r])=>o+=peak(mC[0]+dx,mC[1]+dy,r));
+  [[-40,10,120],[55,-20,100],[10,55,80]].forEach(([dx,dy,r])=>o+=peak(mC[0]+dx*K,mC[1]+dy*K,r*K));
   o+=`<path d="${sblob(lakeC[0],lakeC[1],lakeR+14,11,.18)}" fill="#6d6a55"/><path d="${sblob(lakeC[0],lakeC[1],lakeR,11,.18)}" fill="url(#lake)"/>`;
   for(let k=0;k<16;k++){const a=R()*6.28,rr=R()*lakeR*.85,x=lakeC[0]+Math.cos(a)*rr,y=lakeC[1]+Math.sin(a)*rr;o+=`<path d="M${F1(x-10)} ${F1(y)}q5 -4 10 0t10 0" stroke="rgba(255,255,255,.3)" stroke-width="1.6" fill="none"/>`}
   /* props */
-  for(let k=0;k<1500;k++){const x=16+R()*(W-32),y=16+R()*(H-32);if(!clear(x,y,12)||inLake(x,y,14)||inLava(x,y,6)||inRav(x,y,6)||Math.hypot(x-mC[0],y-mC[1])<150)continue;
+  for(let k=0;k<1500;k++){const x=16+R()*(W-32),y=16+R()*(H-32);if(!clear(x,y,12)||inLake(x,y,14)||inLava(x,y,6)||inRav(x,y,6)||Math.hypot(x-mC[0],y-mC[1])<165)continue;
     const a=areaAt(x,y);if(R()<({city:.55,jungle:.8,water:.45,desert:.5,lava:.5,ice:.5,space:.55})[a])o+=PROP[a](x,y)}
   /* grandstand along the start straight */
   {const p=P[0],side=(()=>{const a=atP(p,2*p.FL);return clear(a.x+a.nx*(HW+44),a.y+a.ny*(HW+44),16)?1:-1})();
@@ -468,6 +475,8 @@ function boardSvg(){
       for(let k=0;k<pa.n;k++){const c=pa.spec[k],sc=(k+.5)*p.FL;if(sc<q.a||sc>q.b)continue;if(c==='a')continue;const a=atP(p,sc);
         if(c==='S'||c==='G'){r+=fieldQuad(q.pi,k,'url(#chk)',.95);continue}
         const m=mark(c,p.FL);if(m)r+=`<g transform="translate(${F1(a.x)} ${F1(a.y)}) rotate(${F1(ang(a))})">${m}</g>`}
+      for(let k=0;k<pa.n;k++){const c=pa.spec[k],sc=(k+.5)*p.FL;if(sc<q.a||sc>q.b||c==='S'||c==='G'||c==='a')continue;const a=atP(p,sc-p.FL/2+11),x=a.x+a.nx*(HW-12),y=a.y+a.ny*(HW-12);
+        r+=`<text x="${F1(x)}" y="${F1(y)}" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="700" font-size="14" fill="#f4f4ef" stroke="#1b1c1f" stroke-width="3" paint-order="stroke" opacity=".92">${NODES[pa.ids[k]].num}</text>`}
       for(let k=0;k<=pa.n;k++){const s=k*p.FL;if(s<q.a-1||s>q.b+1)continue;const a=atP(p,s);r+=`<line x1="${F1(a.x+a.nx*(HW-4))}" y1="${F1(a.y+a.ny*(HW-4))}" x2="${F1(a.x-a.nx*(HW-4))}" y2="${F1(a.y-a.ny*(HW-4))}" stroke="rgba(236,236,230,.55)" stroke-width="2"/>`}});
     return r};
   const fieldQuad=(pi,k,fill,op)=>{const p=P[pi],e=(s,dd)=>{const a=atP(p,s);return F1(a.x+a.nx*dd)+','+F1(a.y+a.ny*dd)},s0=k*p.FL,s1=(k+1)*p.FL,m=(s0+s1)/2;return `<polygon points="${[e(s0,HW-4),e(m,HW-4),e(s1,HW-4),e(s1,-HW+4),e(m,-HW+4),e(s0,-HW+4)].join(' ')}" fill="${fill}" opacity="${op}"/>`};
@@ -479,7 +488,7 @@ function boardSvg(){
      o+=`<polyline points="${poly(PI.pc2,s0,s1,-HW*.45)}" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="6"/>`}}
   o+=drawPieces(1);
   /* air fields over the ravine */
-  {const pi=PI.pa1,p=P[pi],pa=PATHS[pi];for(let k=0;k<pa.n;k++)if(pa.spec[k]==='a')o+=fieldQuad(pi,k,'none',1).replace('fill="none"','fill="rgba(255,255,255,.06)" stroke="#f2f2f2" stroke-width="2.5" stroke-dasharray="9 7"');
+  {const pi=PI.pa1,p=P[pi],pa=PATHS[pi];for(let k=0;k<pa.n;k++)if(pa.spec[k]==='a'){o+=fieldQuad(pi,k,'none',1).replace('fill="none"','fill="rgba(255,255,255,.06)" stroke="#f2f2f2" stroke-width="2.5" stroke-dasharray="9 7"');const a=atP(p,(k+.5)*p.FL);o+=`<text x="${F1(a.x)}" y="${F1(a.y)}" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="700" font-size="18" fill="#fff" opacity=".8">${NODES[pa.ids[k]].num}</text>`}
    [pa.gap[0],pa.gap[1]].forEach((k,j)=>{const a=atP(p,k*p.FL+(j?6:-6));o+=`<g transform="translate(${F1(a.x)} ${F1(a.y)}) rotate(${F1(ang(a))})"><rect x="${j?-2:-12}" y="${-HW}" width="14" height="${TW}" fill="${j?'#8a8f96':'#c9ced6'}" stroke="#2a2d33"/>${j?'':[-24,-12,0,12,24].map(y=>`<rect x="-10" y="${y-3}" width="10" height="6" fill="#d0312d"/>`).join('')}</g>`})}
   /* clouds over storm fields */
   NODES.forEach(n=>{if(n.c!=='z')return;const a=G.np[n.id];for(const sd of [1,-1]){const x=a.x+a.nx*sd*(HW+40),y=a.y+a.ny*sd*(HW+40);if(!clear(x,y,4)||x<50||x>G.W-50||y<50||y>G.H-50)continue;
@@ -505,7 +514,7 @@ function boardSvg(){
 /* ================= car layer ================= */
 const CEL=[];
 function buildCars(){const cs=$('cars');
-  cs.innerHTML=`<defs>${GLOSS}<radialGradient id="shd"><stop offset="0" stop-color="#000" stop-opacity=".6"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="oilg" cx=".4" cy=".4"><stop offset="0" stop-color="#3a3550"/><stop offset=".6" stop-color="#121018"/><stop offset="1" stop-color="#050407"/></radialGradient><radialGradient id="fb"><stop offset="0" stop-color="#fff6c0"/><stop offset=".35" stop-color="#ffb02e"/><stop offset=".7" stop-color="#e2401a"/><stop offset="1" stop-color="#5a1a0a" stop-opacity="0"/></radialGradient></defs><g id="oil"></g><g id="hl"></g><g id="cl"></g><g id="fx"></g>`;
+  cs.innerHTML=`<defs>${GLOSS}<radialGradient id="shd"><stop offset="0" stop-color="#000" stop-opacity=".6"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="oilg" cx=".4" cy=".4"><stop offset="0" stop-color="#3a3550"/><stop offset=".6" stop-color="#121018"/><stop offset="1" stop-color="#050407"/></radialGradient><radialGradient id="fb"><stop offset="0" stop-color="#fff6c0"/><stop offset=".35" stop-color="#ffb02e"/><stop offset=".7" stop-color="#e2401a"/><stop offset="1" stop-color="#5a1a0a" stop-opacity="0"/></radialGradient><radialGradient id="crt"><stop offset="0" stop-color="#120a06"/><stop offset=".6" stop-color="#2a1a10"/><stop offset=".85" stop-color="#ff7a1a"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/></radialGradient><filter id="eblur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter></defs><g id="ev"></g><g id="oil"></g><g id="hl"></g><g id="cl"></g><g id="fx"></g>`;
   const cl=cs.querySelector('#cl');
   for(let i=0;i<4;i++){const g=document.createElementNS(NS,'g');cl.appendChild(g);CEL[i]=g}
   paintCars()}
@@ -518,6 +527,7 @@ function paintCars(){for(let i=0;i<4;i++){const g=CEL[i],k=S.players[i].car;
   syncMods()}
 function syncMods(){for(let i=0;i<4;i++){const g=CEL[i];if(!g||!g._b)continue;const c=S.cars[i],on=i<S.n,sh=(cls,v)=>g.querySelectorAll('.'+cls).forEach(e=>e.style.display=on&&v?'':'none');
   sh('shl',c.pw==='skjold');sh('rk',Vv[i].fire>0);sh('smk',c.skip||Vv[i].smoke);g._t.textContent=on?(c.skip?'💤':''):''}
+  drawEv();
   const og=$('cars')&&$('cars').querySelector('#oil');if(og&&G)og.innerHTML=S.oil.map(id=>{const a=G.np[id];seed=id*97+5;return `<g transform="translate(${F1(a.x)} ${F1(a.y)})"><path d="${sblob(0,0,26,9,.45)}" fill="url(#oilg)" opacity=".92"/><ellipse cx="-6" cy="-6" rx="8" ry="3" fill="rgba(160,140,255,.35)"/></g>`}).join('')}
 
 /* ================= visual state + loop ================= */
@@ -569,8 +579,12 @@ async function fxMissile(i,j){sfx.whoosh();const[a,b]=[carXY(i),carXY(j)],mx=(a[
 
 /* ================= banner ================= */
 const bn=$('banner');
+let bnDone=null;const bnClose=()=>{if(bnDone){const r=bnDone;bnDone=null;r()}};
 async function banner(ic,t,d,kind,ms){bn.className=(kind||'g')+(ms>2000?' big':'');bn.children[0].textContent=ic;bn.children[1].textContent=t;bn.children[2].textContent=d||'';bn.children[2].style.display=d?'':'none';
-  void bn.offsetWidth;bn.classList.add('show');await wait(ms||1700);bn.classList.remove('show')}
+  void bn.offsetWidth;bn.classList.add('show');
+  if(window.GRFAST){await wait(1)}else{$('bcatch').classList.add('show');await wait(350);await new Promise(r=>{bnDone=r;$('bok').focus({preventScroll:true})});$('bcatch').classList.remove('show')}
+  bn.classList.remove('show')}
+$('bok').onclick=bnClose;$('bcatch').onclick=bnClose;
 
 /* ================= movement ================= */
 async function stepTo(i,to,ms,back){const v=Vv[i],from=S.cars[i].pos;v.moving=true;
@@ -589,10 +603,10 @@ async function drive(i,steps,free){const c=S.cars[i];let r=steps,moved=0;
     if(r<cost){const t=NODES[nx].c==='s'?'Sandet er for dybt':'Mudderet er for tungt';log(`${rawName(i)}: ${t}, bilen sidder fast.`);await banner(NODES[nx].c==='s'?'🏜️':'🟤',t+'!',`Næste felt koster 2 skridt, og ${rawName(i)} har kun 1 tilbage.`,'b',1400);return 'stuck'}
     r-=cost;sfx.step();await stepTo(i,nx,cost>1?420:Math.max(150,Math.min(260,1500/Math.max(1,steps))));moved++;
     if(cost>1){Vv[i].smoke=1;syncMods()}
-    for(let j=0;j<S.n;j++)if(j!==i&&S.cars[j].pos===nx){sfx.bump();shake=Math.max(shake,.3);const ok=await hit(j,1,'skubbet');if(ok){log(`${rawName(i)} skubbede ${rawName(j)} et felt tilbage.`);await banner('💥','Skub!',`${rawName(i)} kører ind i ${rawName(j)}, som ryger et felt tilbage.`,'b',1300)}}
+    if(r===0)for(let j=0;j<S.n;j++)if(j!==i&&S.cars[j].pos===nx){sfx.bump();shake=Math.max(shake,.3);const ok=await hit(j,1,'skubbet');if(ok){log(`${rawName(i)} skubbede ${rawName(j)} et felt tilbage.`);await banner('💥','Skub!',`${rawName(i)} kører op i ${rawName(j)}, som ryger et felt tilbage.`,'b',1300)}}
     const oi=S.oil.indexOf(nx);if(oi>=0){S.oil.splice(oi,1);syncMods();sfx.bad();if(c.pw==='skjold'){c.pw=null;syncMods();await banner('🛡️','Skjoldet holdt!',`${rawName(i)} kører lige igennem oliepletten.`,'p',1300)}
       else{await tw(800,k=>Vv[i].spin=k*12.56);Vv[i].spin=0;log(`${rawName(i)} snurrede rundt i en olieplet.`);await banner('🛢️','Olieplet!',`${rawName(i)} snurrer rundt og stopper her.`,'b',1500);Vv[i].moving=false;return 'oil'}}
-    if(NODES[nx].c==='b'&&!c.pw){const pw=drawPower(i);c.pw=pw;syncMods();sfx.zap();log(`${rawName(i)} fik en power: ${POW[pw].n}.`);hud(true);await banner(POW[pw].ic,POW[pw].n+'!',POW[pw].d,'p',1700)}
+    if(NODES[nx].c==='b'&&!c.pw)await givePower(i);
     if(NODES[nx].c==='G'){Vv[i].moving=false;return 'goal'}}
   Vv[i].moving=false;Vv[i].smoke=0;syncMods();return moved?'ok':'none'}
 async function land(i,depth){const c=S.cars[i],nd=NODES[c.pos],v=Vv[i];if(nd.c==='G')return;
@@ -602,10 +616,51 @@ async function land(i,depth){const c=S.cars[i],nd=NODES[c.pos],v=Vv[i];if(nd.c==
     await tw(450,k=>{v.sc=.2+k*.8;v.spin=0;v.op=.3+k*.7;v.hop=Math.sin(k*Math.PI)*.5});v.sc=1;v.op=1;v.hop=0;v.moving=false;return}
   if(nd.c==='f'){sfx.boom();v.fire=1;syncMods();shake=.4;c.skip=1;log(`${rawName(i)} brændte på Vulkanbroen og står over.`);await banner('🔥','Motoren brænder!',`${rawName(i)} stoppede på den brændende bro og står over næste tur.`,'b',1800);v.fire=0;syncMods();return}
   if(nd.c==='z'){const L=leaders();log(`Tordensky! Lynet ramte ${L.map(rawName).join(' og ')}.`);await banner('⛈️','Tordensky!',L.includes(i)?'Lynet rammer den forreste bil … og det er dig selv!':`Lynet rammer den forreste bil: ${L.map(rawName).join(' og ')}.`,'b',1700);
-    for(const j of L){await fxBolt(Vv[j].x,Vv[j].y);await hit(j,3,'lynet')}return}
-  if(nd.c==='h'){sfx.whoosh();log(`${rawName(i)} blev suget ind i det sorte hul.`);await banner('🌑','Sort hul!',`${rawName(i)} bliver suget 4 felter tilbage.`,'b',1500);await tw(500,k=>v.spin=k*6);await slideBack(i,4,true);return}
+    for(const j of L){await fxBolt(Vv[j].x,Vv[j].y);await hit(j,2,'lynet')}return}
+  if(nd.c==='h'){sfx.whoosh();log(`${rawName(i)} blev suget ind i det sorte hul.`);await banner('🌑','Sort hul!',`${rawName(i)} bliver suget 3 felter tilbage.`,'b',1500);await tw(500,k=>v.spin=k*6);await slideBack(i,3,true);return}
+  if(nd.c==='J'&&depth<3){sfx.rev();await banner('🛫','Hopperampe!',`${rawName(i)} letter og flyver 4 felter frem.`,'g');await fly(i,4);await land(i,depth+1);return}
   if(nd.c==='>'&&depth<3){sfx.rev();v.fire=1;syncMods();await banner('⏩','Fartbånd!','Bilen skyder 3 felter frem.','g',1100);const r=await drive(i,3,true);v.fire=0;syncMods();if(r==='ok')await land(i,depth+1);return}
   if(nd.c==='i'&&depth<3){log(`${rawName(i)} gled på isen.`);await banner('🧊','Glat is!','Bilen glider 2 felter videre.','b',1100);const r=await drive(i,2,true);if(r==='ok'&&NODES[c.pos].c!=='i')await land(i,depth+1);return}}
+
+async function givePower(i){const c=S.cars[i];if(c.pw)return;const pw=drawPower(i);c.pw=pw;syncMods();sfx.zap();log(`${rawName(i)} fik en power: ${POW[pw].n}.`);hud(true);await banner(POW[pw].ic,POW[pw].n+'!',`${rawName(i)}: ${POW[pw].d}`,'p')}
+async function fly(i,n){const c=S.cars[i],v=Vv[i],path=[];let b=c.pos;for(let k=0;k<n;k++){const x=NODES[b].next[0];if(x===undefined)break;path.push(x);b=x;if(NODES[x].c==='G')break}
+  v.moving=true;sfx.whoosh();for(let k=0;k<path.length;k++){const from=c.pos,to=path[k];await tw(300,t=>{const p=poseBetween(from,to,t);v.x=p.x;v.y=p.y;v.tx=p.tx;v.ty=p.ty;v.hop=Math.sin((k+t)/path.length*Math.PI)*2.4});c.pos=to}
+  v.hop=0;v.moving=false;sfx.bump();shake=Math.max(shake,.35);
+  for(let j=0;j<S.n;j++)if(j!==i&&S.cars[j].pos===c.pos){const ok=await hit(j,1,'landingen');if(ok){log(`${rawName(i)} landede oven på ${rawName(j)}.`);await banner('💥','Hård landing!',`${rawName(i)} lander lige ved siden af ${rawName(j)}, som ryger et felt tilbage.`,'b')}}
+  if(NODES[c.pos].c==='b')await givePower(i)}
+
+/* ================= events on random sections ================= */
+function drawEv(){const g=$('cars')&&$('cars').querySelector('#ev');if(!g||!G)return;const E=S.ev&&EVT[S.ev.k];if(!E){g.innerHTML='';return}
+  const pts=S.ev.zone.map(id=>G.np[id]),line=pts.map(a=>F1(a.x)+','+F1(a.y)).join(' ');let o='';
+  if(S.ev.k==='nordlys')o+=[0,1,2].map(k=>`<polyline class="hla" points="${pts.map((a,j)=>F1(a.x+a.nx*(k-1)*30+Math.sin(j*1.3+k)*14)+','+F1(a.y+a.ny*(k-1)*30+Math.cos(j*1.1+k)*14)).join(' ')}" fill="none" stroke="${['#3dffa8','#5fd8ff','#b48cff'][k]}" stroke-width="34" stroke-linecap="round" stroke-linejoin="round" opacity=".55" filter="url(#eblur)" style="animation-delay:${k*.3}s"/>`).join('');
+  else o+=`<polyline class="hla" points="${line}" fill="none" stroke="${E.col}" stroke-width="${TW+30}" stroke-linecap="round" stroke-linejoin="round" opacity=".38" filter="url(#eblur)"/>`;
+  if(S.ev.k==='vulkan')pts.forEach((a,j)=>{o+=`<circle class="hla" cx="${F1(a.x+a.nx*(j%2?20:-20))}" cy="${F1(a.y+a.ny*(j%2?20:-20))}" r="7" fill="#ffb02e" filter="url(#glow)" style="animation-delay:${j*.17}s"/>`});
+  S.ev.spots.forEach(id=>{const a=G.np[id];o+=S.ev.k==='meteor'?`<circle cx="${F1(a.x)}" cy="${F1(a.y)}" r="30" fill="url(#crt)"/><circle cx="${F1(a.x)}" cy="${F1(a.y)}" r="18" fill="#140c08" stroke="#5a3a22" stroke-width="3"/>`
+    :`<g transform="translate(${F1(a.x)} ${F1(a.y)})"><circle class="hla" r="30" fill="#c4a8ff" opacity=".35" filter="url(#eblur)"/><path d="M0 -20L5.5 -6.5L20 -6L8.5 3.5L12.5 18L0 9.5L-12.5 18L-8.5 3.5L-20 -6L-5.5 -6.5Z" fill="#fff4b0" stroke="#e9a91b" stroke-width="2"/></g>`});
+  const m=pts[Math.floor(pts.length/2)],t=`${E.ic} ${E.n.toUpperCase()}`,w=t.length*10+26;
+  o+=`<g transform="translate(${F1(m.x)} ${F1(m.y-56)})"><rect x="${-w/2}" y="-16" width="${w}" height="32" rx="8" fill="#121417" stroke="${E.col}" stroke-width="3"/><text y="1" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="800" font-size="19" fill="#fff">${t}</text></g>`;
+  g.innerHTML=o}
+const evRange=()=>{if(!S.ev)return '';const ns=S.ev.zone.map(id=>NODES[id].num);return `felt ${Math.min(...ns)}–${Math.max(...ns)}`};
+async function fxMeteor(x,y){const g=mk(`<line stroke="#ffd36a" stroke-width="6" stroke-linecap="round" filter="url(#glow)"/>`),l=g.firstChild;sfx.whoosh();
+  await tw(420,k=>{const sx=x+260*(1-k),sy=y-320*(1-k);l.setAttribute('x1',F1(sx+60));l.setAttribute('y1',F1(sy-75));l.setAttribute('x2',F1(sx));l.setAttribute('y2',F1(sy))});g.remove();await fxBoom(x,y,.7)}
+async function newRound(){S.round=(S.round||1)+1;if(S.ev){S.ev=null;drawEv()}if(S.round<3||Math.random()>.45)return;await startEvent()}
+async function startEvent(kind){const ks=Object.keys(EVT),k=kind||ks[Math.floor(Math.random()*ks.length)],E=EVT[k];
+  const anchor=Math.floor(Math.random()*S.n);let b=S.cars[anchor].pos;for(let s=0;s<2;s++){const x=NODES[b].back;if(x!==null)b=x}
+  const zone=[];let x=b;for(let s=0;s<8&&x!==undefined;s++){if(x!==START&&x!==GOAL)zone.push(x);const nx=NODES[x].next;x=nx[Math.floor(Math.random()*nx.length)]}
+  const pool=zone.filter(z=>!NODES[z].ns).sort(()=>Math.random()-.5),spots=k==='meteor'?pool.slice(0,3):k==='stjerne'?pool.slice(0,2):[];
+  S.ev={k,zone,spots};syncMods();log(`${E.n} på ${evRange()}!`);(E.k==='b'?sfx.bad:sfx.good)();if(k==='nordlys')flash('#3dffa8',700);else if(k==='vulkan'){shake=.6;sfx.boom()}
+  await banner(E.ic,E.n+'!',`${E.d} Det gælder ${evRange()}.`,E.k);
+  for(const j of ids()){const pos=S.cars[j].pos;if(pos===GOAL)continue;
+    if(k==='vulkan'&&zone.includes(pos)){await fxBoom(Vv[j].x,Vv[j].y,.8);if(await hit(j,2,'lavabomben'))log(`Lavabombe: ${rawName(j)} ryger 2 felter tilbage.`)}
+    else if(k==='meteor'&&spots.includes(pos)){await fxMeteor(Vv[j].x,Vv[j].y);if(await hit(j,2,'meteoren'))log(`Meteor: ${rawName(j)} ryger 2 felter tilbage.`)}
+    else if(k==='nordlys'&&zone.includes(pos)){log(`Nordlyset skubber ${rawName(j)} 2 felter frem.`);await drive(j,2,true)}
+    else if(k==='stjerne'&&spots.includes(pos)){S.ev.spots=S.ev.spots.filter(z=>z!==pos);syncMods();await givePower(j)}}
+  if(k==='meteor')for(const id of spots){const a=G.np[id];if(!ids().some(j=>S.cars[j].pos===id))await fxMeteor(a.x,a.y)}}
+async function zoneHit(i){if(!S.ev)return;const k=S.ev.k,c=S.cars[i],pos=c.pos;if(pos===GOAL)return;
+  if(k==='vulkan'&&S.ev.zone.includes(pos)){await banner('🌋','Lavabombe!',`${rawName(i)} stoppede i vulkanudbruddet og ryger 2 felter tilbage.`,'b');await fxBoom(Vv[i].x,Vv[i].y,.8);await hit(i,2,'lavabomben')}
+  else if(k==='meteor'&&S.ev.spots.includes(pos)){await banner('☄️','Meteorkrater!',`${rawName(i)} kørte ned i et krater og ryger 2 felter tilbage.`,'b');await hit(i,2,'meteoren')}
+  else if(k==='nordlys'&&S.ev.zone.includes(pos)){flash('#3dffa8',500);await banner('🌌','Nordlys!',`Lyset giver ${rawName(i)} fart: 3 felter frem.`,'g');const r=await drive(i,3,true);if(r==='ok')await land(i,2)}
+  else if(k==='stjerne'&&S.ev.spots.includes(pos)){S.ev.spots=S.ev.spots.filter(z=>z!==pos);syncMods();if(c.pw)await banner('🌠','Stjerneskud!',`${rawName(i)} har allerede en power, så stjernen forsvinder bare.`,'p');else await givePower(i)}}
 
 /* ================= powers ================= */
 function drawPower(i){const pl=place(i),last=pl===S.n&&S.n>1,first=pl===1;
@@ -627,33 +682,25 @@ function chooseFork(i,node,r){return new Promise(res=>{pend={type:'fork',node:no
 function hlFork(id){const g=$('cars').querySelector('#hl');if(!g)return;if(id===null){g.innerHTML='';return}
   g.innerHTML=NODES[id].next.map(n=>{const pa=PATHS[NODES[n].pi],P=G.P[NODES[n].pi],gv=pa.alt==='Genvej',c=gv?'#ff6a3a':'#4aa3ff';let pts=[];for(let s=0;s<Math.min(P.L,2.2*P.FL);s+=8){const a=atP(P,s);pts.push(F1(a.x)+','+F1(a.y))}
     const a=atP(P,1.1*P.FL);return `<polyline class="hla" points="${pts.join(' ')}" fill="none" stroke="${c}" stroke-width="${TW+10}" stroke-opacity=".45" stroke-linecap="round"/><g transform="translate(${F1(a.x)} ${F1(a.y)})"><rect x="-44" y="-15" width="88" height="30" rx="7" fill="${c}" stroke="#fff" stroke-width="2"/><text y="1" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,Arial" font-weight="800" font-style="italic" font-size="20" fill="#fff">${pa.alt.toUpperCase()}</text></g>`}).join('')}
-async function advance(){for(let k=0;k<8;k++){S.p=(S.p+1)%S.n;const c=S.cars[S.p];if(!c.skip)return;c.skip--;syncMods();log(`${rawName(S.p)} står over.`);await banner('💤','Står over',`${rawName(S.p)} står over denne tur.`,'b',1300)}}
+async function advance(){for(let k=0;k<8;k++){S.p=(S.p+1)%S.n;if(S.p===0)await newRound();const c=S.cars[S.p];if(!c.skip)return;c.skip--;syncMods();log(`${rawName(S.p)} står over.`);await banner('💤','Står over',`${rawName(S.p)} står over denne tur.`,'b',1300)}}
 async function go(steps,why){const i=S.p;busy=true;padLock(`${rawName(i)} kører ${steps} skridt${why?' ('+why+')':''}.`);S.last=`${rawName(i)} kørte ${steps} skridt${why?' ('+why+')':''}.`;log(S.last);
   Vv[i].fire=S.t.plus?1:Vv[i].fire;syncMods();
   const r=await drive(i,steps,false);Vv[i].fire=0;syncMods();
   if(r!=='goal'&&r!=='oil'&&r!=='stuck'&&r!=='none')await land(i,0);
+  if(r!=='goal')await zoneHit(i);
   await endTurn()}
-async function endTurn(){const w=ids().find(j=>S.cars[j].pos===GOAL);
+async function endTurn(){const fin=()=>ids().find(j=>S.cars[j].pos===GOAL);let w=fin();if(w===undefined){await advance();w=fin()}
   if(w!==undefined){S.win=w;log(`${rawName(w)} vinder løbet!`);sfx.win();await banner('🏁','I mål!',`${rawName(w)} kører over målstregen først!`,'g',2200)}
-  else await advance();
   S.t={ph:'roll'};save();busy=false;syncAll();hud()}
-async function roll(v){if(busy||S.win!==null||S.phase!=='race')return;const t=S.t,i=S.p;
-  if(t.ph==='roll'){snap();t.d1=v;t.ph='decide';save();sfx.step();hud();return}
-  if(t.ph==='turbo'){beat(false);t.d2=v;const base=t.d1+bonus(i);busy=true;
-    if(v<=3){padLock(`Turbo: ${v} … ÅH NEJ!`);log(`${rawName(i)} prøvede turbo og slog ${v}: motoren sprang.`);S.last=`${rawName(i)} prøvede turbo, slog ${v}, og motoren sprang. Ingen felter denne tur.`;
-      Vv[i].smoke=1;syncMods();await fxBoom(Vv[i].x,Vv[i].y,1.1);flash('#ff7a3a',500);await banner('💥','Motoren sprang!',`Turbo-slaget var ${v}. ${rawName(i)} kører ingen felter denne tur.`,'b',2300);Vv[i].smoke=0;await endTurn();return}
-    padLock(`Turbo: ${v}!`);sfx.rev();flash('#ffb02e',350);await banner('🔥','TURBO!',`${t.d1} + ${v}${bonus(i)?' + '+bonus(i):''} = ${base+v} skridt!`,'g',1300);await go(base+v,'turbo');return}}
+function roll(v){if(busy||bnDone||S.win!==null||S.phase!=='race')return;const i=S.p;snap();const b=bonus(i);go(v+b,b?bonusTxt(i):'')}
 function act(a){if(pend&&pend.type==='fork'){if(a==='f0'||a==='f1')pend.res(NODES[pend.node].next[+a[1]]);return}
-  if(busy||S.win!==null)return;const t=S.t,i=S.p;
-  if(t.ph==='decide'&&a==='kor'){const b=bonus(i);go(t.d1+b,b?bonusTxt(i):'')}
-  else if(t.ph==='decide'&&a==='turbo'){t.ph='turbo';save();sfx.rev();beat(true);hud()}
-  else if(a==='pw')usePower()}
+  if(busy||S.win!==null)return;if(a==='pw')usePower()}
 const bonusTxt=i=>[S.t.plus?'🚀 +'+S.t.plus:'',isLast(i)?'bagerst +1':''].filter(Boolean).join(', ');
 
 /* ================= HUD ================= */
 const PIPS={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
 const dieSvg=v=>`<svg viewBox="0 0 60 60" aria-hidden="true"><defs><linearGradient id="dg${v}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9dde3"/></linearGradient></defs><rect x="3" y="3" width="54" height="54" rx="11" fill="url(#dg${v})" stroke="#9aa1ab" stroke-width="1.5"/>${PIPS[v].map(k=>`<circle cx="${16+(k%3)*14}" cy="${16+Math.floor(k/3)*14}" r="5" fill="#16181b"/>`).join('')}</svg>`;
-$('keys').innerHTML=[1,2,3,4,5,6].map(v=>`<button class="key${v<=3?' lo':''}" data-v="${v}" aria-label="Terningen viste ${v}">${dieSvg(v)}</button>`).join('');
+$('keys').innerHTML=[1,2,3,4,5,6].map(v=>`<button class="key" data-v="${v}" aria-label="Terningen viste ${v}">${dieSvg(v)}</button>`).join('');
 function modChips(c,i){const o=[];if(c.pw)o.push([POW[c.pw].ic+' '+POW[c.pw].n,'p']);if(c.skip)o.push(['💤 står over','b']);if(isLast(i))o.push(['🔼 bagerst: +1','']);
   return o.map(([t,k])=>`<span class="mod${k?' '+k:''}">${t}</span>`).join('')}
 function padLock(t){$('last').textContent='';$('msg').textContent=t;$('hint').textContent='';$('keys').hidden=true;$('acts').innerHTML='';$('bUndo').disabled=true}
@@ -663,7 +710,7 @@ function hud(keepPad){
   requestAnimationFrame(()=>build());
   if(CEL.length)syncMods();
   if(!race){setupUI();return}
-  $('pl').innerHTML=ids().map(i=>{const c=S.cars[i],pl=place(i),d=NODES[c.pos].d;return `<div class="pc${i===S.p&&S.win===null?' on':''}" style="--c:${col(i)}"><img src="${AV[S.players[i].car]}" alt=""><b>${nm(i)}</b><span class="plc${pl===1?' p1':''}">${pl}.</span><small>${d?d+' felter til mål':'I mål'}<span class="ar"> · ${PATHS[NODES[c.pos].pi].nm}</span></small><div class="pbar"><i style="width:${(1-d/TOTAL)*100}%"></i></div><div class="mods">${modChips(c,i)}</div></div>`}).join('');
+  $('pl').innerHTML=ids().map(i=>{const c=S.cars[i],pl=place(i),d=NODES[c.pos].d;return `<div class="pc${i===S.p&&S.win===null?' on':''}" style="--c:${col(i)}"><img src="${AV[S.players[i].car]}" alt=""><b>${nm(i)}</b><span class="plc${pl===1?' p1':''}">${pl}.</span><small>${d?(c.pos===START?'Start':'Felt '+NODES[c.pos].num)+' · '+d+' til mål':'I mål'}<span class="ar"> · ${PATHS[NODES[c.pos].pi].nm}</span></small><div class="pbar"><i style="width:${(1-d/TOTAL)*100}%"></i></div><div class="mods">${modChips(c,i)}</div></div>`}).join('');
   $('log').innerHTML=S.log.map(t=>`<li>${esc(t)}</li>`).join('')||'<li>Ingen træk endnu.</li>';
   const w=$('win');if(S.win!==null){$('wtxt').innerHTML=`<span style="color:${col(S.win)}">${nm(S.win)}</span> vinder!`;
     const ord=ids().sort((a,b)=>(b===S.win)-(a===S.win)||dist(a)-dist(b));
@@ -671,16 +718,13 @@ function hud(keepPad){
     if(!w.classList.contains('show')){w.classList.add('show');confetti()}}else w.classList.remove('show');
   if(busy&&!(pend&&pend.type==='fork'))return;
   const p=S.p,c=S.cars[p],t=S.t,pad=$('pad'),keys=$('keys'),acts=$('acts');pad.style.setProperty('--c',col(p));
-  $('last').textContent=S.last;keys.classList.toggle('tb',t.ph==='turbo');
+  $('last').textContent=S.last;
   let msg='',hint='',a='',showKeys=false;const b=bonus(p);
   if(pend&&pend.type==='fork'){const nx=NODES[pend.node].next.map(n=>PATHS[NODES[n].pi]);msg=`<b>${nm(pend.i)}</b> er ved en gaffel med ${pend.r} skridt tilbage. Hvilken vej?`;
     a=nx.map((pa,k)=>`<button class="act ${pa.alt==='Genvej'?'gv':'om'}" data-a="f${k}">${pa.alt}: ${pa.nm}<small>${pa.tip}</small></button>`).join('')}
   else if(S.win!==null)msg=`<b>${nm(S.win)}</b> har vundet!`;
-  else if(t.ph==='roll'){showKeys=true;msg=`<b>${nm(p)}</b>: slå terningen, og tast slaget.`;hint=bonusTxt(p);
+  else{showKeys=true;msg=`<b>${nm(p)}</b>: slå terningen, og tast slaget.`;hint=[bonusTxt(p),S.ev?EVT[S.ev.k].ic+' '+EVT[S.ev.k].n+' på '+evRange():''].filter(Boolean).join(' · ');
     if(c.pw&&c.pw!=='skjold')a=`<button class="act pw" data-a="pw">Brug ${POW[c.pw].ic} ${POW[c.pw].n}<small>${POW[c.pw].d}</small></button>`;else if(c.pw==='skjold')hint=(hint?hint+' · ':'')+'🛡️ skjoldet beskytter dig';}
-  else if(t.ph==='decide'){msg=`<b>${nm(p)}</b> slog ${t.d1}. Kør, eller tør du turbo?`;hint=b?bonusTxt(p):'';
-    a=`<button class="act go" data-a="kor">Kør ${t.d1+b} skridt<small>Sikkert</small></button><button class="act tb" data-a="turbo">🔥 TURBO<small>Slå igen: 4-5-6 lægges til<br>1-2-3: motoren springer</small></button>`}
-  else if(t.ph==='turbo'){showKeys=true;msg=`<b>${nm(p)}</b>: TURBO! Slå igen, og tast slaget.`;hint=`Du har ${t.d1+b}. Grøn = lægges til · Rød = motoren springer`}
   $('msg').innerHTML=msg;$('hint').textContent=hint;keys.hidden=!showKeys;acts.innerHTML=a;
   document.querySelectorAll('.key').forEach(k=>k.disabled=!showKeys);
   $('bUndo').disabled=!hist.length||!!pend}
@@ -689,11 +733,11 @@ function setupUI(){
   document.querySelectorAll('#seg button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===S.n));
   $('srows').innerHTML=Array.from({length:S.n},(_,i)=>{const pc=S.players[i].car;return `<div class="srow" style="--c:${CARS[pc].col}"><input data-i="${i}" maxlength="14" value="${esc(S.players[i].name)}" placeholder="${CARS[pc].def}" aria-label="Navn på spiller ${i+1}">
    <div class="pick">${CARS.map((c,k)=>`<button data-i="${i}" data-k="${k}" style="--k:${c.col}" aria-pressed="${k===pc}" aria-label="${c.n}" title="${c.n}"><img src="${AV[k]}" alt=""></button>`).join('')}</div></div>`}).join('')}
-function startRace(){hist=[];beat(false);const pl=S.players,n=S.n;S=fresh(pl,n);S.phase='race';S.last='Løbet er i gang!';save();if(CEL.length)paintCars();syncAll();hud()}
-function undo(){if(busy||pend||!hist.length)return;beat(false);S=JSON.parse(hist.pop());save();syncAll();hud()}
+function startRace(){hist=[];const pl=S.players,n=S.n;S=fresh(pl,n);S.phase='race';S.last='Løbet er i gang!';save();if(CEL.length)paintCars();syncAll();hud()}
+function undo(){if(busy||pend||!hist.length)return;S=JSON.parse(hist.pop());save();syncAll();hud()}
 $('keys').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)roll(+b.dataset.v)});
 $('acts').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b)act(b.dataset.a)});
-addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||S.phase!=='race')return;if(e.key>='1'&&e.key<='6')roll(+e.key);else if(e.key==='Enter')act('kor');else if(e.key==='t')act('turbo')});
+addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||S.phase!=='race')return;if(bnDone&&(e.key==='Enter'||e.key===' '||e.key==='Escape')){e.preventDefault();bnClose();return}if(e.key>='1'&&e.key<='6')roll(+e.key)});
 $('seg').addEventListener('click',e=>{const b=e.target.closest('[data-n]');if(!b)return;S.n=+b.dataset.n;save();hud()});
 $('srows').addEventListener('input',e=>{const i=e.target.dataset.i;if(i!==undefined){S.players[i].name=e.target.value;save()}});
 $('srows').addEventListener('click',e=>{const b=e.target.closest('button[data-k]');if(!b)return;const i=+b.dataset.i,k=+b.dataset.k,o=S.players.findIndex(p=>p.car===k);if(o===i)return;S.players[o].car=S.players[i].car;S.players[i].car=k;save();if(CEL.length)paintCars();hud()});
@@ -701,20 +745,20 @@ $('go').onclick=startRace;
 $('bUndo').onclick=undo;$('wundo').onclick=undo;
 $('again').onclick=startRace;
 $('wsetup').onclick=()=>{S.phase='setup';S.win=null;save();hud();$('win').classList.remove('show')};
-$('bNew').onclick=()=>{if(busy)return;if(S.win===null&&S.cars.some(c=>c.pos!==START)&&!confirm('Vil du stoppe løbet og starte et nyt?'))return;beat(false);S.phase='setup';S.win=null;save();hud()};
-$('bSnd').onclick=()=>{mute=!mute;$('bSnd').setAttribute('aria-pressed',!mute);if(mute)beat(false)};
+$('bNew').onclick=()=>{if(busy)return;if(S.win===null&&S.cars.some(c=>c.pos!==START)&&!confirm('Vil du stoppe løbet og starte et nyt?'))return;S.phase='setup';S.win=null;save();hud()};
+$('bSnd').onclick=()=>{mute=!mute;$('bSnd').setAttribute('aria-pressed',!mute)};
 $('bRules').onclick=()=>$('rules').classList.add('show');$('rclose').onclick=()=>$('rules').classList.remove('show');
 const cls={g:'',b:'b',p:'p',n:'n'};
-$('rtxt').innerHTML=`<ul><li>Én omgang rundt om banen. Første bil over <b>START / MÅL</b> vinder. Man behøver ikke slå præcist.</li><li>Slå med en rigtig terning, og tryk på det, den viste. Bilen kører selv.</li></ul>
-<h3>Turbo</h3><ul><li>Når du har slået, vælger du: <b>Kør</b>, eller <b>Turbo</b> og slå én gang til.</li><li>Viser turbo-slaget 4, 5 eller 6, lægges det til. Viser det 1, 2 eller 3, springer motoren, og du kører ingen felter den tur.</li><li>Godt tip: turbo kan betale sig, når første slag er lavt.</li></ul>
+$('rtxt').innerHTML=`<ul><li>Én omgang rundt om banen. Første bil over <b>START / MÅL</b> vinder. Man behøver ikke slå præcist.</li><li>Slå med en rigtig terning, og tryk på det, den viste. Bilen kører selv.</li><li>Når der sker noget, bliver skiltet stående, til I trykker OK.</li></ul>
 <h3>Gafler</h3><ul><li>Tre steder deler banen sig. Når bilen kommer til en gaffel, vælger du <b>Genvej</b> (kort, men farlig) eller <b>Omvej</b> (længere, men med power-kasser og fartbånd).</li></ul>
 <h3>Felter og underlag</h3><ul class="ev">${Object.values(FT).map(e=>`<li class="${cls[e.k]}"><b>${e.ic} ${e.n}</b><br>${e.d}</li>`).join('')}</ul>
+<h3>Begivenheder</h3><ul class="ev">${Object.values(EVT).map(e=>`<li class="${cls[e.k]}"><b>${e.ic} ${e.n}</b><br>${e.d}</li>`).join('')}</ul>
+<ul><li>Fra anden runde kan der ske en begivenhed, hver gang en ny runde starter. Den rammer et tilfældigt stykke af banen, som lyser op, og varer runden ud.</li></ul>
 <h3>Powers</h3><ul class="ev">${Object.values(POW).map(e=>`<li class="p"><b>${e.ic} ${e.n}</b><br>${e.d}</li>`).join('')}</ul>
 <ul><li>Du kan have én power ad gangen. Du bestemmer selv, hvornår du bruger den, men aldrig hvem den rammer. Det klarer spillet.</li><li>Bilerne bagerst får oftere de stærke powers.</li></ul>
 <h3>Biler, der mødes</h3><ul><li>Kører du ind i en anden bil, skubber du den et felt tilbage.</li><li>Den bil, der ligger sidst, får +1 på hvert slag, så ingen falder helt af.</li></ul>`;
 syncAll();hud();build();requestAnimationFrame(tick);
-if(S.t&&S.t.ph==='turbo')beat(true);
-window.GR={get S(){return S},NODES,PATHS,roll,act,usePower,sync(){syncAll();hud()},build,get pend(){return pend},get busy(){return busy}};
+window.GR={get S(){return S},NODES,PATHS,roll,act,usePower,startEvent,sync(){syncAll();hud()},build,get pend(){return pend},get busy(){return busy}};
 }
 </script>
 </body>
