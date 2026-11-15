@@ -367,6 +367,13 @@ main{max-width:1100px;margin:0 auto;padding:22px max(4vw,16px) 48px;display:grid
  .risk{margin-left:0}
 }
 
+/* Enkel pointtavle: spillet foregår på bordet, skærmen holder styr på turen. */
+:root{--bg:light-dark(#f4f5f2,#111617);--paper:light-dark(#fff,#1a2020);--ink:light-dark(#202925,#eef2ec);--soft:light-dark(#65736b,#acb9ae);--line:light-dark(#dfe6e0,#34403a);--navy:#1c322b;--tint:light-dark(#f2f6f2,#26302b);--red:#c44940;--blue:#376ca3;--green:#358365;--yellow:#b67a24;--gold:#cc9b51}
+body{font-family:Poppins,system-ui,sans-serif;font-size:15px}header{background:var(--paper);color:var(--ink);padding:22px max(4vw,18px) 16px;border-radius:0;border-bottom:1px solid var(--line)}.top{max-width:1040px;gap:20px}h1{font-size:23px;letter-spacing:-.04em}h1 small{font-size:12px;margin-top:4px;color:var(--soft)}.tabs{gap:5px}.tab{font-size:12px;min-height:40px;padding:8px 13px;border:1px solid transparent;color:var(--soft);border-radius:8px;background:transparent}.tab:hover{background:var(--tint)}.tab[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}a.tab.gr{background:transparent;border-color:var(--line);color:var(--soft)}
+main{max-width:1040px;padding:26px max(4vw,18px) 45px;gap:18px}.setup{font-size:13px;color:var(--soft);gap:10px}.setup small{display:none}.art-toggle{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer}.art-toggle input{accent-color:var(--navy);width:16px;height:16px}.seg{border:1px solid var(--line);border-radius:9px;box-shadow:none}.seg button{min-width:39px;min-height:38px;font-size:14px}.seg button+button{border-left:1px solid var(--line)}.nmbtn{min-height:38px;font-size:12px}.players{gap:10px}.pl{display:block;padding:17px;border:1px solid var(--line);border-radius:12px;box-shadow:none;background:var(--paper);transform:none!important}.pl.on{border-color:var(--c);box-shadow:inset 0 3px 0 var(--c)}.pl.on::after{content:'SPILLER NU';top:13px;right:13px;background:transparent;color:var(--c);font-size:9px;letter-spacing:.08em;padding:0}.pl .meep{display:none}.pname,.pl input{font-size:14px;padding-right:68px}.score{font-size:36px;margin-top:12px;letter-spacing:-.045em}.score span{font-size:12px;letter-spacing:0}.bar{height:5px;border:0;margin-top:12px}.chests{font-size:12px}.chests svg{width:20px;height:16px}
+.board,.board.hasrace{display:flex;flex-direction:column;align-items:stretch;gap:16px;border:1px solid var(--line);box-shadow:none;border-radius:14px;background:var(--paper);padding:clamp(18px,3vw,26px)}.bhead{display:flex;align-items:center;gap:8px}.bhead h2{font-size:18px}.msg{font-size:13px;min-height:0}.race{display:none!important}.board .sw{display:none}.board.illustrated .sw{display:block}.board.illustrated .race{display:flex!important}.battleboard .scene{height:clamp(200px,24vw,280px);min-height:0}.turnview{border:1px solid var(--line);background:var(--tint);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.turnview .turn-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);font-weight:700}.turnview .turn-value{font-size:24px;font-weight:700;letter-spacing:-.03em}.turnview .turn-detail{font-size:13px;color:var(--soft);font-weight:600}.pad p{font-size:14px}.key{border:1px solid var(--line);border-radius:9px;box-shadow:none;min-height:58px;font-size:17px}.key:active{box-shadow:none;transform:scale(.97)}.key.bad{border-color:#d67c73;background:light-dark(#fff2ef,#402622);box-shadow:none}.btn{border:1px solid var(--line);border-radius:9px;box-shadow:none;min-height:44px;font-size:13px}.btn:active{box-shadow:none}.btn.main{background:var(--navy);border-color:var(--navy)}.btn.guess{font-size:15px}.risk svg{width:70px;height:42px}.risk b{font-size:18px}.risk small{font-size:11px}.last{font-size:12px;border:0}.odds{border:1px solid var(--line)}.pirate-score{border:1px solid var(--line);font-size:13px}.low{grid-template-columns:1fr 1fr;gap:10px}.panel{border:1px solid var(--line);border-radius:12px;padding:0;background:var(--paper)}.panel summary{cursor:pointer;padding:15px 18px;font-weight:700;list-style:none}.panel summary:after{content:'+';float:right;color:var(--soft)}.panel[open] summary:after{content:'−'}.panel .panelbody{padding:0 18px 18px}.panel h3{font-size:15px}.panel li{font-size:13px}.win .wbox{border:1px solid var(--line);box-shadow:0 15px 70px #0006}
+@media(max-width:700px){.low{grid-template-columns:1fr}.players{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px}.many .pl{display:block;text-align:left;padding:14px}.many .pname,.many .pl input{text-align:left;font-size:13px}.many .score{font-size:30px}.many .score span{display:inline;font-size:11px}.many .pl.on::after{right:10px;top:12px;transform:none}.tabs{overflow-x:auto;flex-wrap:nowrap;width:100%;padding-bottom:2px}.tab{white-space:nowrap;flex:none}.setup{gap:8px}.turnview{padding:12px}.turnview .turn-value{font-size:20px}.battleboard .scene{height:230px}.low{gap:8px}}
+@media(min-width:1000px) and (orientation:landscape){main{display:grid;grid-template-columns:1fr;align-items:stretch}.setup{flex-direction:row;align-items:center}.setup small{display:none}.board,.low{grid-column:auto}.board,.board.hasrace{display:flex}.pl{padding:17px}.score{font-size:36px}.keys:not(.cards){grid-template-columns:repeat(6,minmax(0,1fr))}.key{min-height:58px}.ma .btn{min-height:48px;font-size:14px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
 </style>
 </head>
@@ -376,16 +383,15 @@ main{max-width:1100px;margin:0 auto;padding:22px max(4vw,16px) 48px;display:grid
   <nav class="tabs" id="tabs" aria-label="Vælg spil"></nav>
 </div></header>
 <main>
-  <div class="setup">Antal spillere <div class="seg" id="seg" role="group" aria-label="Antal spillere"><button data-n="2">2</button><button data-n="3">3</button><button data-n="4">4</button></div><button class="btn nmbtn" id="names">Ret navne</button><small>Skifter du antal, starter et nyt spil.</small></div>
+  <div class="setup">Antal spillere <div class="seg" id="seg" role="group" aria-label="Antal spillere"><button data-n="2">2</button><button data-n="3">3</button><button data-n="4">4</button></div><button class="btn nmbtn" id="names">Ret navne</button><label class="art-toggle"><input id="showart" type="checkbox"> Vis illustrationer</label><small>Skifter du antal, starter et nyt spil.</small></div>
   <section class="players" id="players"></section>
   <section class="board" id="board"></section>
+  <div class="acts"><button class="btn" id="undo">Fortryd sidste træk</button><button class="btn" id="reset">Nyt spil</button></div>
   <section class="low">
-    <div class="panel" id="rules"></div>
-    <div class="panel"><h3>Seneste træk</h3><ul class="log" id="log"></ul>
-      <div class="acts" style="margin-top:12px"><button class="btn" id="undo">Fortryd</button><button class="btn" id="reset">Nyt spil</button></div>
-    </div>
+    <details class="panel"><summary>Regler og indstillinger</summary><div class="panelbody" id="rules"></div></details>
+    <details class="panel"><summary>Seneste træk</summary><div class="panelbody"><ul class="log" id="log"></ul></div></details>
   </section>
-  <footer class="ver">LDA Spil · version 13.0</footer>
+  <footer class="ver">LDA Spil · version 14.0</footer>
 </main>
 <div class="win" id="win"><canvas id="conf"></canvas><div class="wbox"><div id="wtxt"></div><div class="acts" style="margin-top:16px;justify-content:center"><button class="btn" id="wundo">Fortryd</button><button class="btn main" id="again">Spil igen</button></div></div></div>
 <script>
@@ -681,7 +687,7 @@ function pad(){
   if(g.kind==='battle'){
     if(t.roll===null)return `<p>Hvad slog du?</p><div class="keys">${[1,2,3,4,5,6].map(v=>`<button class="key" data-die="${v}" aria-label="Slog ${v}">${pips(v)}</button>`).join('')}</div>`;
     const full=S.wall[S.p]>=WMAX;
-    return `<p>Du slog ${t.roll}. Hvad gør du? <span style="color:var(--soft);font-weight:500">Du kan også trykke på en borg.</span></p><div class="acts">${S.scores.map((h,i)=>i===S.p||h<=0?'':`<button class="btn guess main" style="background:${COL[i]}" data-shoot="${i}">Skyd på ${nm(i)}<small>−${Math.max(0,t.roll-S.wall[i])} liv${S.wall[i]?`, mur ${S.wall[i]}`:''}</small></button>`).join('')}
+    return `<p>Du slog ${t.roll}. Hvad gør du?</p><div class="acts">${S.scores.map((h,i)=>i===S.p||h<=0?'':`<button class="btn guess main" style="background:${COL[i]}" data-shoot="${i}">Skyd på ${nm(i)}<small>−${Math.max(0,t.roll-S.wall[i])} liv${S.wall[i]?`, mur ${S.wall[i]}`:''}</small></button>`).join('')}
       <button class="btn guess" data-build ${full?'disabled':''}>Byg mur<small>${full?'muren er fuld':`+${Math.min(WMAX-S.wall[S.p],t.roll)} sten`}</small></button></div>`;
   }
   if(g.kind==='dice'){const lim=S.game==='tower'?towerTop(t):PD(t),w=S.game==='tower'?'vælter tårnet':'henter piraten';
@@ -698,7 +704,15 @@ function pad(){
 }
 const $=id=>document.getElementById(id);
 const tabs=$('tabs'),players=$('players'),board=$('board'),rules=$('rules'),logEl=$('log'),undo=$('undo'),win=$('win'),wtxt=$('wtxt'),conf=$('conf');
-let shownWin=null,editNames=false;
+let shownWin=null,editNames=false,showArt=false;try{showArt=localStorage.getItem('lda-show-art')==='1'}catch(e){}
+$('showart').checked=showArt;$('showart').addEventListener('change',e=>{showArt=e.target.checked;try{localStorage.setItem('lda-show-art',showArt?'1':'0')}catch(err){}render()});
+function compactTurn(){const t=S.turn,game=S.game;
+  if(game==='tower'){const f=t.fl;return {label:'Tårnet i denne tur',value:`${f.length} ${f.length===1?'etage':'etager'}`,detail:f.length?`Slag: ${f.join(' · ')}${towerTop(t)===6?' · næste: kun 6':towerTop(t)===0?' · kravet er nulstillet':` · næste over ${towerTop(t)}`}`:'Slå for at begynde'};}
+  if(game==='pirate')return {label:'Skat i denne tur',value:`${t.sum} mønter`,detail:t.rolls.length?`Slag: ${t.rolls.join(' · ')}`:'Slå for at begynde'};
+  if(game==='hilo')return {label:'Kort i denne tur',value:`${t.pile} kort`,detail:t.cur===null?'Vend startkort':`Aktuelt kort: ${RN(t.cur)} · ${S.deck} kort tilbage`};
+  if(game==='chest')return {label:'I skattekisten',value:`${turnPts()} point`,detail:t.row.length?`Kort: ${t.row.map(FN).join(' · ')} · ${S.deck} tilbage`:`${S.deck} kort tilbage`};
+  return null;
+}
 function render(){
   const g=GAMES[S.game],tg=target(),busy=FX&&FX.kind==='bust';
   document.documentElement.style.setProperty('--c',COL[S.p]);
@@ -717,9 +731,11 @@ function render(){
       ${FX&&FX.kind==='bank'&&FX.p===i?`<div class="plus">+${FX.pts}</div>`:''}</div>`}).join('');
   const pts=turnPts(),canStop=!busy&&S.win===null&&(S.game==='hilo'?S.turn.cur!==null&&pts>0:pts>0);
   const shownP=busy?FX.p:S.p;
-  board.classList.toggle('hasrace',S.game==='tower');
+  board.classList.toggle('hasrace',S.game==='tower');board.classList.toggle('battleboard',S.game==='battle');board.classList.toggle('illustrated',showArt);
+  const ct=compactTurn();
   board.innerHTML=`<div class="bhead"><h2 style="--c:${COL[shownP]}"><b>${nm(shownP)}</b>s tur</h2>${S.final&&S.win===null?'<span class="last">Sidste runde</span>':''}<span class="msg ${S.mt}" role="status">${S.msg||'Slå eller vend et kort for at starte.'}</span></div>
-    ${S.game==='tower'?race(busy):''}
+    ${S.game==='tower'&&showArt?race(busy):''}
+    ${ct?`<div class="turnview"><div><div class="turn-label">${ct.label}</div><div class="turn-value">${ct.value}</div></div><span class="turn-detail">${ct.detail}</span></div>`:''}
     <div class="sw" style="--c:${COL[shownP]}">${busy?scene(FX.game,FX.turn,FX.p,true,FX.v):S.game==='battle'?battleScene():scene(S.game,S.turn,S.p,false)}</div>
     ${S.game==='pirate'?`<div class="pirate-score" role="status">🏴‍☠️ <b>Piraternes skat: ${S.pirateScore||0} / ${pirateGoal()} mønter</b><span> · ${['Tomt skib','Skat om bord','Gyldne sejl','Piratkongens skib'][pirateLevel()]}</span><div class="bar"><i style="width:${Math.min(100,(S.pirateScore||0)/pirateGoal()*100)}%;background:#ff5240"></i></div></div>`:''}
     <div class="pad">${pad()}</div>
