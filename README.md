@@ -11,12 +11,16 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 | **Kanonkampen** | Kamp: skyd på de andres borge eller byg mur | 1 terning |
 | **Højere eller lavere** | Push your luck med kort | Kortspil |
 | **Skattekisten** | Push your luck: samme værdi to gange, og kisten springer | Kortspil |
+| **Monsterhulen** | Kamp og push your luck: slå monsteret i døren, og gå dybere ind eller hjem med sækken | Kortspil + 1 terning |
+| **Dykkerklokken** | Planlægning: svøm med den ene terning, find skat med den anden, og nå op, før luften slipper op | 2 terninger |
 
 - 2–4 spillere med navne og farver
 - I Tårnet og Piratskatten spilles runden færdig, når nogen når målet, så alle har haft lige mange ture
 - Risikomåler og chancer regnet ud fra de kort, der er tilbage i bunken
 - Fortryd, log og automatisk gemt spil i browseren
-- Tilpasset telefon og iPad (højkant og på langs)
+- Forside med en flise pr. spil. Hvert spil gemmes for sig, så man kan skifte spil og fortsætte senere
+- Bygget til iPad 11" (højkant og på langs): ét fast skærmbillede uden rul, hvor scenen fylder mest, og terningknapper, risiko og stop altid er fremme. Virker også på telefon
+- Lyd i alle spil (kan slås fra under Regler)
 
 ## Galaxy Raceway
 
