@@ -381,6 +381,36 @@ body.home #game,body:not(.home) #home{display:none}
 .btn.dvb:active{box-shadow:0 1px 0 #061018}
 .btn.dvb.dn{background:#0f4f7a}.btn.dvb.up{background:#187f7b}.btn.dvb.dead{background:#8e1f17}
 .btn.dvb small{font-size:12.5px;font-weight:600;margin-top:2px}
+/* Dykkerklokken 20.0: luftbobler, valgmærker på havet, skat der flyver i nettet, fest i båden */
+.airp{position:absolute;left:8px;top:8px;z-index:6;background:rgba(4,21,35,.82);border:2px solid #061018;border-radius:12px;padding:4px 8px 6px;color:#fff;font-weight:800;box-shadow:0 3px 0 #061018;max-width:calc(100% - 150px)}
+.airp .alb{display:flex;align-items:baseline;gap:6px;font-size:11px;letter-spacing:.08em;color:#bfe3f2}.airp .alb b{font-size:17px;letter-spacing:0;color:#fff}
+.bubs{display:flex;gap:3px;margin-top:2px}
+.bubs i{width:clamp(13px,1.7vw,18px);aspect-ratio:1;border-radius:50%;border:2px solid #cfeefa;background:radial-gradient(circle at 34% 30%,#fff 0 18%,#9fe2ff 30%,#2a9fd0 78%);box-shadow:0 0 8px rgba(130,220,255,.55)}
+.bubs i.need{border-color:#ffb02e;box-shadow:0 0 0 2px rgba(255,176,46,.35),0 0 8px rgba(255,176,46,.6)}
+.bubs i.gone{background:transparent;border:2px dashed rgba(207,238,250,.35);box-shadow:none}
+.bubs i.pop{animation:bpop .7s ease-out both}@keyframes bpop{0%{transform:scale(1)}40%{transform:scale(1.5);opacity:.8}to{transform:scale(.2);opacity:0}}
+.airp small{display:block;margin-top:3px;font-size:11px;max-width:150px;line-height:1.2;font-weight:700;color:#ffd38a}
+.airp.low{background:rgba(150,20,14,.92);animation:pulse .5s ease-in-out infinite alternate}.airp.low small{color:#fff}
+.glint{animation:tw 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.dopt{cursor:pointer}.dopt .ring{animation:oring 1.2s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes oring{to{transform:scale(1.15);opacity:.7}}
+.dopt:hover .plate,.dopt:active .plate{filter:brightness(1.25)}
+.dopt.pick{animation:pop .35s ease-out}
+.fly{animation:fly .9s 1s cubic-bezier(.3,.6,.4,1) both}@keyframes fly{from{transform:translate(var(--fx),var(--fy)) scale(1.3);opacity:0}20%{opacity:1}to{transform:translate(0,0) scale(.6);opacity:0}}
+.sink{animation:sink 1.5s .2s ease-in both}@keyframes sink{to{transform:translate(var(--sx),var(--sy)) rotate(200deg);opacity:.6}}
+.surf{position:absolute;inset:0;z-index:8;pointer-events:none;background:radial-gradient(ellipse at 50% 18%,rgba(255,226,127,.6),transparent 60%);animation:c3in .4s ease-out both}
+.surf i{position:absolute;left:50%;top:44%;width:20px;height:11px;margin:-5px -10px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff3b0,#ffc23a 45%,#c98400);border:2px solid #081624;animation:surfc 1.2s ease-out both}
+@keyframes surfc{from{transform:translate(0,0) scale(.4);opacity:0}25%{opacity:1}to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+.divhow{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:center;background:rgba(15,79,122,.18);border:2px solid #0f4f7a;border-radius:12px;padding:8px 12px;font-size:14px;font-weight:600}
+.divhow .dd{display:flex;gap:4px}.divhow .dd svg{width:30px;height:30px}
+.dvcards{display:grid;grid-template-columns:1fr;gap:8px}
+.dvc{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 10px;min-height:64px;text-align:left;padding:8px 12px;border-radius:14px;border:3px solid #061018;box-shadow:0 4px 0 #061018;color:#fff;background:#0f4f7a;font-weight:800;line-height:1.15}
+.dvc:active{transform:translateY(3px);box-shadow:0 1px 0 #061018}
+.dvc.up{background:#187f7b}.dvc.home{background:linear-gradient(#f2b53a,#c98a12);color:#1d1406}.dvc.dead{background:#8e1f17}
+.dvc .bdg{grid-row:span 2;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.18);border:2px solid currentColor}
+.dvc .t1{font-size:clamp(17px,2vw,21px)}.dvc .t2{font-size:13px;font-weight:600;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.dvc .t2 svg{width:20px;height:20px;flex:none}.dvc .t2 b{font-size:16px;color:#ffd34d}.dvc.home .t2 b{color:#1d1406}
+.dvc .zb{font-size:11px;font-weight:800;padding:0 6px;border-radius:99px;background:rgba(255,255,255,.2)}
 
 /* ---------- løft af de fem ældre scener: mørkere, mere malerisk, tyndere konturer ---------- */
 .desert,.sea,.sea.d2,.sea.d3,.field{background:#1a1410}
@@ -497,7 +527,7 @@ div.tfg{display:flex;align-items:flex-end;justify-content:center;gap:12%;width:8
   </div>
   <section class="eve" id="eve" aria-live="polite"></section>
   <nav class="tiles" id="tiles" aria-label="Vælg spil"></nav>
-  <footer class="ver">LDA Spil · version 19.0</footer>
+  <footer class="ver">LDA Spil · version 20.0</footer>
 </div>
 <main id="game">
   <header class="topbar"><button class="ib" id="tohome" aria-label="Tilbage til spilmenuen">‹ Spil</button><h1 id="gname"></h1><button class="ib" id="undo">↶ Fortryd</button><button class="ib" id="menu" aria-label="Regler og menu">☰ Regler</button></header>
@@ -529,7 +559,7 @@ const GAMES={
  hilo:{name:'Højere eller lavere',kind:'cards',unit:'kort',rules:['Vend et startkort. Es er 1, konge er 13.','Gæt højere eller lavere, og vend næste kort.','Rigtigt gæt: kortet kommer i din bunke. Lige så højt: intet sker.','Forkert gæt: du mister turens bunke.','Stop for at gemme bunken. Når bunken er tom, vinder den med flest kort.']},
  chest:{name:'Skattekisten',kind:'cards',unit:'point',rules:['Vend kort ét ad gangen og læg dem i en række.','Samme værdi som et kort i rækken: kisten går i stykker, og alt ryger ud.','Stop for at tage rækken.','Knægt, dame og konge giver 2 point, alle andre 1.','Mange kort giver bonus, når du stopper: 5 kort giver 1 ekstra, 6 kort 3 ekstra, 7 kort 5 ekstra, og 8 eller flere giver 8 ekstra.','Når bunken er tom, vinder den med flest point.']},
  monster:{name:'Monsterhulen',kind:'dice',unit:'guld',rules:['Vend et kort: det er monsteret i døren, og kortets værdi er dets styrke. Knægt er 11, dame 12, konge 13, og esset er Dragen med styrke 14.','Kæmp ved at slå terningen op til <b>3 gange</b>. Slagene lægges sammen, og når du når monsterets styrke, har du vundet.',"Slår du en <b>1'er</b>, bliver du bidt og taber kampen. Du taber også, hvis tre slag ikke er nok.",'Vinder du, ryger monsterets styrke i guld ned i sækken. Dragen giver 6 ekstra.','Efter en sejr kan du gå hjem og gemme sækken eller gå dybere ind og vende et nyt kort. Du må også gå hjem, når du har set det næste monster.','Taber du, mister du hele sækken. Monsteret bliver stående til den næste spiller, og der kommer 2 guld i dusør på det, hver gang det vinder.','Når nogen når målet, spilles runden færdig. Den med mest guld vinder.']},
- diver:{name:'Dykkerklokken',kind:'dice',unit:'guld',rules:['Hver tur er ét dyk, og du har luft til <b>7 slag</b>.','Slå to terninger. Vælg den ene til at svømme med: 10 meter for hvert øje, ned eller op. Den anden terning er skatten, du finder.','Skatten ganges med dybden: 1 gang ned til 40 meter, 2 gange ned til 80 meter og <b>4 gange</b> ved vraget længere nede.','Slår du to ens, bider hajen i luftslangen, og det slag koster 2 luft.','Skatten er først din, når du er oppe i båden igen. Slipper luften op forinden, mister du hele dykkets skat.','Når nogen når målet, spilles runden færdig. Den med mest guld vinder.']}
+ diver:{name:'Dykkerklokken',kind:'dice',unit:'guld',rules:['Hver tur er ét dyk, og du har luft til <b>7 slag</b>.','Slå to terninger. Vælg den ene til at svømme med: 10 meter for hvert øje, ned eller op. Den anden terning er skatten, du finder.','Skatten ganges med dybden: 1 gang ned til 40 meter, 2 gange ned til 80 meter og <b>4 gange</b> ved vraget længere nede.','Slår du to ens, bider hajen i luftslangen, og det slag koster 2 luft.','Skatten er først din, når du er oppe i båden igen. Slipper luften op forinden, mister du hele dykkets skat.','Luften vises som 7 bobler. De orange bobler er den luft, du mindst skal bruge for at nå op igen.','Når du har tastet terningerne, viser havet, hvor du kan svømme hen, og hvor meget skat du finder. Tryk på et mærke på havet eller på en knap.','Når nogen når målet, spilles runden færdig. Den med mest guld vinder.']}
 };
 let S,hist=[],FX=null,fxT,seenCoins=0,SAVES={};
 /* Lyd: små toner lavet i browseren, ingen lydfiler */
@@ -972,15 +1002,16 @@ function divDie(v){const t=S.turn;if(t.dice.length>=2)return;t.dice.push(v);t.fr
 function divMove(k){
   const t=S.turn;if(t.dice.length<2)return;const o=divOpts(t)[k];if(!o)return;
   snap();const dbl=t.dice[0]===t.dice[1];t.from=t.depth;t.depth=o.nd;t.air=Math.max(0,t.air-1-(dbl?1:0));t.dice=[];t.shark=dbl;t.last=o.gain;
-  if(o.up){sfx.bubble();bank(t.loot,'guld fra dykket')}
+  const hold=ms=>{clearTimeout(fxT);fxT=setTimeout(()=>{FX=null;render()},ms)};
+  if(o.up){const L=t.loot;sfx.bubble();bank(L,'guld fra dykket');if(FX){FX.surf=L;hold(2600)}for(let i=0;i<Math.min(8,Math.ceil(L/4));i++)tone(1100+i*90,.07,'square',.03,.35+i*.09)}
   else{t.loot+=o.gain;
-    if(t.air<=0)bust(`Luften slap op på ${t.depth*10} meter. Besætningen hev dig op i slangen, men skatten blev dernede.`);
-    else{sfx.bubble();if(o.gain>=12)sfx.six();say(`${t.depth*10} meter nede: +${o.gain} guld. Luft til ${t.air} slag, og der er mindst ${Math.ceil(t.depth/6)} slag op.`,t.air<=Math.ceil(t.depth/6)?'bust':'good')}}
+    if(t.air<=0){bust(`Luften slap op på ${t.depth*10} meter. Besætningen hev dig op i slangen, men skatten blev dernede.`);hold(2800)}
+    else{sfx.bubble();if(o.gain)for(let i=0;i<Math.min(5,Math.ceil(o.gain/4));i++)tone(1200+i*80,.06,'square',.028,1+i*.07);if(o.gain>=12)sfx.six();say(`${t.depth*10} meter nede: +${o.gain} guld. Luft til ${t.air} slag, og der er mindst ${Math.ceil(t.depth/6)} slag op.`,t.air<=Math.ceil(t.depth/6)?'bust':'good')}}
   render();
 }
 const seaDefs=u=>`<defs>${grad(u+'Sky',[[0,'#7fa6bf'],[1,'#e9eef0']])}${grad(u+'Sea',[[0,'#3fa7c9'],[.3,'#15709a'],[.65,'#0a3d5e'],[1,'#03121f']])}${rgrad(u+'Brass',[[0,'#ffe9a8'],[.5,'#d9a23a'],[1,'#7a5412']],'cx=".35" cy=".3" r=".8"')}
   ${grad(u+'Suit',[[0,'#d3c493'],[1,'#7d6f4a']])}${grad(u+'Hull',[[0,'#7a2f25'],[1,'#3d1712']])}${grad(u+'Ray',[[0,'#fff',.22],[1,'#fff',0]])}${rgrad(u+'Lamp',[[0,'#fff3b0',.85],[.35,'#ffd34d',.35],[1,'#ffd34d',0]])}
-  ${rgrad(u+'Lure',[[0,'#d8ffe6',.9],[1,'#7dfc9a',0]])}${grad(u+'Gold',[[0,'#ffe58a'],[1,'#c98a12']])}<clipPath id="${u}W"><rect x="0" y="63" width="460" height="280"/></clipPath></defs>`;
+  ${rgrad(u+'Lure',[[0,'#d8ffe6',.9],[1,'#7dfc9a',0]])}${grad(u+'Gold',[[0,'#ffe58a'],[1,'#c98a12']])}${grad(u+'Deepglow',[[0,'#ffb02e',0],[1,'#ffb02e',.16]])}<clipPath id="${u}W"><rect x="0" y="63" width="460" height="280"/></clipPath></defs>`;
 const fish=(x,y,s,c)=>`<path d="M0 0c6-6 16-6 22 0-6 6-16 6-22 0zM22 0l8-6v12z" fill="${c}" transform="translate(${x} ${y}) scale(${s})"/>`;
 const sharkArt=`<path d="M-70 4c20-20 70-26 120-8l24-18-6 24 8 16-26-8c-40 14-90 12-120-6z" fill="#3d4f5c" stroke="#061018" stroke-width="2" stroke-linejoin="round"/><path d="M-20-12l14-26 12 26z" fill="#3d4f5c" stroke="#061018" stroke-width="2" stroke-linejoin="round"/><path d="M-66 6c30 12 70 12 110 2-36 14-82 12-110-2z" fill="#c9d3d9"/><circle cx="-48" cy="-1" r="2.6" fill="#061018"/><path d="M-66 8q10 5 22 3" stroke="#061018" stroke-width="1.6" fill="none"/><path d="M-62 8l3 4 3-3 3 4 3-3 3 3" stroke="#fff" stroke-width="1.2" fill="none"/><path d="M-34-2v9M-29-2v9M-24-2v9" stroke="#061018" stroke-width="1.3" opacity=".6"/>`;
 function sea(u){
@@ -994,9 +1025,15 @@ function sea(u){
    <g stroke="rgba(255,255,255,.28)" stroke-width="1.6" fill="none" stroke-linecap="round"><path d="M40 78q14-5 28 0t28 0M150 84q12-5 24 0t24 0M290 80q14-5 28 0t28 0M370 88q10-4 20 0"/></g>
    ${Array.from({length:22},(_,i)=>`<circle class="snow" style="animation-delay:-${(rnd(i,61)*16).toFixed(1)}s" cx="${(40+rnd(i,62)*380).toFixed(0)}" cy="${(80+rnd(i,63)*200).toFixed(0)}" r="${(.7+rnd(i,64)*.9).toFixed(1)}" fill="#cfe6f2"/>`).join('')}
    <path d="M0 126c22 8 34 38 28 66 26 16 38 54 30 84 18 10 34 26 44 44H0z" fill="#082537"/><path d="M460 150c-18 12-26 40-20 62-22 18-30 50-24 78-14 8-26 18-34 30h78z" fill="#061c2b"/>
-   <path d="M46 153.5H414M46 227.5H414" stroke="rgba(255,255,255,.22)" stroke-width="1.5" stroke-dasharray="3 7"/>
-   ${[['×1',112],['×2',192],['×4',280]].map(([t,y])=>`<text x="62" y="${y}" font-size="19" font-weight="800" fill="rgba(255,255,255,.5)">${t}</text>`).join('')}
-   ${[[40,150],[80,224],[120,296]].map(([m,y])=>`<text x="402" y="${y}" text-anchor="end" font-size="10.5" font-weight="700" fill="rgba(255,255,255,.45)">${m} m</text>`).join('')}
+   <rect x="0" y="227.5" width="460" height="113" fill="url(#${u}Deepglow)"/>
+   <path d="M46 153.5H414M46 227.5H414" stroke="rgba(255,255,255,.3)" stroke-width="1.6" stroke-dasharray="4 6"/>
+   ${[[74,104,'LAVT','×1','#9fe2ff'],[74,176,'DYBT','×2','#ffd38a'],[74,240,'VRAGET','×4','#ffd34d']].map(([x,y,a,b,c])=>`<g transform="translate(${x} ${y})"><rect width="42" height="38" rx="7" fill="rgba(3,18,31,.75)" stroke="${c}" stroke-width="1.8"/><text x="21" y="12" text-anchor="middle" font-size="8" font-weight="800" letter-spacing=".5" fill="${c}">${a}</text><text x="21" y="31" text-anchor="middle" font-size="17" font-weight="800" fill="#fff">${b}</text></g>`).join('')}
+   <g transform="translate(386 0)"><path d="M0 70V292" stroke="#c9b48a" stroke-width="2.4"/>${Array.from({length:13},(_,d)=>`<path d="M${d%4?-4:-9} ${(70+d*18.5).toFixed(1)}h${d%4?8:12}" stroke="#e9dcc0" stroke-width="${d%4?1.4:2.4}"/>`).join('')}${[4,8,12].map(d=>`<text x="-12" y="${(70+d*18.5+4).toFixed(1)}" text-anchor="end" font-size="11" font-weight="800" fill="#e9dcc0" stroke="#03121f" stroke-width="3" paint-order="stroke">${d*10} m</text>`).join('')}</g>
+   <g transform="translate(96 156) rotate(-14)"><path d="M0-9l2.6 6 6.6.4-5 4.3 1.6 6.4L0 4.6-5.8 8.1l1.6-6.4-5-4.3 6.6-.4z" fill="#ff8a5c" stroke="#3a120a" stroke-width="1.2"/></g>
+   <g transform="translate(362 172)"><path d="M-8 4a8 8 0 0 1 16 0z" fill="#f2d7c0" stroke="#3a2412" stroke-width="1.2"/><path d="M0 4V-4M-4 4l-2-6M4 4l2-6" stroke="#c9a488" stroke-width="1"/></g>
+   <g transform="translate(150 214)"><path d="M-5-14h10l-1 4q7 4 6 12-1 8-10 10-9-2-10-10-1-8 6-12z" fill="#b8643a" stroke="#2a1006" stroke-width="1.4"/><path d="M-6-4h12" stroke="#e8a06a" stroke-width="1.4"/><ellipse cx="9" cy="12" rx="5" ry="2.4" fill="url(#${u}Gold)" stroke="#2a1006" stroke-width=".8"/></g>
+   <g transform="translate(356 210)">${[[0,0],[7,2],[3,-3]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="4.6" ry="2.2" fill="url(#${u}Gold)" stroke="#2a1006" stroke-width=".8"/>`).join('')}</g>
+   ${[[318,300],[352,306],[392,300],[272,312]].map(([x,y],i)=>`<path class="glint" style="animation-delay:-${i*.5}s" d="M${x} ${y-5}l1.4 3.6 3.6 1.4-3.6 1.4L${x} ${y+5}l-1.4-3.6-3.6-1.4 3.6-1.4z" fill="#fff6c9"/>`).join('')}
    <path d="M286 318c6-36 36-56 82-58l52 8c8 20 4 36-6 50z" fill="#16303b" stroke="#061018" stroke-width="2" stroke-linejoin="round"/><path d="M300 300h110M306 284h100M322 270h78M330 262v54M356 260v56M382 262v54" stroke="#061018" stroke-width="1.6" opacity=".7"/>
    <path d="M352 262l-16-66" stroke="#061018" stroke-width="7" stroke-linecap="round"/><path d="M352 262l-16-66" stroke="#1f3f4c" stroke-width="4" stroke-linecap="round"/><path d="M322 214l32-8" stroke="#1f3f4c" stroke-width="3" stroke-linecap="round"/><path d="M338 206c10 8 12 22 6 34-4-10-8-18-14-24z" fill="#274b59" opacity=".8"/>
    <circle cx="398" cy="288" r="5" fill="#03121f" stroke="#061018" stroke-width="1.5"/>
@@ -1032,24 +1069,50 @@ function diverArt(u,loot,low,out){
    <path d="M-5-20q4-3 8-1" stroke="#fff" stroke-width="1.2" fill="none" opacity=".7" stroke-linecap="round"/>
    ${[0,1,2].map(i=>`<circle class="bub" style="animation-delay:-${i*.8}s" cx="${6+i*3}" cy="-32" r="${2+i*.7}" fill="rgba(255,255,255,.25)" stroke="rgba(255,255,255,.8)" stroke-width=".8"/>`).join('')}</g>`;
 }
+/* Valgmærker på havet: hvor ender du, og hvad finder du? Samme farver som knapperne i panelet. */
+const DCOL=o=>o.up?'#ffc23a':o.dead?'#ff5240':o.dir>0?'#4aa3ff':'#3fd1c4';
+function divMarks(t){
+  const y1=DY(t.depth);
+  return divOpts(t).map((o,k)=>{const x=o.up?230+(k%2?66:-66):230+(k%2?84:-84),y=DY(o.nd),c=DCOL(o);
+    const l1=o.up?'⛵ Båden':`${o.dir>0?'↓':'↑'} ${o.nd*10} m`,l2=o.up?`gem ${t.loot}`:o.dead?'luft slut!':`+${o.gain} guld`;
+    return `<path d="M230 ${y1}Q${(230+x)/2} ${(y1+y)/2+(o.dir>0?-14:14)} ${x} ${y}" stroke="${c}" stroke-width="2.4" stroke-dasharray="5 5" fill="none" opacity=".85"/>
+    <g class="dopt" data-div="${k}" role="button" aria-label="${l1}, ${l2}" transform="translate(${x} ${y})">
+     <circle r="26" fill="transparent"/><circle class="ring" r="14" fill="rgba(3,18,31,.35)" stroke="${c}" stroke-width="3" stroke-dasharray="6 4"/>
+     <circle cy="-1" r="7" fill="none" stroke="${c}" stroke-width="2" opacity=".9"/><circle cy="-1" r="3.4" fill="${c}" opacity=".55"/>
+     <g class="plate" transform="translate(${o.up?0:k%2?-12:12} ${y<110?24:-30})"><rect x="-40" y="-13" width="80" height="30" rx="8" fill="rgba(3,18,31,.9)" stroke="${c}" stroke-width="2"/>
+      <text y="-1" text-anchor="middle" font-size="11.5" font-weight="800" fill="#fff">${l1}</text><text y="12" text-anchor="middle" font-size="11.5" font-weight="800" fill="${o.dead?'#ff8a7a':'#ffd34d'}">${l2}</text></g></g>`}).join('');
+}
 function divScene(t,p,busting){
-  const y1=DY(t.depth),y0=DY(t.from===undefined?t.depth:t.from),mv=!busting&&y0!==y1,low=t.air<=2,need=Math.ceil(t.depth/6);
-  return `<div class="scene deep ${busting?'busting':''}"><svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${seaDefs('s')}${sea('s')}
+  const y1=DY(t.depth),y0=DY(t.from===undefined?t.depth:t.from),mv=!busting&&y0!==y1,need=Math.ceil(t.depth/6),low=!busting&&t.depth>0&&t.air<=need,
+    choosing=!busting&&t.dice.length===2,surf=!busting&&FX&&FX.surf!==undefined,lost=mv?(t.shark?2:1):0;
+  /* Guld der flyver op i nettet, eller synker til bunds når luften slipper op */
+  const netX=198,netY=y1+24;
+  const fly=mv&&t.last>0?`<g transform="translate(${netX} ${netY})">${Array.from({length:Math.min(9,Math.ceil(t.last/2))},(_,i)=>`<ellipse class="fly" style="--fx:${((rnd(i,71)-.5)*120).toFixed(0)}px;--fy:${(30+rnd(i,72)*40).toFixed(0)}px;animation-delay:${(1+i*.07).toFixed(2)}s" rx="5" ry="2.6" fill="url(#sGold)" stroke="#2a1006" stroke-width=".8"/>`).join('')}</g>`:'';
+  const sink=busting&&t.loot>0?`<g transform="translate(${netX} ${netY})">${Array.from({length:Math.min(12,Math.ceil(t.loot/3))},(_,i)=>`<ellipse class="sink" style="--sx:${((rnd(i,73)-.5)*90).toFixed(0)}px;--sy:${(318-netY-rnd(i,74)*10).toFixed(0)}px;animation-delay:${(.2+i*.06).toFixed(2)}s" rx="5" ry="2.6" fill="url(#sGold)" stroke="#2a1006" stroke-width=".8"/>`).join('')}</g>`:'';
+  const bubs=Array.from({length:AIR},(_,i)=>{const full=!busting&&i<t.air,nd=full&&t.depth>0&&i>=t.air-need,pop=!busting&&i>=t.air&&i<t.air+lost;return `<i class="${full?(nd?'need':''):pop?'pop':'gone'}"></i>`}).join('');
+  const airTxt=busting?'Tom for luft':low?'Svøm op nu!':'';
+  const coinsUp=surf&&FX.surf>0?Array.from({length:Math.min(16,4+Math.ceil(FX.surf/3))},(_,k)=>`<i style="--dx:${(Math.cos(k*2.4)*(70+rnd(k,75)*90)).toFixed(0)}px;--dy:${(-60-rnd(k,76)*110).toFixed(0)}px;--r:${((rnd(k,77)-.5)*500).toFixed(0)}deg;animation-delay:${(rnd(k,78)*.35).toFixed(2)}s"></i>`).join(''):'';
+  return `<div class="scene deep ${busting?'busting':''}"><svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="${choosing?'false':'true'}">${seaDefs('s')}${sea('s')}
     ${t.shark&&!busting?`<g transform="translate(318 ${y1-6})"><g class="sharkin"><g transform="scale(-1 1)">${sharkArt}</g></g></g>`:''}
-    <g clip-path="url(#sW)"><g class="dv ${mv?'mv':''}" style="--y0:${y0}px;--y1:${y1}px">${diverArt('s',t.loot,low,busting)}</g></g></svg>
-    <div class="airg ${low&&!busting?'low':''}"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21" fill="#f4efe0" stroke="#b9862a" stroke-width="5"/><circle cx="24" cy="24" r="23.5" fill="none" stroke="#1a1208" stroke-width="1.5"/><path d="M9 32A17 17 0 0 1 12 14" stroke="#d0312d" stroke-width="5" fill="none"/>${Array.from({length:AIR+1},(_,i)=>{const a=(210-i*240/AIR)*Math.PI/180;return `<path d="M${(24+14*Math.cos(a)).toFixed(1)} ${(24-14*Math.sin(a)).toFixed(1)}L${(24+18*Math.cos(a)).toFixed(1)} ${(24-18*Math.sin(a)).toFixed(1)}" stroke="#1a1208" stroke-width="1.5"/>`}).join('')}<path d="M24 24L24 9" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round" transform="rotate(${-120+t.air*240/AIR} 24 24)"/><circle cx="24" cy="24" r="3" fill="#1a1208"/></svg><span><b>${t.air}</b><small>luft</small></span></div>
+    <g clip-path="url(#sW)"><g class="dv ${mv?'mv':''}" style="--y0:${y0}px;--y1:${y1}px">${diverArt('s',busting?0:t.loot,low,busting)}</g></g>${fly}${sink}
+    ${choosing?divMarks(t):''}</svg>
+    <div class="airp ${low?'low':''}"><div class="alb">LUFT <b>${busting?0:t.air}</b></div><div class="bubs">${bubs}</div>${airTxt?`<small>${airTxt}</small>`:''}</div>
     ${busting?'':`<div class="big" style="color:#fff;text-shadow:0 3px 0 #061018;background:rgba(4,21,35,.62);border-radius:12px;padding:5px 10px 6px">${t.loot}<small>guld i nettet</small></div>`}
-    ${t.depth&&!busting?`<div class="dtag" style="top:${(y1/340*100).toFixed(1)}%">${t.depth*10} m · ×${DZ(t.depth)}${t.last?` <b>+${t.last}</b>`:''}</div>`:''}
-    ${t.shark&&!busting?'<div class="dtag shk" style="top:14%">Hajen bed i slangen: −1 luft</div>':''}
-    ${!t.depth&&!t.dice.length&&!busting?'<div class="hint" style="top:60%">Slå to terninger, og dyk</div>':''}
-    ${busting?'<div class="blackout"></div>'+banner('Luften slap op!'):''}</div>`;
+    ${t.depth&&!busting&&!choosing&&t.last?`<div class="gain" style="top:${(y1/340*100-8).toFixed(1)}%;animation-delay:1s">+${t.last}</div>`:''}
+    ${t.shark&&!busting?'<div class="dtag shk" style="top:24%">Hajen bed i slangen! Ekstra boble væk</div>':''}
+    ${!t.depth&&!t.dice.length&&!busting&&!surf?'<div class="hint" style="top:62%">Dyk efter skat, og kom op i båden, før luften slipper op!</div>':''}
+    ${choosing?'<div class="hint" style="top:auto;bottom:3%;transform:translateX(-50%);font-size:13px;padding:3px 10px;white-space:nowrap">Tryk hvor dykkeren skal svømme hen</div>':''}
+    ${surf?`<div class="surf">${coinsUp}</div>`+banner(FX.surf?`I båden! +${FX.surf} guld`:'Tilbage i båden').replace('class="banner"','class="banner gold"'):''}
+    ${busting?'<div class="blackout"></div>'+banner('Luften slap op!')+`<div class="hint" style="top:auto;bottom:6%;transform:translateX(-50%)">${t.loot?`${t.loot} guld sank til bunds`:'Besætningen hev dykkeren op'}</div>`:''}</div>`;
 }
 function divPad(){
-  const t=S.turn;
-  if(t.dice.length<2)return `<p>${t.dice.length?`Første terning: ${t.dice[0]}. Hvad viste den anden?`:'Slå to terninger. Hvad viste den første?'}${t.depth?` <span class="${t.air<=Math.ceil(t.depth/6)?'warn':'sub'}">Luft til ${t.air} slag · mindst ${Math.ceil(t.depth/6)} slag op</span>`:''}</p>${dieKeys(()=>'')}`;
+  const t=S.turn,need=Math.ceil(t.depth/6);
+  if(t.dice.length<2)return `<p>${t.dice.length?`Første terning: ${t.dice[0]}. Hvad viste den anden?`:'Slå to terninger. Hvad viste den første?'}</p><p class="sub" style="font-size:13px">${!t.depth?'Hvert slag koster 1 luftboble. Kom op i båden med skatten, før boblerne slipper op.':`<span class="${t.air<=need?'warn':''}">${t.air} bobler tilbage. De orange bobler er luften til vejen hjem: mindst ${need} slag.</span>`}</p>${dieKeys(()=>'')}`;
   const o=divOpts(t),dbl=t.dice[0]===t.dice[1];
-  return `<p>Du slog ${t.dice[0]} og ${t.dice[1]}. ${dbl?'<span class="warn">To ens: hajen tager 1 luft ekstra.</span>':'Svøm med den ene, find skat med den anden.'}</p>
-   <div class="divopts">${o.map((x,k)=>`<button class="btn dvb ${x.dir>0?'dn':'up'} ${x.dead?'dead':''}" data-div="${k}">${x.dir>0?'↓ Dyk':'↑ Stig'} ${x.mv*10} m<small>${x.up?`op i båden med ${t.loot} guld`:`til ${x.nd*10} m · finder ${x.ot} × ${DZ(x.nd)} = ${x.gain} guld${x.dead?'<br>Luften slipper op!':''}`}</small></button>`).join('')}</div>`;
+  return `<div class="divhow"><span class="dd">${pips(t.dice[0])}${pips(t.dice[1])}</span><span>${dbl?'<span class="warn">To ens! Hajen bider i slangen, så dette slag koster 2 bobler.</span> ':''}Én terning er <b>hvor langt du svømmer</b>. Den anden er <b>skatten du finder</b>. Jo dybere, jo mere er den værd.</span></div>
+   <div class="dvcards">${o.map((x,k)=>`<button class="dvc ${x.up?'home':x.dead?'dead':x.dir>0?'':'up'}" data-div="${k}"><span class="bdg">${x.up?'⛵':x.dir>0?'↓':'↑'}</span>
+     <span class="t1">${x.up?'Op i båden!':`${x.dir>0?'Dyk':'Svøm op'} ${x.mv*10} m`}</span>
+     <span class="t2">${x.up?`Gem <b>${t.loot} guld</b>`:x.dead?'Luften slipper op, og skatten er tabt':`Svøm ${pips(x.mv)} · skat ${pips(x.ot)} <span class="zb">×${DZ(x.nd)}</span> = <b>+${x.gain}</b>`}</span></button>`).join('')}</div>`;
 }
 /* ================= Aftenens mester og rekorder ================= */
 /* Hvert færdigt spil er én linje i aftenens log (også fra galaxy.html). Point regnes ud fra loggen,
