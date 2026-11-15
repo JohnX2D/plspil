@@ -27,34 +27,39 @@ h1{font-size:clamp(38px,7vw,96px);line-height:1.05;margin:8px 0 14px}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
 .muted{color:var(--muted);font-size:13px;line-height:1.5}
 .roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0}
-.hero-choice{border:2px solid var(--line);background:#151a24e6;border-radius:16px;color:var(--ink);padding:10px 10px 14px;text-align:center}
-.hero-choice svg{width:100%;height:150px;display:block}
+.hero-choice{border:1px solid #8b775a66;background:linear-gradient(160deg,#22211f,#101117);border-radius:5px;color:var(--ink);padding:8px 8px 15px;text-align:center;box-shadow:0 12px 28px #0008}
+.hero-choice>svg{width:100%;height:210px;display:block;filter:drop-shadow(0 8px 9px #000)}
 .hero-choice h3{margin:4px 0 2px;font-size:18px}
 .hero-choice p{margin:0;color:#b8bbc1;font-size:13px;line-height:1.4}
-.hero-choice.selected{border-color:#e6c58a;background:#352c25ee;box-shadow:0 0 24px #e6c58a44}
+.hero-choice.selected{border-color:#d4b27a;background:#29231ddd;box-shadow:0 0 0 1px #d4b27a,0 12px 35px #000b}
 /* game layout: stage + panel */
 .game{position:absolute;inset:0;display:grid;grid-template-rows:minmax(0,1fr) auto}
 .stage{position:relative;overflow:hidden;min-height:0;background:#0b0e15}
 .stage>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.vig{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 calc(var(--d)*70px + 40px) calc(var(--d)*34px) #000;transition:box-shadow 1.2s}
-.tag{position:absolute;left:14px;top:58px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#e8d6b0;background:#0b0e15b0;border:1px solid #ffffff22;border-radius:20px;padding:5px 11px;pointer-events:none}
-.dots{position:absolute;right:14px;bottom:14px;display:flex;gap:6px;pointer-events:none}
+.stage:before,.stage:after{content:"";position:absolute;inset:-8%;pointer-events:none;z-index:2}
+.stage:before{background:radial-gradient(ellipse at 70% 42%,transparent 15%,#080c14a0 100%),linear-gradient(0deg,#080a1070,transparent 40%);box-shadow:inset 0 0 110px #000}
+.stage:after{inset:auto -25% -8%;height:35%;background:radial-gradient(ellipse at 40% 80%,#9ba9b62b,transparent 60%);filter:blur(18px);animation:mist 18s ease-in-out infinite alternate}
+@keyframes mist{from{transform:translateX(-7%)}to{transform:translateX(7%)}}
+.scene-image{transform-box:fill-box;transform-origin:center;animation:slowzoom 28s ease-in-out infinite alternate}@keyframes slowzoom{from{transform:scale(1)}to{transform:scale(1.045)}}
+.vig{z-index:3;position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 calc(var(--d)*70px + 40px) calc(var(--d)*34px) #000;transition:box-shadow 1.2s}
+.tag{z-index:3;position:absolute;left:14px;top:58px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#e8d6b0;background:#0b0e15b0;border:1px solid #ffffff22;border-radius:20px;padding:5px 11px;pointer-events:none}
+.dots{z-index:3;position:absolute;right:14px;bottom:14px;display:flex;gap:6px;pointer-events:none}
 .dots i{width:22px;height:4px;border-radius:3px;background:#ffffff33}.dots i.on{background:#e3c088;box-shadow:0 0 8px #e3c08888}
-.panel{background:linear-gradient(#141a26,#0e121b);border-top:1px solid var(--line);padding:14px 16px max(16px,env(safe-area-inset-bottom));overflow:auto;max-height:50vh}
+.panel{background:linear-gradient(145deg,#1b1a1b,#0b0e14 70%);box-shadow:-15px 0 45px #0009;border-top:1px solid var(--line);padding:14px 16px max(16px,env(safe-area-inset-bottom));overflow:auto;max-height:50vh}
 .panel h2{font-size:clamp(20px,2.6vw,27px);margin:0 0 6px;color:var(--gold)}
 .cap{font-family:Georgia,serif;font-size:clamp(18px,2.3vw,21px);line-height:1.5;margin:0}
 .more{background:none;border:0;color:var(--muted);text-decoration:underline;padding:6px 0 0;font-size:13px}
 .full{font-family:Georgia,serif;color:#d9d2c4;white-space:pre-line;font-size:15px;line-height:1.6;margin:8px 0 0;padding:10px 12px;border-left:2px solid #b4915e55;background:#ffffff06}
 .notice{border-left:3px solid #8fe0a0;padding:8px 12px;margin:10px 0 0;background:#8fe0a012;color:#d8f2dc;font-weight:700;font-size:15px}
 .cards{display:grid;gap:9px;margin-top:12px}
-.card{display:flex;align-items:center;gap:12px;text-align:left;border:1px solid #ffffff2c;background:linear-gradient(135deg,#1f2738,#141a25);border-radius:14px;padding:10px 14px;color:var(--ink);font-weight:800;font-size:17px;min-height:62px;box-shadow:0 4px 0 #0008;transition:transform .1s}
+.card{display:flex;align-items:center;gap:12px;text-align:left;border:1px solid #ffffff2c;background:linear-gradient(135deg,#262321,#13151a);border-radius:5px;padding:10px 14px;color:var(--ink);font-weight:800;font-size:17px;min-height:62px;box-shadow:0 4px 0 #0008;transition:transform .1s}
 .card:active{transform:translateY(3px);box-shadow:0 1px 0 #0008}
 .card:disabled{opacity:.4}
-.card .ic{font-size:28px;width:40px;text-align:center;flex:none}
+.card .ic{color:#cfb080;font-family:Georgia,serif;font-size:20px;width:30px;text-align:center;flex:none}
 .card small{display:block;font-weight:600;color:var(--muted);font-size:13px;margin-top:2px}
 .card .go{margin-left:auto;color:var(--gold);font-size:20px}
 .card.main{background:linear-gradient(135deg,#7a5a2c,#4a3518);border-color:#e3c08877}
-.card.hc svg{width:46px;height:58px;flex:none}
+.card.hc>svg{width:46px;height:58px;flex:none}
 .card .hp{color:#ff8f80;letter-spacing:1px;font-size:14px}
 .dice{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:12px}
 .die{aspect-ratio:1;border:0;border-radius:14px;background:linear-gradient(#fff,#d9dde3);padding:0;box-shadow:0 4px 0 #7d838c}
@@ -66,7 +71,7 @@ h1{font-size:clamp(38px,7vw,96px);line-height:1.05;margin:8px 0 14px}
 .suit small{display:block;font-size:12px;font-weight:700}
 .suit.red{color:#c0262d}
 .sumlist{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:4px;font-size:15px}
-@media (max-width:480px){.brand{display:none}.quiet{padding:7px 9px;font-size:12px}.panel{max-height:44vh;padding:12px 12px max(12px,env(safe-area-inset-bottom))}.card{min-height:54px;font-size:16px;padding:8px 12px}.card.hc svg{width:38px;height:48px}.cap{font-size:17px}}
+@media (max-width:480px){.brand{display:none}.quiet{padding:7px 9px;font-size:12px}.panel{max-height:44vh;padding:12px 12px max(12px,env(safe-area-inset-bottom))}.card{min-height:54px;font-size:16px;padding:8px 12px}.card.hc>svg{width:38px;height:48px}.cap{font-size:17px}}
 @media (min-aspect-ratio:4/3){
  .game{grid-template-rows:none;grid-template-columns:minmax(0,1fr) min(420px,38vw)}
  .panel{max-height:none;border-top:0;border-left:1px solid var(--line);padding-top:66px}
@@ -195,7 +200,8 @@ hunter:()=>`<path d="M-20 -110Q-40 -60 -30 -2L-10 -14L-4 -2L4 -16L12 -2Q20 -60 1
 <path d="M22 -112Q58 -96 40 -56Q46 -90 18 -100Z" fill="#9ff0b4" stroke="#2fe07a" stroke-width="2" filter="url(#gl)"/>
 <path d="M-22 -96Q-58 -80 -40 -40Q-46 -74 -18 -84Z" fill="#9ff0b4" stroke="#2fe07a" stroke-width="2" filter="url(#gl)"/>`
 };
-const heroIcon=(id,w=46,h=58)=>`<svg viewBox="-60 -190 120 200" width="${w}" height="${h}" aria-hidden="true">${DEFS}${HERO_ART[id]()}</svg>`;
+const realisticHero=id=>{const i=['warrior','mage','priest','hunter'].indexOf(id);return `<svg overflow="hidden" x="-52" y="-182" width="104" height="182" viewBox="${i*443.5} 0 443.5 887" preserveAspectRatio="xMidYMid meet"><image href="assets/skyggeborgen-helte.jpg" width="1774" height="887"/></svg>`};
+const heroIcon=(id,w=46,h=58)=>`<svg viewBox="-60 -190 120 200" width="${w}" height="${h}" aria-hidden="true">${DEFS}${realisticHero(id)}</svg>`;
 /* ---------- andre figurer ---------- */
 function guardArt(st){const low=st==='lav';return `<g>
 <rect x="-30" y="-92" width="22" height="92" rx="4" fill="url(#dark)"/><rect x="8" y="-92" width="22" height="92" rx="4" fill="url(#dark)"/>
@@ -276,19 +282,18 @@ const PLACE={mira:'mira',port:'port',vej:'vej',taarn:'taarn',kapel:'kapel',vagt:
 /* ---------- scenen ---------- */
 function stageSvg(){W=stageW();const s=Math.max(.74,Math.min(1,W/1000)),scr=S.screen;POS={};
   const place=scr==='ending'?'slut':scr==='lost'?'baal':(scr==='combat'||scr==='dark')?'vagt':(S.place||'mira');
-  let o=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMax slice" role="img" aria-label="${esc(S.title||'Skyggeborgen')}">${DEFS}${(SCN[place]||SCN.vej)()}`;
+  const sceneIndex={mira:0,slut:0,kapel:1,taarn:2};
+  const bg=sceneIndex[place]!==undefined?`<svg overflow="hidden" class="scene-image" x="0" y="0" width="${W}" height="${H}" viewBox="${sceneIndex[place]*590.33} 0 590.33 887" preserveAspectRatio="xMidYMid slice"><image href="assets/skyggeborgen-steder.jpg" width="1771" height="887"/></svg>`:`<image class="scene-image" href="assets/skyggeborgen-hal.jpg" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"/>`;
+  let o=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMax slice" role="img" aria-label="${esc(S.title||'Skyggeborgen')}">${DEFS}${bg}<rect width="${W}" height="${H}" fill="#080b12" opacity=".18"/>`;
   const fx=W-150*s,fy=590;POS.foe={x:fx,y:fy-150*s};
   const npc=a=>`<g transform="translate(${F(fx)} ${fy}) scale(${s})"><g id="a-foe"><ellipse rx="44" ry="10" fill="#000" opacity=".45"/><g class="breath">${a}</g></g></g>`;
-  if(place==='mira')o+=npc(miraArt());
-  else if(place==='port'){o+=npc(ravArt(S.flags.rav));POS.foe.y=fy-90*s}
-  else if(place==='kapel'&&scr!=='ending')o+=`<g transform="translate(${F(W*.72)} 500) scale(${s*.6})" class="pulse">${creatureArt()}</g>`;
-  else if(place==='vagt'&&scr==='dark')o+=`<g transform="translate(${F(W*.55)} 200) scale(${s})">${creatureArt()}</g>`;
-  else if(place==='vagt'){const g=S.flags.guard,fallen=S.title==='Vagten falder';if(scr==='combat'||fallen||(g!=='besejret'&&S.title!=='Stemmen bag døren')){o+=`<g transform="translate(${F(fx)} ${fy}) scale(${s})"><g id="a-foe" class="${fallen?'crumble':''}"><ellipse rx="60" ry="12" fill="#000" opacity=".5"/><g class="breath">${guardArt(g==='skånet'?'lav':'')}</g></g></g>`;POS.foe.y=fy-170*s;
-    if(scr==='combat')o+=`<g transform="translate(${F(fx)} ${F(fy-330*s)})">${Array.from({length:Math.max(S.enemy,0)},(_,k)=>`<path d="M${F((k-(S.enemy-1)/2)*30-10)} 0l10 -12l10 12l-10 12z" fill="#ff7a1a" stroke="#fff3c0" stroke-width="2" filter="url(#gl)"/>`).join('')}</g>`}}
-  else if(place==='elias')o+=`<g transform="translate(${F(W*.62-80*s)} 560) scale(${s})">${eliasArt()}</g>`;
-  else if(place==='slut')o+=`<g transform="translate(${F(W*.8)} 560) scale(${s*.45})">${miraArt()}</g>`;
+  if(place==='vagt'||place==='port'){const fallen=S.title==='Vagten falder';
+    if(place==='port'||scr==='combat'||fallen||(S.flags.guard!=='besejret'&&S.title!=='Stemmen bag døren')){
+      o+=`<g transform="translate(${F(fx)} ${fy}) scale(${s})"><g id="a-foe" class="${fallen?'crumble':''}"><ellipse rx="70" ry="15" fill="#000" opacity=".65"/><image href="assets/skyggeborgen-vagt.png" x="-110" y="-330" width="220" height="330" preserveAspectRatio="xMidYMax meet"/></g></g>`;POS.foe.y=fy-170*s;
+      if(scr==='combat')o+=`<g transform="translate(${F(fx)} ${F(fy-335*s)})">${Array.from({length:Math.max(S.enemy,0)},(_,k)=>`<circle cx="${F((k-(S.enemy-1)/2)*26)}" r="8" fill="#b6503c" stroke="#e5b496" stroke-width="2"/>`).join('')}</g>`;
+    }}
   const gap=Math.min(98*s,(W-290*s-50)/Math.max(1,S.selected.length-1));S.selected.forEach((id,i)=>{const x=28*s+30+i*gap,y=588,ko=S.hp[id]===0;POS[id]={x,y:y-150*s};
-    o+=`<g transform="translate(${F(x)} ${y}) scale(${s})"><g id="a-${id}"><ellipse rx="36" ry="9" fill="#000" opacity=".45"/><g class="${ko?'ko':scr==='ending'?'cheer':'bob'}" style="animation-delay:${i*.25}s">${HERO_ART[id]()}</g></g>
+    o+=`<g transform="translate(${F(x)} ${y}) scale(${s*1.15})"><g id="a-${id}"><ellipse rx="36" ry="9" fill="#000" opacity=".45"/><g class="${ko?'ko':scr==='ending'?'breath':'breath'}" style="animation-delay:${i*.25}s">${realisticHero(id)}</g></g>
       <text y="-196" text-anchor="middle" font-size="${F(Math.min(22,(gap/s-8)/3.6))}" fill="#ff8f80" stroke="#1a0c0c" stroke-width="3" paint-order="stroke" letter-spacing="1">${'♥'.repeat(S.hp[id])}<tspan fill="#5a5f6a">${'♥'.repeat(4-S.hp[id])}</tspan></text></g>`});
   return o+`<g id="fx"></g></svg>`}
 /* ---------- effekter ---------- */
@@ -312,32 +317,32 @@ function playFx(){const f=FX;FX=null;if(!f)return;const g=document.getElementByI
 const SHORT={'Pigen i regnen':'En pige med en rusten nøgle venter i regnen. Klokken på borgen har kaldt hendes navn.','Ridderen ved porten':'En ridder sidder lænket ved borgens port. Han ville også nå frem til klokken.','To veje gennem mørket':'Trappen fører op til klokken. Til højre lyser et glemt kapel. KLANG!','Klokketårnet':'Den kæmpe klokke hænger stille, men væggene ryster, når den ringer.','Det glemte kapel':'Et blåt lys brænder ved alteret. Noget lille bevæger sig i skyggen.','Vagten under klokken':'En vagt af aske spærrer døren. Bag den råber en stemme om hjælp.','Stemmen bag døren':'Elias holder en revne lukket med blåt lys. Nogen har stjålet en glød fra flammen.','Klokken er stille':'Klokken er stille, og solen står op. Men Mira ser et rødt lys mellem træerne …','Noget i mørket':'Noget med alt for mange ben kravler ned ad væggen!','Tilbage ved bålet':'I vågner ved bålet. Borgen står der endnu, men I kan prøve igen.'};
 function shortOf(t){if(SHORT[S.title])return SHORT[S.title];const ss=String(t).replace(/\n/g,' ').split(/(?<=[.!?”…])\s+/);let o='';for(const x of ss){if(o&&(o+x).length>130)break;o+=(o?' ':'')+x}return o}
 const ICON={mira_klokke:'🔔',mira_nogle:'🗝️',mira_lov:'🤝',rav_roll:'⛓️',rav_ord:'💬',rav_ga:'🚪',taarn:'🔔',kapel:'🕯️',card:'🃏',vagt:'⬇️',talk_roll:'💬',vagt_fred:'🕊️',fight:'⚔️',seal_roll:'✨',elias_baal:'🔥',elias_bliv:'🚪',vision:'👁️',peace:'🕊️',attack:'⚔️',mage:'🔥',priest:'✨',revive:'🤲',fight_back:'↩️',fight_action:'↩️',shield:'🛡️',cancel_target:'↩️',spark:'✦','helper:none':'🙅','fighthelp:none':'⚔️'};
-function cards(opts){return `<div class="cards">${opts.map(o=>{const ic=ICON[o.action]||(o.action.startsWith('upgrade')?'⭐':'➜');return `<button class="card${o.label==='Fortsæt'?' main':''}" data-action="${esc(o.action)}"><span class="ic">${ic}</span><span>${esc(o.label)}${o.detail?`<small>${esc(o.detail)}</small>`:''}</span></button>`}).join('')}</div>`}
+function cards(opts){return `<div class="cards">${opts.map(o=>{const ic=o.label==='Fortsæt'?'›':'✧';return `<button class="card${o.label==='Fortsæt'?' main':''}" data-action="${esc(o.action)}"><span class="ic">${ic}</span><span>${esc(o.label)}${o.detail?`<small>${esc(o.detail)}</small>`:''}</span></button>`}).join('')}</div>`}
 function heroCards(action,list){return `<div class="cards">${list.map(id=>`<button class="card hc" data-action="${action}:${id}">${heroIcon(id)}<span>${heroes[id].name}<small><span class="hp">${'♥'.repeat(S.hp[id])}</span>${S.hp[id]===0?' slået ud':''}</small></span></button>`).join('')}</div>`}
 const PIPS={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
 const dieSvg=v=>`<svg viewBox="0 0 60 60" aria-hidden="true">${PIPS[v].map(k=>`<circle cx="${16+(k%3)*14}" cy="${16+Math.floor(k/3)*14}" r="5.5" fill="#16181b"/>`).join('')}</svg>`;
 function diceRow(action,legend){return `<div class="dice">${[1,2,3,4,5,6].map(n=>`<button class="die" data-action="${action}:${n}" aria-label="Terningen viste ${n}">${dieSvg(n)}</button>`).join('')}</div>${legend?`<div class="dlegend">${legend}</div>`:''}`}
 function storyBlock(){return `<h2>${esc(S.title)}</h2><p class="cap">${esc(shortOf(S.story))}</p>${shortOf(S.story)!==S.story.replace(/\n/g,' ')?`<button class="more" data-action="more">${showFull?'Skjul hele teksten':'Læs hele teksten'}</button>${showFull?`<div class="full">${esc(S.story)}</div>`:''}`:''}`}
 /* ---------- eventyrkort ---------- */
-const NODES=[['mira','Landsbyen','🏘️'],['port','Porten','🏰'],['vej','Salen','🕯️'],['rute','Tårn eller kapel','🔔'],['vagt','Vagten','⚔️'],['elias','Elias','✨'],['slut','Solopgang','🌅']];
+const NODES=[['mira','Landsbyen','Ⅰ'],['port','Porten','Ⅱ'],['vej','Salen','Ⅲ'],['rute','Tårn eller kapel','Ⅳ'],['vagt','Vagten','Ⅴ'],['elias','Elias','Ⅵ'],['slut','Solopgang','Ⅶ']];
 const nodeIdx=id=>({mira:0,port:1,vej:2,taarn:3,kapel:3,vagt:4,elias:5,slut:6})[id];
 function mapSvg(){W=stageW();const s=Math.max(.6,Math.min(1,W/1000)),vert=W<800,pts=NODES.map((n,i)=>vert?{x:W*(i%2?.64:.36),y:92+i*(476/6),lx:i%2?1:-1}:{x:W*(.1+i*.8/6),y:i%2?250:400,lx:0});
   let o=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">${DEFS}<rect width="${W}" height="${H}" fill="#1a1712"/><rect width="${W}" height="${H}" fill="url(#night)" opacity=".55"/>${stars(60,H)}`;rs=5;for(let k=0;k<26;k++){const x=R()*W,y=120+R()*460,h=24+R()*30;o+=`<path d="M${F(x)} ${F(y-h)}L${F(x-12)} ${F(y)}L${F(x+12)} ${F(y)}Z" fill="#0d1612" opacity=".7"/>`}
   o+=`<path d="M${pts.map(p=>F(p.x)+' '+p.y).join(' L')}" stroke="#e3c08855" stroke-width="10" fill="none" stroke-dasharray="4 16" stroke-linecap="round"/>`;
-  const route=S.mapNext==='taarn'||S.flags.route==='Klokketårnet'?['Klokketårnet','🔔']:S.mapNext==='kapel'||S.flags.route==='Det glemte kapel'?['Kapellet','🕯️']:['Tårn / kapel','❔'];
+  const route=S.mapNext==='taarn'||S.flags.route==='Klokketårnet'?['Klokketårnet','Ⅳ']:S.mapNext==='kapel'||S.flags.route==='Det glemte kapel'?['Kapellet','Ⅳ']:['Tårn / kapel','Ⅳ'];
   pts.forEach((p,i)=>{const done=i<=S.mapAt,next=i===nodeIdx(S.mapNext),n=i===3?route:[NODES[i][1],NODES[i][2]];
     o+=`<g transform="translate(${F(p.x)} ${p.y})">${next?`<circle r="56" fill="url(#gY)" class="pulse"/>`:''}<circle r="34" fill="${done?'#3a2c18':'#15181f'}" stroke="${done||next?'#e3c088':'#4a4f5a'}" stroke-width="4"/><text y="12" text-anchor="middle" font-size="32"${done||next?'':' opacity=".35"'}>${n[1]}</text><text x="${p.lx*50}" y="${p.lx?7:68}" text-anchor="${p.lx>0?'start':p.lx<0?'end':'middle'}" font-family="Cinzel,serif" font-weight="700" font-size="${vert?18:F(20*s+4)}" fill="${done||next?'#f3e2bd':'#7a7f8a'}" stroke="#000" stroke-width="3" paint-order="stroke">${n[0]}</text></g>`});
   const tp=p=>p.lx?[p.x-p.lx*62,p.y+32]:[p.x,p.y-44],a=tp(pts[S.mapAt||0]),b=tp(pts[nodeIdx(S.mapNext)]);
-  o+=`<g id="tok" class="walk" style="transform:translate(${F(a[0])}px,${F(a[1])}px)" data-to="${F(b[0])},${F(b[1])}">${S.selected.map((id,i)=>`<g transform="translate(${F((i-(S.selected.length-1)/2)*26)} 0) scale(.42)">${HERO_ART[id]()}</g>`).join('')}</g>`;
+  o+=`<g id="tok" class="walk" style="transform:translate(${F(a[0])}px,${F(a[1])}px)" data-to="${F(b[0])},${F(b[1])}">${S.selected.map((id,i)=>`<g transform="translate(${F((i-(S.selected.length-1)/2)*26)} 0) scale(.42)">${realisticHero(id)}</g>`).join('')}</g>`;
   return o+`</svg>`}
 /* ---------- render ---------- */
 function render(){let html='';
   if(S.screen==='intro'){html=`<div class="backdrop"></div><main class="page intro"><div class="intro-inner"><div class="eyebrow">Et samarbejdseventyr for 2–4 helte</div><h1>Skygge<br>borgen<span style="color:#d5b783">.</span></h1><p class="lead">En gammel klokke ringer i mørket. En flamme er ved at dø. Og nogen venter på jer bag borgens mure.</p><div class="toolbar"><button class="btn" data-action="setup">Begynd eventyret &nbsp;→</button><a class="btn alt" href="index.html">Tilbage til spillene</a></div><p class="muted" style="margin-top:22px">10–20 minutter · terninger og et spil kort</p></div></main>`}
-  else if(S.screen==='setup'){html=`<div class="backdrop"></div><main class="page"><div class="eyebrow">Før eventyret begynder</div><h1 style="font-size:clamp(30px,5vw,54px)">Vælg jeres helte</h1><p class="lead">Vælg 2–4 helte. Hver spiller styrer én, og I vinder eller taber sammen.</p><div class="roster">${Object.entries(heroes).map(([id,h])=>`<button class="hero-choice ${S.selected.includes(id)?'selected':''}" data-action="select:${id}" aria-pressed="${S.selected.includes(id)}"><svg viewBox="-70 -200 140 215">${DEFS}<ellipse rx="40" ry="9" fill="#000" opacity=".4"/>${HERO_ART[id]()}</svg><h3>${h.name}</h3><p>${h.desc}</p></button>`).join('')}</div><p class="muted">I skal bruge et blandet spil kort uden jokere og mindst én terning.</p><div class="toolbar"><button class="btn" data-action="start" ${S.selected.length<2?'disabled':''}>Træd ind i historien &nbsp;→</button></div></main>`}
+  else if(S.screen==='setup'){html=`<div class="backdrop"></div><main class="page"><div class="eyebrow">Før eventyret begynder</div><h1 style="font-size:clamp(30px,5vw,54px)">Vælg jeres helte</h1><p class="lead">Vælg 2–4 helte. Hver spiller styrer én, og I vinder eller taber sammen.</p><div class="roster">${Object.entries(heroes).map(([id,h])=>`<button class="hero-choice ${S.selected.includes(id)?'selected':''}" data-action="select:${id}" aria-pressed="${S.selected.includes(id)}"><svg viewBox="-70 -200 140 215">${DEFS}<ellipse rx="40" ry="9" fill="#000" opacity=".4"/>${realisticHero(id)}</svg><h3>${h.name}</h3><p>${h.desc}</p></button>`).join('')}</div><p class="muted">I skal bruge et blandet spil kort uden jokere og mindst én terning.</p><div class="toolbar"><button class="btn" data-action="start" ${S.selected.length<2?'disabled':''}>Træd ind i historien &nbsp;→</button></div></main>`}
   else{let pane='',stage=S.screen==='map'?mapSvg():stageSvg();
     if(S.screen==='map'){const to=NODES[nodeIdx(S.mapNext)];pane=`<h2>Videre i eventyret</h2><p class="cap">I går videre mod ${S.mapNext==='taarn'?'klokketårnet':S.mapNext==='kapel'?'det glemte kapel':to[1].toLowerCase()}.</p>${cards([op('Gå videre','go:'+S.mapNext)]).replace('class="card"','class="card main"')}`}
     else if(S.screen==='story'){const risky=['Ridderen ved porten','Vagten under klokken','Klokketårnet','Det glemte kapel'].includes(S.title),canSee=risky&&S.selected.includes('hunter')&&S.hp.hunter>0&&!S.used.hunter&&!S.flags.visionText;
-      pane=storyBlock()+(S.flags.visionText?`<div class="notice">👁️ Dæmonblik: ${esc(S.flags.visionText)}</div>`:'')+(canSee?cards([op('Demon Hunter bruger Dæmonblik','vision','Se faren, før I vælger.')]):'')+cards(S.options)}
+      pane=storyBlock()+(S.flags.visionText?`<div class="notice">Dæmonblik: ${esc(S.flags.visionText)}</div>`:'')+(canSee?cards([op('Demon Hunter bruger Dæmonblik','vision','Se faren, før I vælger.')]):'')+cards(S.options)}
     else if(S.screen==='roll'){const p=S.pending,prompts={rav:'Hvem forsøger at bryde kæden?',talk:'Hvem taler med askevagten?',seal:'Hvem hjælper Elias med at forsegle revnen?'};
       if(!p.hero)pane=`<h2>Terningeslag</h2><p class="cap">${prompts[p.type]}</p>`+heroCards('rollhero',alive());
       else if(p.helper===null)pane=`<h2>Hjælp?</h2><p class="cap">Vil en anden helt hjælpe ${heroes[p.hero].name}? Så slår I 2 terninger og bruger den højeste.</p>`+heroCards('helper',alive().filter(x=>x!==p.hero))+cards([op('Ingen hjælper','helper:none')]);
@@ -352,7 +357,7 @@ function render(){let html='';
       else if(S.phase==='attackroll')pane+=`<p class="cap">Slå ${S.pending.helper==='none'?'terningen':'2 terninger og brug den højeste'}!</p>`+diceRow('attackroll','<span>1–2 forbi</span><span>3–4 rammer, men …</span><span>5–6 fuld træffer!</span>');
       else if(S.phase==='revive')pane+=`<p class="cap">Hvem skal hjælpes op?</p>`+heroCards('revive',S.selected.filter(x=>S.hp[x]===0))+cards([op('Tilbage','fight_action')]);
       else if(S.phase==='enemy'){pane+=`<p class="cap">Vagten slår igen! Hvem bliver ramt?</p>`+heroCards('enemy',alive());if(S.selected.includes('warrior')&&S.hp.warrior>0&&!S.used.warrior)pane+=cards([op('Warrior bruger Skjoldmur','shield','Ingen bliver ramt')])}}
-    else if(S.screen==='ending'){const f=S.flags;pane=`<h2>${esc(S.title)}</h2><p class="cap">${esc(shortOf(S.story))}</p><ul class="sumlist"><li>${f.rav?'⛓️ Sir Rav er fri og skylder jer en tjeneste.':'⛓️ Sir Rav blev ved porten.'}</li><li>${f.sealed?'✨ Revnen er forseglet.':'🕳️ Revnen står stadig åben.'}</li><li>🔥 En glød er stjålet fra borgens flamme.</li></ul><p class="cap" style="font-size:16px;margin-top:12px">Vælg en ny evne til hver helt:</p>${S.selected.map(id=>`<div style="display:flex;align-items:center;gap:8px;margin-top:8px">${heroIcon(id,36,46)}<div style="flex:1">${cards(upgrades[id].map((label,i)=>op((S.upgrades?.[id]===i?'✓ ':'')+label,`upgrade:${id},${i}`)))}</div></div>`).join('')}<p class="muted">Næste eventyr er endnu ikke bygget.</p>${cards([op('Spil eventyret igen','again')])}`}
+    else if(S.screen==='ending'){const f=S.flags;pane=`<h2>${esc(S.title)}</h2><p class="cap">${esc(shortOf(S.story))}</p><ul class="sumlist"><li>${f.rav?'Sir Rav er fri og skylder jer en tjeneste.':'Sir Rav blev ved porten.'}</li><li>${f.sealed?'Revnen er forseglet.':'Revnen står stadig åben.'}</li><li>En glød er stjålet fra borgens flamme.</li></ul><p class="cap" style="font-size:16px;margin-top:12px">Vælg en ny evne til hver helt:</p>${S.selected.map(id=>`<div style="display:flex;align-items:center;gap:8px;margin-top:8px">${heroIcon(id,36,46)}<div style="flex:1">${cards(upgrades[id].map((label,i)=>op((S.upgrades?.[id]===i?'✓ ':'')+label,`upgrade:${id},${i}`)))}</div></div>`).join('')}<p class="muted">Næste eventyr er endnu ikke bygget.</p>${cards([op('Spil eventyret igen','again')])}`}
     else if(S.screen==='lost'){pane=`<h2>${esc(S.title)}</h2><p class="cap">${esc(shortOf(S.story))}</p>`+cards([op('Prøv igen','retry'),op('Vælg nye helte','setup')])}
     if(S.flags.spark&&['story','combat'].includes(S.screen))pane+=cards([op('Brug lysgnisten (1 liv)','spark')]);
     html=`<main class="game"><section class="stage">${stage}<div class="vig" style="--d:${S.screen==='ending'?0:S.dark}"></div><div class="tag">${S.screen==='map'?'Eventyrkortet':`Kapitel ${Math.min(Math.max(S.chapter,1),5)} · Den tavse klokke`}</div><div class="dots">${[1,2,3,4,5].map(i=>`<i class="${i<=S.chapter?'on':''}"></i>`).join('')}</div></section><section class="panel">${pane}</section></main>`}
