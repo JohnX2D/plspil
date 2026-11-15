@@ -282,19 +282,19 @@ const PLACE={mira:'mira',port:'port',vej:'vej',taarn:'taarn',kapel:'kapel',vagt:
 /* ---------- scenen ---------- */
 function stageSvg(){W=stageW();const s=Math.max(.74,Math.min(1,W/1000)),scr=S.screen;POS={};
   const place=scr==='ending'?'slut':scr==='lost'?'baal':(scr==='combat'||scr==='dark')?'vagt':(S.place||'mira');
-  const sceneIndex={mira:0,slut:0,kapel:1,taarn:2};
-  const bg=sceneIndex[place]!==undefined?`<svg overflow="hidden" class="scene-image" x="0" y="0" width="${W}" height="${H}" viewBox="${sceneIndex[place]*590.33} 0 590.33 887" preserveAspectRatio="xMidYMid slice"><image href="assets/skyggeborgen-steder.jpg" width="1771" height="887"/></svg>`:`<image class="scene-image" href="assets/skyggeborgen-hal.jpg" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"/>`;
+  const sceneIndex={mira:0,kapel:1,taarn:2};const storyIndex={...(S.flags.rav?{}:{port:0}),elias:1,slut:2};
+  const bg=place==='port'&&S.flags.rav?`<image class="scene-image" href="assets/skyggeborgen.jpg" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"/>`:storyIndex[place]!==undefined?`<svg overflow="hidden" class="scene-image" x="0" y="0" width="${W}" height="${H}" viewBox="${storyIndex[place]*724} 0 724 724" preserveAspectRatio="xMidYMax slice"><image href="assets/skyggeborgen-historie.jpg" width="2172" height="724"/></svg>`:sceneIndex[place]!==undefined?`<svg overflow="hidden" class="scene-image" x="0" y="0" width="${W}" height="${H}" viewBox="${sceneIndex[place]*590.33} 0 590.33 887" preserveAspectRatio="xMidYMid slice"><image href="assets/skyggeborgen-steder.jpg" width="1771" height="887"/></svg>`:`<image class="scene-image" href="assets/skyggeborgen-hal.jpg" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"/>`;
   let o=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMax slice" role="img" aria-label="${esc(S.title||'Skyggeborgen')}">${DEFS}${bg}<rect width="${W}" height="${H}" fill="#080b12" opacity=".18"/>`;
-  const fx=W-150*s,fy=590;POS.foe={x:fx,y:fy-150*s};
+  const fx=W-150*s,fy=590;POS.foe={x:fx,y:fy-150*s};if(place==='elias')POS.crack={x:W*.56,y:545};
   const npc=a=>`<g transform="translate(${F(fx)} ${fy}) scale(${s})"><g id="a-foe"><ellipse rx="44" ry="10" fill="#000" opacity=".45"/><g class="breath">${a}</g></g></g>`;
-  if(place==='vagt'||place==='port'){const fallen=S.title==='Vagten falder';
-    if(place==='port'||scr==='combat'||fallen||(S.flags.guard!=='besejret'&&S.title!=='Stemmen bag døren')){
+  if(place==='vagt'){const fallen=S.title==='Vagten falder';
+    if(scr==='combat'||fallen||(S.flags.guard!=='besejret'&&S.title!=='Stemmen bag døren')){
       o+=`<g transform="translate(${F(fx)} ${fy}) scale(${s})"><g id="a-foe" class="${fallen?'crumble':''}"><ellipse rx="70" ry="15" fill="#000" opacity=".65"/><image href="assets/skyggeborgen-vagt.png" x="-110" y="-330" width="220" height="330" preserveAspectRatio="xMidYMax meet"/></g></g>`;POS.foe.y=fy-170*s;
       if(scr==='combat')o+=`<g transform="translate(${F(fx)} ${F(fy-335*s)})">${Array.from({length:Math.max(S.enemy,0)},(_,k)=>`<circle cx="${F((k-(S.enemy-1)/2)*26)}" r="8" fill="#b6503c" stroke="#e5b496" stroke-width="2"/>`).join('')}</g>`;
     }}
-  const gap=Math.min(98*s,(W-290*s-50)/Math.max(1,S.selected.length-1));S.selected.forEach((id,i)=>{const x=28*s+30+i*gap,y=588,ko=S.hp[id]===0;POS[id]={x,y:y-150*s};
-    o+=`<g transform="translate(${F(x)} ${y}) scale(${s*1.15})"><g id="a-${id}"><ellipse rx="36" ry="9" fill="#000" opacity=".45"/><g class="${ko?'ko':scr==='ending'?'breath':'breath'}" style="animation-delay:${i*.25}s">${realisticHero(id)}</g></g>
-      <text y="-196" text-anchor="middle" font-size="${F(Math.min(22,(gap/s-8)/3.6))}" fill="#ff8f80" stroke="#1a0c0c" stroke-width="3" paint-order="stroke" letter-spacing="1">${'♥'.repeat(S.hp[id])}<tspan fill="#5a5f6a">${'♥'.repeat(4-S.hp[id])}</tspan></text></g>`});
+  const gap=Math.min(125*s,(W-290*s-50)/Math.max(1,S.selected.length-1));S.selected.forEach((id,i)=>{const x=28*s+30+i*gap,y=588,hs=Math.min(s*1.15,gap/104),ko=S.hp[id]===0;POS[id]={x,y:y-150*hs};
+    o+=`<g transform="translate(${F(x)} ${y}) scale(${hs})"><g id="a-${id}"><ellipse rx="36" ry="9" fill="#000" opacity=".45"/><g class="${ko?'ko':scr==='ending'?'breath':'breath'}" style="animation-delay:${i*.25}s">${realisticHero(id)}</g></g>
+      <text y="-218" text-anchor="middle" font-family="Cinzel,serif" font-size="12" font-weight="700" fill="#f1e3c7" stroke="#161416" stroke-width="3" paint-order="stroke">${heroes[id].name}</text><text y="-196" text-anchor="middle" font-size="${F(Math.min(22,(gap/s-8)/3.6))}" fill="#ff8f80" stroke="#1a0c0c" stroke-width="3" paint-order="stroke" letter-spacing="1">${'♥'.repeat(S.hp[id])}<tspan fill="#5a5f6a">${'♥'.repeat(4-S.hp[id])}</tspan></text></g>`});
   return o+`<g id="fx"></g></svg>`}
 /* ---------- effekter ---------- */
 function playFx(){const f=FX;FX=null;if(!f)return;const g=document.getElementById('fx');if(!g)return;const add=h=>g.insertAdjacentHTML('beforeend',h);
