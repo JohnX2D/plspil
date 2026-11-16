@@ -544,7 +544,7 @@ div.tfg{display:flex;align-items:flex-end;justify-content:center;gap:12%;width:8
   </div>
   <section class="eve" id="eve" aria-live="polite"></section>
   <nav class="tiles" id="tiles" aria-label="Vælg spil"></nav>
-  <footer class="ver">LDA Spil · version 23.0</footer>
+  <footer class="ver">LDA Spil · version 24.0</footer>
 </div>
 <main id="game">
   <header class="topbar"><button class="ib" id="tohome" aria-label="Tilbage til spilmenuen">‹ Spil</button><h1 id="gname"></h1><button class="ib" id="undo">↶ Fortryd</button><button class="ib" id="menu" aria-label="Regler og menu">☰ Regler</button></header>
@@ -1117,7 +1117,7 @@ function rkPad(){
   return `<p>Slå terningen ved ${s.n}. <span class="warn">Rød: motoren eksploderer${t.shield?', men skjoldet redder dig':''}.</span>${al?` <span class="sub">Grøn: du snupper alienens skat.</span>`:''}</p>${dieKeys(v=>v<=s.d?'bad':al?(v>=al?'ok':''):'ok')}`;
 }
 /* ================= Aftenens mester og rekorder ================= */
-/* Hvert færdigt spil er én linje i aftenens log (også fra galaxy.html). Point regnes ud fra loggen,
+/* Hvert færdigt spil er én linje i aftenens log . Point regnes ud fra loggen,
    så fortryd og genindlæsning aldrig tæller dobbelt. Efter 10 timer uden spil starter en ny aften. */
 const EVK='lda-aften',EVH=10*36e5;
 function eveLoad(){let e;try{e=JSON.parse(localStorage.getItem(EVK))}catch(x){}if(!e||!Array.isArray(e.log))e={log:[],last:0};if(e.log.length&&Date.now()-e.last>EVH)e={log:[],last:0};return e}
@@ -1175,19 +1175,6 @@ const hiloTile=u=>`<svg class="tfg" style="--fh:74%;--fb:10%" viewBox="0 0 210 1
  <g transform="rotate(-10 62 70)"><rect x="26" y="20" width="72" height="100" rx="8" fill="url(#${u}P)" stroke="#2c2620" stroke-width="1.6"/><rect x="31" y="25" width="62" height="90" rx="5" fill="none" stroke="#e8402e" stroke-opacity=".5" stroke-width="1.4"/><text x="35" y="42" font-family="Georgia,serif" font-weight="800" font-size="15" fill="#1a1410">7</text><text x="62" y="86" text-anchor="middle" font-family="Georgia,serif" font-weight="800" font-size="42" fill="#1a1410">7</text></g>
  <g transform="rotate(9 148 70)"><rect x="112" y="18" width="72" height="100" rx="8" fill="url(#${u}G)" stroke="#2c2620" stroke-width="1.6"/><rect x="117" y="23" width="62" height="90" rx="5" fill="none" stroke="#3d8bff" stroke-opacity=".5" stroke-width="1.4"/><text x="121" y="40" font-family="Georgia,serif" font-weight="800" font-size="15" fill="#1a1410">D</text><path d="M4 38 8 10l12 14L30 4l10 20 12-14 4 28z" fill="#ffc23a" stroke="#3a2408" stroke-width="3" stroke-linejoin="round" transform="translate(126 50) scale(.8)"/><circle cx="150" cy="74" r="3" fill="#e8402e"/></g>
  <g transform="translate(105 6)"><circle r="14" fill="#123a28" stroke="#d9a33a" stroke-width="2"/><path d="M-6-1 0-9 6-1zM-6 1 0 9 6 1z" fill="#ffd36a"/></g></svg>`;
-function galaxyArt(u){
-  return `<svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>${rgrad(u+'Sp',[[0,'#3a1d7a'],[.55,'#140a33'],[1,'#05040d']],'cx=".3" cy=".3" r=".9"')}${rgrad(u+'N1',[[0,'#c44fd8',.55],[1,'#c44fd8',0]])}${rgrad(u+'N2',[[0,'#3fa7ff',.45],[1,'#3fa7ff',0]])}${rgrad(u+'Pl',[[0,'#ffe9a8'],[.5,'#f5b829'],[1,'#7a3a06']],'cx=".35" cy=".3" r=".8"')}${grad(u+'As',[[0,'#5a6070'],[1,'#252832']])}${grad(u+'Car',[[0,'#ff7a6a'],[.5,'#d0312d'],[1,'#7a1610']])}${rgrad(u+'Fl',[[0,'#fff3b0'],[.5,'#ffb02e'],[1,'#ff5a1f',0]])}</defs>
-   <rect width="460" height="340" fill="url(#${u}Sp)"/><ellipse cx="120" cy="110" rx="190" ry="96" fill="url(#${u}N1)"/><ellipse cx="370" cy="250" rx="170" ry="90" fill="url(#${u}N2)"/>
-   ${Array.from({length:46},(_,i)=>`<circle cx="${(rnd(i,101)*460).toFixed(0)}" cy="${(rnd(i,102)*340).toFixed(0)}" r="${(.5+rnd(i,103)*1.3).toFixed(1)}" fill="#fff" opacity="${(.35+rnd(i,104)*.6).toFixed(2)}"/>`).join('')}
-   <path d="M290 84a80 16 -18 0 1 150 -46" stroke="#c4a8ff" stroke-width="5" fill="none" opacity=".5"/><circle cx="364" cy="90" r="44" fill="url(#${u}Pl)" stroke="#2a1206" stroke-width="2"/><path d="M332 70q30-14 62 6M326 96q36-10 74 6" stroke="#a8540c" stroke-width="5" fill="none" opacity=".45"/><path d="M286 110a80 16 -18 0 0 160 -48" stroke="#c4a8ff" stroke-width="6" fill="none"/>
-   <path d="M-30 336Q150 320 220 250T490 166" stroke="#05040d" stroke-width="78" fill="none"/><path d="M-30 336Q150 320 220 250T490 166" stroke="#fff" stroke-width="70" fill="none" stroke-dasharray="14 14"/><path d="M-30 336Q150 320 220 250T490 166" stroke="#d0312d" stroke-width="70" fill="none" stroke-dasharray="14 14" stroke-dashoffset="14"/>
-   <path d="M-30 336Q150 320 220 250T490 166" stroke="url(#${u}As)" stroke-width="58" fill="none"/><path d="M-30 336Q150 320 220 250T490 166" stroke="#f5f0e0" stroke-width="3" fill="none" stroke-dasharray="16 14" opacity=".85"/>
-   <g stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".55"><path d="M120 300l-40 26M140 286l-34 22M156 272l-24 16"/></g>
-   <g transform="translate(222 248) rotate(-45)"><ellipse cx="0" cy="20" rx="42" ry="7" fill="#000" opacity=".45"/><path d="M-40-6l-26 6 26 6z" fill="url(#${u}Fl)"/>
-    <rect x="-26" y="-23" width="16" height="8" rx="3" fill="#111"/><rect x="12" y="-23" width="16" height="8" rx="3" fill="#111"/><rect x="-26" y="15" width="16" height="8" rx="3" fill="#111"/><rect x="12" y="15" width="16" height="8" rx="3" fill="#111"/>
-    <path d="M-34-15h52q18 0 24 15q-6 15-24 15h-52q-6 0-6-6v-18q0-6 6-6z" fill="url(#${u}Car)" stroke="#2a0806" stroke-width="2.5"/><path d="M-32-3h58v6h-58z" fill="#fff" opacity=".85"/>
-    <ellipse cx="2" cy="0" rx="12" ry="8.5" fill="#8fd0ff" stroke="#2a0806" stroke-width="2"/><path d="M-4-5q5-3 10 0" stroke="#fff" stroke-width="1.6" fill="none"/><rect x="-42" y="-18" width="6" height="36" rx="2" fill="#2a2a33" stroke="#05040d" stroke-width="1.5"/><path d="M-26-11h40" stroke="rgba(255,255,255,.5)" stroke-width="2"/></g></svg>`;
-}
 const TART={
  tower:()=>desertBg('ta')+towerTile('tA'),
  pirate:()=>seaBg('tb',1)+pirateTile('tB')+shipSvg('tship','','tP'),
@@ -1195,8 +1182,7 @@ const TART={
  hilo:()=>tableBg('td')+hiloTile('tD'),
  chest:()=>vaultBg('te')+chestOpen('tE','class="tfg" style="--fh:66%;--fb:8%"'),
  monster:()=>`<svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${caveDefs('tm',11)}${cave('tm')}<g transform="translate(230 272) scale(.8)" filter="url(#tmLit)">${MART.rat('tm',true,3,mpal(11))}</g>${caveFront('tm',8)}</svg>`,
- rocket:()=>`<svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${spaceDefs('tr')}${spaceBg('tr')}${[1,4,5].map(i=>stationArt('tr',i,true)).join('')}<g transform="translate(230 190) rotate(-28) scale(2.1)">${rocketArt('tr',false,true)}</g></svg>`,
- galaxy:()=>galaxyArt('tg')
+ rocket:()=>`<svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${spaceDefs('tr')}${spaceBg('tr')}${[1,4,5].map(i=>stationArt('tr',i,true)).join('')}<g transform="translate(230 190) rotate(-28) scale(2.1)">${rocketArt('tr',false,true)}</g></svg>`
 };
 const TCACHE={},tart=k=>TCACHE[k]||(TCACHE[k]=TART[k]());
 const tileRec=k=>{const r=REC[k];return r?`<span class="trec">${TROPHY}Rekord: ${RECT[k](r.v)} · ${esc(r.name)}</span>`:`<span class="trec no">${TROPHY}Ingen rekord endnu</span>`};
@@ -1361,8 +1347,7 @@ function renderHome(){
   const el=$('names');
   if(el.querySelectorAll('input').length!==S.n)el.innerHTML=Array.from({length:S.n},(_,i)=>`<label class="nm" style="--c:${COL[i]}">${meeple(HEX[i])}<input value="${nm(i)}" data-name="${i}" aria-label="Navn på spiller ${i+1}" enterkeyhint="done" autocomplete="off" maxlength="14"></label>`).join('');
   $('eve').innerHTML=eveHtml();
-  $('tiles').innerHTML=Object.entries(GAMES).map(([k,v])=>`<button class="tile" data-game="${k}"><span class="tart ${k}">${tart(k)}</span><span class="tinfo"><b>${v.name}</b><small>${TAG[k]}</small>${tileRec(k)}</span>${started(SAVES[k])?'<span class="tgo">Fortsæt</span>':''}</button>`).join('')
-    +`<a class="tile" href="galaxy.html"><span class="tart galaxy">${tart('galaxy')}</span><span class="tinfo"><b>Galaxy Raceway</b><small>Racerbræt · 1 terning</small><span class="trec">${CROWN}Tæller med i aftenens mester</span></span></a>`;
+  $('tiles').innerHTML=Object.entries(GAMES).map(([k,v])=>`<button class="tile" data-game="${k}"><span class="tart ${k}">${tart(k)}</span><span class="tinfo"><b>${v.name}</b><small>${TAG[k]}</small>${tileRec(k)}</span>${started(SAVES[k])?'<span class="tgo">Fortsæt</span>':''}</button>`).join('');
 }
 function render(){
   document.body.classList.toggle('home',view==='home');
