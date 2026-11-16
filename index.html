@@ -566,7 +566,7 @@ div.tfg{display:flex;align-items:flex-end;justify-content:center;gap:12%;width:8
   </div>
   <section class="eve" id="eve" aria-live="polite"></section>
   <nav class="tiles" id="tiles" aria-label="Vælg spil"></nav>
-  <footer class="ver">LDA Spil · version 31.0</footer>
+  <footer class="ver">LDA Spil · version 31.1</footer>
 </div>
 <main id="game">
   <header class="topbar"><button class="ib" id="tohome" aria-label="Tilbage til spilmenuen">‹ Spil</button><h1 id="gname"></h1><button class="ib" id="undo">↶ Fortryd</button><button class="ib" id="menu" aria-label="Regler og menu">☰ Regler</button></header>
@@ -1133,10 +1133,8 @@ function rAnim(from,to,spin,o={}){RA=null;if(matchMedia('(prefers-reduced-motion
   RA={items,t0:performance.now()+dl,dur,nitro:!!o.nitro,k:o.k,fin:!!o.fin,last:0};engine(dur/1000,dl/1000,o.hot||o.nitro);requestAnimationFrame(rStep)}
 function rApply(el,p,drv,nit){el.setAttribute('transform',`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);const ro=el.querySelector('.rot'),nu=el.querySelector('.num');
   if(ro)ro.setAttribute('transform',`rotate(${p.h.toFixed(1)})`);if(nu)nu.setAttribute('transform',`translate(${(-17*Math.cos(p.h*RAD)).toFixed(1)} ${(-17*Math.sin(p.h*RAD)).toFixed(1)})`);el.classList.toggle('drv',drv);el.classList.toggle('nit',!!nit)}
-/* Kameraudsnittet: zoomer ind mod den bil, der kører, og ud igen, når den er fremme */
-function rView(now){const x=rProg(now);if(!RA||x<=0||x>=1)return RVB.join(' ');
-  const it=RA.items.find(i=>i.k===RA.k)||RA.items[0],p=rPoseAt(it,ease(x)),env=Math.min(1,Math.sin(Math.PI*x)*1.7),z=1+(RA.fin?.8:.42)*env,w=1000/z,h=660/z;
-  return `${(500+(p.x-500)*env*.8-w/2).toFixed(1)} ${(330+(p.y-330)*env*.8-h/2).toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`}
+/* Banen står stille: hele banen er altid i billedet */
+const rView=()=>RVB.join(' ');
 function rPuff(g,it,p){const a=p.t*RAD,x=p.x-Math.cos(a)*36,y=p.y-Math.sin(a)*36;
   const mk=(cls,r,cx,cy)=>{const c=document.createElementNS(SVGNS,'circle');c.setAttribute('cx',cx.toFixed(1));c.setAttribute('cy',cy.toFixed(1));c.setAttribute('r',r);c.setAttribute('class',cls);g.appendChild(c);return c};
   const c=mk('rsm'+(it.s?' dk':RA.nitro?' nt':''),it.s?10:RA.nitro?8:5.5,x+(Math.random()-.5)*10,y+(Math.random()-.5)*10);c.addEventListener('animationend',()=>c.remove());
@@ -1144,7 +1142,6 @@ function rPuff(g,it,p){const a=p.t*RAD,x=p.x-Math.cos(a)*36,y=p.y-Math.sin(a)*36
 function rStep(now){if(!RA)return;const x=rProg(now),e=ease(x),run=x>0&&x<1,g=document.getElementById('rfx'),puff=run&&g&&now-RA.last>42;
   RA.items.forEach(it=>{const el=document.getElementById('rc'+it.k);if(!el)return;const p=rPoseAt(it,e);rApply(el,p,run,run&&RA.nitro);if(puff)rPuff(g,it,p)});
   if(puff)RA.last=now;
-  const sv=document.getElementById('rsvg');if(sv)sv.setAttribute('viewBox',rView(now));
   if(x<1)requestAnimationFrame(rStep);else RA=null}
 /* --- tegninger --- */
 const carTop=(k,u)=>{const c=CARS[k];return `<ellipse cx="2" cy="5" rx="34" ry="15" fill="#000" opacity=".34"/>
@@ -1261,22 +1258,20 @@ function raceScene(){const r=S.rc;if(!r)return '';const t=S.turn,P=rPlaces(),o=r
   const ban=f?gold(f.ban,st!==null?` style="animation-delay:${(1.65-st).toFixed(2)}s"`:''):r.over?gold(`${CARS[r.fin.w].n} vinder!`):'';
   const pay=f&&f.pay?`<div class="rpay"><b>Omgang ${f.pay.leg}: ${CARS[f.pay.first].n} førte</b>${f.pay.gain.map((g,p)=>`<span style="--c:${COL[p]}">${nm(p)} <em class="${g<0?'neg':''}">${g>0?'+':''}${g}</em></span>`).join('')}</div>`:'';
   return `<div class="scene racing ${f&&f.shake?'shake':''} ${r.over?'rdone':''}"><svg id="rsvg" class="dart" viewBox="${rView(now)}" preserveAspectRatio="xMidYMid meet" aria-label="Racerbanen">${raceDefs('r')}${raceBg('r')}${raceGantry(r,st)}${raceHud(r,'r')}${racePiles(r)}${raceTileArt(r,t,'r')}<g id="rfx"></g>${cars}${r.over?raceFw():''}</svg>${ban}${pay}</div>`}
-const RACTS=[['roll','🎲','Kør!','Slå terningerne og få 1 mønt'],['tick','🎫','Tag en billet','Gæt hvem der fører efter omgangen']];
 function racePad(){const r=S.rc,t=S.turn;if(!r)return '';
   const back='<button class="btn rback" data-rback>← Tilbage</button>',who=`<b style="color:${COL[S.p]}">${nm(S.p)}</b>`,mine=r.fan[S.p];
   if(r.over){const fw=r.fin.fan.map((g,p)=>g?`<b style="color:${COL[p]}">${nm(p)}</b> +${g}`:'').filter(Boolean).join(' · ');
     return `<p>${CARS[r.fin.w].n} vandt løbet! ${fw?'Podiet giver: '+fw:'Ingen heppebiler kom på podiet.'}</p><div class="racts"><button class="btn main" data-rnext>Se vinderen af Grand Prix</button></div>`}
   if(r.fan.includes(-1))return `<p>${who}: vælg din <b>heppebil</b>! <span class="sub">Den giver mønter, når den overhaler og kommer på podiet.</span></p>
      <div class="rbets">${CARS.map((c,k)=>{const q=r.fan.indexOf(k);return `<button class="rb" data-rfan="${k}" ${q>=0?'disabled':''} style="--c1:${c.c[0]};--c2:${c.c[1]}">${carIcon(k)}<b>${c.n}</b><small>${q>=0?nm(q)+' hepper':'felt '+r.pos[k]}</small></button>`}).join('')}</div>`;
-  if(t.act==='roll'){if(t.dice.length<2)return `<p>${who}: slå <b>to terninger</b>. ${t.dice.length?`Den ene viste <b>${t.dice[0]}</b>. Hvad viste den anden?`:'Hvad viste den ene?'}</p>
-     <div class="keys">${[1,2,3,4,5,6].map(v=>`<button class="key" data-die="${v}" aria-label="Slog ${v}">${pips(v)}</button>`).join('')}</div>${back}`;
+  if(t.act!=='tick'){if(t.dice.length<2)return `<p>${who}: slå <b>to terninger</b>. ${t.dice.length?`Den ene viste <b>${t.dice[0]}</b>. Hvad viste den anden?`:'Hvad viste den ene? <span class="sub">Hver tur med terningerne giver 1 mønt.</span>'}</p>
+     <div class="keys">${[1,2,3,4,5,6].map(v=>`<button class="key" data-die="${v}" aria-label="Slog ${v}">${pips(v)}</button>`).join('')}</div>
+     ${t.dice.length?'':`<button class="btn rback" data-ract="tick" ${r.tick.some(s=>s.length)?'':'disabled'}>🎫 Tag en billet i stedet</button>`}`;
     const o=rOpts();return `<p>${o[0].nitro?`${who}: to ens giver <b>NITRO!</b> 🔥`:o.length>1?`${who}: <b>hvilken bil skal køre?</b> <span class="sub">Den ene terning er bilen, den anden er farten.</span>`:`${who}: send bilen af sted!`}</p>
-     <div class="racts4 ${o.length<2?'one':''}">${o.map((x,i)=>{const c=CARS[x.k];return `<button class="ra tall rgo ${o[0].nitro?'nitro':''}" data-rgo="${i}" style="--c1:${c.c[0]}" aria-label="${c.n} kører ${flt(x.d)}">${carIcon(x.k)}<b>${c.n} kører ${flt(x.d)}${x.nitro?' 🔥':''}</b><small>${x.k===mine?'⭐ Din heppebil · ':''}${x.k!==x.a-1?`${CARS[x.a-1].n} har kørt, så ${c.n} kører i stedet`:x.nitro?`${SPD(x.a)} + 1 for nitro`:`Terning ${x.a} er bilen · terning ${x.b} er farten`}</small></button>`}).join('')}</div>${back}`}
+     <div class="racts4 ${o.length<2?'one':''}">${o.map((x,i)=>{const c=CARS[x.k];return `<button class="ra tall rgo ${o[0].nitro?'nitro':''}" data-rgo="${i}" style="--c1:${c.c[0]}" aria-label="${c.n} kører ${flt(x.d)}">${carIcon(x.k)}<b>${c.n} kører ${flt(x.d)}${x.nitro?' 🔥':''}</b><small>${x.k===mine?'⭐ Din heppebil · ':''}${x.k!==x.a-1?`${CARS[x.a-1].n} har kørt, så ${c.n} kører i stedet`:x.nitro?`${SPD(x.a)} + 1 for nitro`:`Terning ${x.a} er bilen · terning ${x.b} er farten`}</small></button>`}).join('')}</div>`}
   if(t.act==='tick'){const o=rRank(r);return `<p>${who}: hvilken bil fører, når alle seks har kørt? <span class="sub">Rigtigt gæt giver tallet på billetten. Forkert koster ingenting.</span></p>
      <div class="rbets">${CARS.map((c,k)=>{const v=r.tick[k][0];return `<button class="rb" data-rtick="${k}" ${v?'':'disabled'} style="--c1:${c.c[0]};--c2:${c.c[1]}">${carIcon(k)}<b>${c.n}</b><small>${v?`<em>${v} mønter</em> · `:'udsolgt · '}nr. ${o.indexOf(k)+1}</small></button>`}).join('')}</div>${back}`}
-  const dis={tick:!r.tick.some(s=>s.length)};
-  return `<p>${who}: hvad vil du? <span class="sub">Omgang ${r.leg} · ${rLeft(r).length} ${rLeft(r).length===1?'bil mangler':'biler mangler'} at køre.</span></p>
-   <div class="racts4">${RACTS.map(([a,i,b,s])=>`<button class="ra tall ${a==='roll'?'main':''}" data-ract="${a}" ${dis[a]?'disabled':''}><i>${i}</i><b>${b}</b><small>${s}</small></button>`).join('')}</div>`}
+  return ''}
 function raceClick(e){const r=S.rc,t=S.turn;if(!r||S.win!==null)return false;let el;
   if(el=e.target.closest('[data-rfan]')){snap();rFan(+el.dataset.rfan);render();return true}
   if(el=e.target.closest('[data-ract]')){t.act=el.dataset.ract;t.dice=[];sfx.tap();say('');render();return true}
