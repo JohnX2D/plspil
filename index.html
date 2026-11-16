@@ -557,7 +557,7 @@ div.tfg{display:flex;align-items:flex-end;justify-content:center;gap:12%;width:8
   </div>
   <section class="eve" id="eve" aria-live="polite"></section>
   <nav class="tiles" id="tiles" aria-label="Vælg spil"></nav>
-  <footer class="ver">LDA Spil · version 29.0</footer>
+  <footer class="ver">LDA Spil · version 29.1</footer>
 </div>
 <main id="game">
   <header class="topbar"><button class="ib" id="tohome" aria-label="Tilbage til spilmenuen">‹ Spil</button><h1 id="gname"></h1><button class="ib" id="undo">↶ Fortryd</button><button class="ib" id="menu" aria-label="Regler og menu">☰ Regler</button></header>
@@ -617,7 +617,7 @@ const fresh=(game,names,targets,n)=>({rc:game==='race'?rcNew():null,game,n:n||2,
 function newTurn(g){return {tower:{fl:[],dice:[]},pirate:{sum:0,rolls:[]},battle:{roll:null},hilo:{cur:null,guess:null,pile:0},chest:{row:[]},monster:{bag:0,sum:0,rolls:[],n:0},race:{dice:[],act:'',sel:0}}[g]}
 try{S=JSON.parse(localStorage.getItem('lda-spil'));SAVES=JSON.parse(localStorage.getItem('lda-saves'))||{}}catch(e){}
 if(!S||!GAMES[S.game]||!S.turn||!S.n)S=fresh('tower',S&&S.names,S&&S.targets,2);
-if(S.game==='race'&&!(S.rc&&S.rc.v===2))S=fresh('race',S.names,S.targets,S.n);if(!S.used)S.used=Array(14).fill(0);if(!S.wall)S.wall=Array(S.n).fill(0);if(!S.rid)S.rid=newRid();if(!S.out)S.out=[];
+if(!S.used)S.used=Array(14).fill(0);if(!S.wall)S.wall=Array(S.n).fill(0);if(!S.rid)S.rid=newRid();if(!S.out)S.out=[];
 const save=()=>{SAVES[S.game]=S;try{localStorage.setItem('lda-spil',JSON.stringify(S));localStorage.setItem('lda-saves',JSON.stringify(SAVES))}catch(e){}};
 const snap=()=>{hist.push(JSON.stringify({S,R:REC}));if(hist.length>60)hist.shift();S.oops=false};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1535,6 +1535,8 @@ undo.addEventListener('click',doUndo);$('wundo').addEventListener('click',doUndo
 $('reset').addEventListener('click',()=>{snap();FX=null;S=fresh(S.game,S.names,S.targets,S.n);say('Nyt spil. Held og lykke!');sheet.classList.remove('show');render()});
 $('wmenu').addEventListener('click',()=>{snap();FX=null;S=fresh(S.game,S.names,S.targets,S.n);win.classList.remove('show');go('home')});
 $('again').addEventListener('click',()=>{snap();FX=null;const w=S.win;S=fresh(S.game,S.names,S.targets,S.n);if(w>=0)S.p=S.start=nx(w);say(`${nm(S.p)} starter.`);render()});
+/* Et gemt Grand Prix fra før version 29 kan ikke fortsættes: start et nyt løb (først her, hvor bilerne er defineret) */
+if(S.game==='race'&&!(S.rc&&S.rc.v===2))S=fresh('race',S.names,S.targets,S.n);
 render();
 }
 </script>
