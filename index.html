@@ -358,6 +358,17 @@ body.home #game,body:not(.home) #home{display:none}
 .gain{position:absolute;left:50%;top:38%;z-index:8;margin-left:-90px;width:180px;text-align:center;font-weight:800;font-size:34px;color:#ffd34d;-webkit-text-stroke:2px #120c0a;paint-order:stroke;white-space:nowrap;animation:up 1.3s ease-out both}
 .btn.oops{min-height:52px;font-size:17px;font-weight:800;background:light-dark(#fff4d6,#3a2c08);border-color:#c98a12;box-shadow:0 4px 0 #c98a12;color:light-dark(#5a3a00,#ffd36a);animation:pop .35s ease-out}
 .btn.guess svg.die{width:44px;height:44px}
+/* ---------- Galaksekortet ---------- */
+.scene.galaxy{background:#05071a}
+.gbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gmap{position:absolute;inset:0;width:100%;height:100%}
+.gp{cursor:default}.gp.wormy{cursor:pointer}
+.own.new{animation:ownin .7s cubic-bezier(.3,1.6,.5,1) both;transform-box:fill-box;transform-origin:center}@keyframes ownin{from{transform:scale(1.8);opacity:0}}
+.tgt{animation:pulse .6s ease-in-out infinite alternate}
+.lane{animation:lane 1.6s linear infinite}@keyframes lane{to{stroke-dashoffset:-22}}
+.gplate{position:absolute;left:10px;top:10px;z-index:6;background:rgba(5,8,26,.8);color:#e8eeff;border:1.5px solid rgba(150,190,255,.35);border-radius:10px;padding:4px 12px;font-weight:800;font-size:15px;line-height:1.2}
+.gplate small{display:block;font-weight:600;font-size:11.5px;color:#a9b8e0}
+.gtile{position:absolute;inset:0;background-size:cover;background-position:center}.gtile img{position:absolute;height:auto}
 .key.ok{background:light-dark(#dff6e8,#12351f);border-color:#13a35c;box-shadow:0 4px 0 #13a35c}.key.ok:active{box-shadow:0 1px 0 #13a35c}
 .pad .sub{color:var(--soft);font-weight:500}
 .ray{transform-box:fill-box;transform-origin:50% 0;animation:rayw 7s ease-in-out infinite alternate}
@@ -529,7 +540,7 @@ div.tfg{display:flex;align-items:flex-end;justify-content:center;gap:12%;width:8
   </div>
   <section class="eve" id="eve" aria-live="polite"></section>
   <nav class="tiles" id="tiles" aria-label="Vælg spil"></nav>
-  <footer class="ver">LDA Spil · version 25.0</footer>
+  <footer class="ver">LDA Spil · version 26.0</footer>
 </div>
 <main id="game">
   <header class="topbar"><button class="ib" id="tohome" aria-label="Tilbage til spilmenuen">‹ Spil</button><h1 id="gname"></h1><button class="ib" id="undo">↶ Fortryd</button><button class="ib" id="menu" aria-label="Regler og menu">☰ Regler</button></header>
@@ -561,6 +572,7 @@ const GAMES={
  hilo:{name:'Højere eller lavere',kind:'cards',unit:'point',rules:['Vend et startkort. Es er 1, konge er 13.','Gæt højere eller lavere, og vend næste kort.','Rigtigt gæt: kortet kommer i din bunke. Lige så højt: intet sker.','Forkert gæt: du mister turens bunke.','Stop for at gemme bunken. Hvert kort giver 1 point.','Lange stimer giver bonus, når du stopper: 3 kort giver 1 ekstra, 4 kort 2, 5 kort 4, 6 kort 6, 7 kort 9, og 8 eller flere giver 12 ekstra.','Når bunken er tom, vinder den med flest point.']},
  chest:{name:'Skattekisten',kind:'cards',unit:'point',rules:['Vend kort ét ad gangen og læg dem i en række.','Samme værdi som et kort i rækken: kisten går i stykker, og alt ryger ud.','Stop for at tage rækken.','Knægt, dame og konge giver 2 point, alle andre 1.','Mange kort giver bonus, når du stopper: 5 kort giver 1 ekstra, 6 kort 3 ekstra, 7 kort 5 ekstra, og 8 eller flere giver 8 ekstra.','Når bunken er tom, vinder den med flest point.']},
  monster:{name:'Monsterhulen',kind:'dice',unit:'guld',rules:['Vend et kort: det er monsteret i døren, og kortets værdi er dets styrke. Knægt er 11, dame 12, konge 13, og esset er Dragen med styrke 14.','Kæmp ved at slå terningen op til <b>3 gange</b>. Slagene lægges sammen, og når du når monsterets styrke, har du vundet.',"Slår du en <b>1'er</b>, bliver du bidt og taber kampen. Du taber også, hvis tre slag ikke er nok.",'Vinder du, ryger monsterets styrke i guld ned i sækken. Dragen giver 6 ekstra.','Efter en sejr kan du gå hjem og gemme sækken eller gå dybere ind og vende et nyt kort. Du må også gå hjem, når du har set det næste monster.','Taber du, mister du hele sækken. Monsteret bliver stående til den næste spiller, og der kommer 2 guld i dusør på det, hver gang det vinder.','Når nogen når målet, spilles runden færdig. Den med mest guld vinder.']},
+ galaxy:{name:'Galaksekortet',kind:'grid',unit:'point',rules:['Galaksen er et kort med 6 × 6 planeter. Slå <b>to terninger</b>: den første er rækken, den anden er kolonnen.','<b>Ledig planet</b>: den bliver din.','<b>Din egen planet</b>: du bygger et skjold på den (højst to).','<b>En andens planet</b>: slå én terning mere. Er slaget højere end planetens forsvar, er planeten din.','Forsvaret er 2 + skjolde + antal naboplaneter (op, ned, venstre, højre) med samme ejer. Store imperier er svære at angribe, og forsvar 6 kan ikke erobres.','<b>To ens</b>: et ormehul. Tryk selv på en ledig planet på kortet.','<b>Sort hul</b>: her kan ingen bygge.','Efter 8 runder tælles der sammen: hver planet giver 1–3 point (tallet ved planeten), og dit største sammenhængende imperium giver 1 point pr. planet.']},
 };
 let S,hist=[],FX=null,fxT,seenCoins=0,SAVES={};
 /* Lyd: små toner lavet i browseren, ingen lydfiler */
@@ -584,8 +596,8 @@ const sfx={tap:()=>tone(420,.05,'triangle',.05),
  win:()=>[523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,.22,'square',.06,i*.13))};
 const HP=15,WMAX=6,AIR=7,ZS=4,MAXD=12,DEFT={monster:50};
 const newRid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-const fresh=(game,names,targets,n)=>({game,n:n||2,names:names||DEF.slice(),targets:targets||{tower:15,pirate:50},scores:Array(n||2).fill(game==='battle'?HP:0),pirateScore:0,chests:Array(n||2).fill(0),wall:Array(n||2).fill(0),used:Array(14).fill(0),mon:null,p:0,start:0,final:false,turn:newTurn(game),deck:52,log:[],msg:'',mt:'',win:null,rid:newRid(),out:[]});
-function newTurn(g){return {tower:{fl:[],dice:[]},pirate:{sum:0,rolls:[]},battle:{roll:null},hilo:{cur:null,guess:null,pile:0},chest:{row:[]},monster:{bag:0,sum:0,rolls:[],n:0}}[g]}
+const fresh=(game,names,targets,n)=>({gm:game==='galaxy'?galNew():null,game,n:n||2,names:names||DEF.slice(),targets:targets||{tower:15,pirate:50},scores:Array(n||2).fill(game==='battle'?HP:0),pirateScore:0,chests:Array(n||2).fill(0),wall:Array(n||2).fill(0),used:Array(14).fill(0),mon:null,p:0,start:0,final:false,turn:newTurn(game),deck:52,log:[],msg:'',mt:'',win:null,rid:newRid(),out:[]});
+function newTurn(g){return {tower:{fl:[],dice:[]},pirate:{sum:0,rolls:[]},battle:{roll:null},hilo:{cur:null,guess:null,pile:0},chest:{row:[]},monster:{bag:0,sum:0,rolls:[],n:0},galaxy:{dice:[],pend:null,cell:-1}}[g]}
 try{S=JSON.parse(localStorage.getItem('lda-spil'));SAVES=JSON.parse(localStorage.getItem('lda-saves'))||{}}catch(e){}
 if(!S||!GAMES[S.game]||!S.turn||!S.n)S=fresh('tower',S&&S.names,S&&S.targets,2);
 if(!S.used)S.used=Array(14).fill(0);if(!S.wall)S.wall=Array(S.n).fill(0);if(!S.rid)S.rid=newRid();if(!S.out)S.out=[];
@@ -644,6 +656,7 @@ function die(v){
   if(FX&&(FX.chest3||FX.kind==='doubleSix')){FX=null;clearTimeout(fxT)}
   snap();const t=S.turn;
   if(S.game==='monster'){monDie(v);render();return}
+  if(S.game==='galaxy'){galDie(v);render();return}
   if(S.game==='tower'){
     t.dice=t.dice||[];if(t.dice.length>=2){render();return}
     t.dice.push(v);sfx.tap();
@@ -705,7 +718,7 @@ function build(){
   const m=`${nm(p)} byggede mur: +${add}${add<v?` (muren er fuld)`:''}.`;
   log(m);sfx.thud();fx({kind:'build',p,add},1100);battleEnd(v,m);render();
 }
-function turnPts(){const t=S.turn;return {tower:()=>t.fl.length+TB(t.fl.length),pirate:()=>t.sum,hilo:()=>t.pile+HB(t.pile),chest:()=>cpts(t.row)+CB(t.row.length),battle:()=>0,monster:()=>t.bag}[S.game]()}
+function turnPts(){const t=S.turn;return {tower:()=>t.fl.length+TB(t.fl.length),pirate:()=>t.sum,hilo:()=>t.pile+HB(t.pile),chest:()=>cpts(t.row)+CB(t.row.length),battle:()=>0,monster:()=>t.bag,galaxy:()=>0}[S.game]()}
 const curBonus=()=>S.game==='tower'?TB(S.turn.fl.length):S.game==='chest'?CB(S.turn.row.length):S.game==='hilo'?HB(S.turn.pile):0;
 function stop(){snap();const n=turnPts(),b=curBonus();bank(n,un(n)+(b?` (${n-b} + ${b} bonus)`:''));render()}
 function risk(){
@@ -996,6 +1009,133 @@ function monPad(){
   return `<p>Kæmp mod ${MNAME[m.v]}: hvad slog du? <span class="warn">En 1'er, og du bliver bidt.</span></p>${dieKeys(v=>v===1?'bad':v>=need?'ok':'')}`;
 }
 
+/* ================= Galaksekortet ================= */
+/* To terninger er en koordinat på et 6 × 6 kort over galaksen. Ledige planeter tages, egne planeter får skjold,
+   og andres planeter kan erobres med ét slag mere. Naboplaneter med samme ejer gør hinanden stærkere. */
+const GROUNDS=8;
+const gRand=s=>()=>{s=(s*16807)%2147483647;return (s-1)/2147483646};
+function galNew(){const seed=1+Math.floor(Math.random()*2e9),r=gRand(seed),cells=[];
+  for(let i=0;i<36;i++){const u=r();const v=u<.5?1:u<.85?2:3;const k=v===3?(r()<.7?3:0):[0,1,2,4,5,0,1][Math.floor(r()*7)];cells.push({o:-1,sh:0,v,k,ring:k===3&&r()<.6,bh:false})}
+  let n=0;while(n<2){const i=Math.floor(r()*36);if(!cells[i].bh&&i!==0&&i!==35){cells[i].bh=true;cells[i].v=0;n++}}
+  return {seed,cells,turns:0}}
+const gNb=i=>{const r=Math.floor(i/6),c=i%6,o=[];if(r>0)o.push(i-6);if(r<5)o.push(i+6);if(c>0)o.push(i-1);if(c<5)o.push(i+1);return o};
+const gDef=i=>{const g=S.gm,c=g.cells[i];return Math.min(6,2+c.sh+gNb(i).filter(j=>g.cells[j].o===c.o).length)};
+function gEmpire(p){const g=S.gm,seen=new Set;let best=0;for(let i=0;i<36;i++){if(g.cells[i].o!==p||seen.has(i))continue;let n=0;const st=[i];seen.add(i);
+  while(st.length){const j=st.pop();n++;for(const k of gNb(j))if(!seen.has(k)&&g.cells[k].o===p){seen.add(k);st.push(k)}}best=Math.max(best,n)}return best}
+function gScore(){for(let p=0;p<S.n;p++)S.scores[p]=S.gm.cells.reduce((a,c)=>a+(c.o===p?c.v:0),0)+gEmpire(p)}
+function gEnd(why){const g=S.gm;g.turns++;gScore();
+  if(g.turns>=GROUNDS*S.n){const mx=Math.max(...S.scores),top=S.scores.map((v,i)=>v===mx?i:-1).filter(i=>i>=0);S.win=top.length>1?-1:top[0];if(S.win>=0)rec('galaxy',mx,S.win);sfx.good();say(why+' Galaksen er fordelt!','good');return}
+  nextPlayer();say(`${why} Nu er det ${nm(S.p)}s tur.${g.turns>=(GROUNDS-1)*S.n?' Sidste runde!':''}`)}
+function gClaim(i,why){const g=S.gm,c=g.cells[i];c.o=S.p;c.sh=0;fx({kind:'gal',cell:i},1400);for(let k=0;k<4;k++)tone(660+k*110,.1,'triangle',.05,k*.06);gEnd(why)}
+function galDie(v){
+  const t=S.turn,g=S.gm;
+  if(t.pend&&t.pend.atk!==undefined){const i=t.pend.atk,d=gDef(i),c=g.cells[i],old=c.o;t.pend=null;
+    if(v>d){gClaim(i,`${nm(S.p)} slog ${v} og erobrede ${PNAME[c.k]} fra ${nm(old)}!`)}else{sfx.bad();fx({kind:'galfail',cell:i},1200);gEnd(`${nm(S.p)} slog ${v}, men ${nm(old)}s planet holdt stand (forsvar ${d}).`)}return}
+  if(t.pend)return;
+  t.dice.push(v);sfx.tap();
+  if(t.dice.length<2){say(`Række ${v}. Hvad viste den anden terning? Den er kolonnen.`);return}
+  const [a,b]=t.dice,i=(a-1)*6+(b-1),c=g.cells[i];t.dice=[];t.cell=i;
+  if(a===b&&g.cells.some(x=>x.o<0&&!x.bh)){t.pend={worm:1};sfx.six();say(`To ${a}'ere: et ormehul! Tryk på en ledig planet på kortet, og den er din.`,'good');return}
+  if(c.bh){sfx.thud();fx({kind:'galfail',cell:i},1200);gEnd(`Række ${a}, kolonne ${b} er et sort hul. Her kan ingen bygge.`);return}
+  if(c.o<0){gClaim(i,`${nm(S.p)} tog ${PNAME[c.k]} på række ${a}, kolonne ${b}.`);return}
+  if(c.o===S.p){if(c.sh<2){c.sh++;fx({kind:'gal',cell:i},1200);tone(520,.3,'sine',.05,0,900);gEnd(`${nm(S.p)} byggede et skjold på sin egen planet (forsvar ${gDef(i)}).`)}else gEnd(`${nm(S.p)}s planet har allerede to skjolde.`);return}
+  const d=gDef(i);if(d>=6){sfx.thud();gEnd(`${nm(c.o)}s planet er en fæstning med forsvar 6. Den kan ikke erobres.`);return}
+  t.pend={atk:i};sfx.growl();say(`${nm(c.o)} ejer planeten. Forsvar ${d}: slå ${d+1} eller mere for at erobre den.`)}
+function galCell(i){const t=S.turn,g=S.gm;if(!t.pend||!t.pend.worm||S.win!==null)return;const c=g.cells[i];if(c.o>=0||c.bh)return;snap();t.pend=null;t.cell=i;gClaim(i,`${nm(S.p)} fløj gennem ormehullet til ${PNAME[c.k]}.`);render()}
+const PNAME=['en blå planet','en ørkenplanet','en isplanet','en gaskæmpe','en lavaplanet','en violet planet'];
+/* --- procedurel tegning: 3D-støj, planeter som oplyste kugler, tåge og stjerner --- */
+const GP=new Uint8Array(512);{let s=24681;const p=Array.from({length:256},(_,i)=>i);for(let i=255;i>0;i--){s=(s*16807)%2147483647;const j=s%(i+1),t=p[i];p[i]=p[j];p[j]=t}for(let i=0;i<512;i++)GP[i]=p[i&255]}
+function vn(x,y,z){const X=Math.floor(x),Y=Math.floor(y),Z=Math.floor(z);x-=X;y-=Y;z-=Z;const u=x*x*(3-2*x),v=y*y*(3-2*y),w=z*z*(3-2*z),A=X&255,B=Y&255,C=Z&255;
+  const h=(i,j,k)=>GP[GP[GP[(A+i)&255]+((B+j)&255)]+((C+k)&255)];
+  const l=(a,b,t)=>a+(b-a)*t;return l(l(l(h(0,0,0),h(1,0,0),u),l(h(0,1,0),h(1,1,0),u),v),l(l(h(0,0,1),h(1,0,1),u),l(h(0,1,1),h(1,1,1),u),v),w)/255}
+function fbm(x,y,z,o){let s=0,a=.5,f=1,t=0;for(let i=0;i<o;i++){s+=vn(x*f,y*f,z*f)*a;t+=a;a*=.5;f*=2.03}return s/t}
+const mix=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];
+const sst=(a,b,x)=>{const t=Math.min(1,Math.max(0,(x-a)/(b-a)));return t*t*(3-2*t)};
+const hx=h=>[parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)/255,parseInt(h.slice(5,7),16)/255];
+const ATM=[hx('#7fc8ff'),hx('#ffc58a'),hx('#c8f2ff'),hx('#ffdcaa'),hx('#ff7a3a'),hx('#c9a2ff')];
+function surf(k,x,y,z,sd){/* farve og evt. selvlysende del for et punkt på kuglen */
+  const o=sd*.0137;
+  if(k===0){const n=fbm(x*1.6+o,y*1.6,z*1.6,5),lat=Math.abs(y);let c=n>.53?mix(hx('#3f6b34'),hx('#a08a5c'),sst(.56,.68,n)):mix(hx('#0f3c6e'),hx('#2b78ad'),sst(.35,.53,n));
+    if(lat>.82-n*.15)c=hx('#eef4f8');const cl=fbm(x*2.6+o+7,y*3.2,z*2.6,4);c=mix(c,[.97,.98,1],sst(.55,.75,cl)*.9);return [c,0,n<=.53&&cl<.55?1:0]}
+  if(k===1){const n=fbm(x*2+o,y*5,z*2,5),d=fbm(x*7+o,y*7,z*7,3);return [mix(mix(hx('#8a4f2c'),hx('#c98b4f'),sst(.3,.55,n)),hx('#ecc48a'),sst(.55,.75,n)*.8+d*.15),0,0]}
+  if(k===2){const n=fbm(x*2.2+o,y*2.2,z*2.2,5),r=1-Math.abs(fbm(x*5+o,y*5,z*5,4)*2-1);return [mix(mix(hx('#9cc6db'),hx('#eaf5fa'),sst(.35,.65,n)),hx('#5e8fa8'),sst(.88,.97,r)*.8),0,.3]}
+  if(k===3){const w=fbm(x*1.5+o,y*1.5,z*1.5,4),b=Math.sin(y*14+w*5+sd%6)*.5+.5,b2=Math.sin(y*31+w*3)*.5+.5;
+    let c=mix(mix(hx('#8c5a3c'),hx('#d9b07a'),b),hx('#f2e6c8'),b2*.45);const sp=Math.hypot(x-.35,y+.25,z-.85);c=mix(c,hx('#b8573a'),sst(.28,.12,sp+w*.08)*.85);return [c,0,0]}
+  if(k===4){const n=fbm(x*2+o,y*2,z*2,4),r=1-Math.abs(fbm(x*4+o,y*4,z*4,5)*2-1),e=sst(.86,.97,r)*(.6+n*.6);return [mix(hx('#231816'),hx('#46302a'),n),e,0]}
+  const n=fbm(x*1.8+o,y*1.8,z*1.8,5),sw=fbm(x*3.5+n*2+o,y*3.5,z*3.5,4);return [mix(mix(hx('#3a2456'),hx('#7a52a6'),sst(.35,.6,n)),hx('#3f9a94'),sst(.55,.72,sw)*.75),0,.25]}
+const GCACHE={};
+function planetURL(k,sd,ring,S0){const key=k+'_'+sd+'_'+ring+'_'+S0;if(GCACHE[key])return GCACHE[key];
+  const Sz=S0,cv=document.createElement('canvas');cv.width=cv.height=Sz;const ctx=cv.getContext('2d'),im=ctx.createImageData(Sz,Sz),d=im.data;
+  const R=Sz*.34,c0=Sz/2,L=[-.58,.5,.64],Ln=Math.hypot(...L);L[0]/=Ln;L[1]/=Ln;L[2]/=Ln;const H=[L[0],L[1],L[2]+1],Hn=Math.hypot(...H);H[0]/=Hn;H[1]/=Hn;H[2]/=Hn;
+  const sp=(sd%628)/100,cs=Math.cos(sp),sn=Math.sin(sp),tl=.35,ct=Math.cos(tl),st=Math.sin(tl),atm=ATM[k];
+  for(let y=0;y<Sz;y++)for(let x=0;x<Sz;x++){const dx=(x+.5-c0)/R,dy=(c0-y-.5)/R,r2=dx*dx+dy*dy,q=(y*Sz+x)*4;
+    if(r2<1){const nz=Math.sqrt(1-r2);let px=dx*cs+nz*sn,pz=-dx*sn+nz*cs,py=dy*ct-pz*st;pz=dy*st+pz*ct;
+      const [col,em,wet]=surf(k,px,py,pz,sd),nl=dx*L[0]+dy*L[1]+nz*L[2],lit=sst(-.18,.45,nl)*Math.max(0,nl*.6+.4),limb=.72+.28*nz;
+      const spec=wet?Math.pow(Math.max(0,dx*H[0]+dy*H[1]+nz*H[2]),60)*.7*wet:0,rim=Math.pow(1-nz,2.6)*sst(-.3,.4,nl);
+      let r=col[0]*(.025+lit*1.05)*limb+spec+atm[0]*rim*.7+em*1.0,g=col[1]*(.025+lit*1.05)*limb+spec+atm[1]*rim*.7+em*.45,b=col[2]*(.03+lit*1.05)*limb+spec+atm[2]*rim*.7+em*.1;
+      const a=Math.min(1,(1-Math.sqrt(r2))*R*1.2);
+      d[q]=Math.min(255,Math.pow(Math.max(0,r),.9)*255);d[q+1]=Math.min(255,Math.pow(Math.max(0,g),.9)*255);d[q+2]=Math.min(255,Math.pow(Math.max(0,b),.9)*255);d[q+3]=a*255}
+    else{const dd=Math.sqrt(r2)-1,side=sst(-.6,.6,(dx*L[0]+dy*L[1])/Math.sqrt(r2)),gl=Math.exp(-dd*R/(Sz*.022))*(.25+side*.75)*.85;
+      d[q]=atm[0]*255;d[q+1]=atm[1]*255;d[q+2]=atm[2]*255;d[q+3]=Math.min(255,gl*200)}}
+  ctx.putImageData(im,0,0);
+  if(ring){const out=document.createElement('canvas');out.width=out.height=Sz;const o=out.getContext('2d');
+    const drawRing=front=>{o.save();o.translate(c0,c0);o.rotate(-.32);o.scale(1,.3);o.beginPath();if(front)o.rect(-Sz,0,Sz*2,Sz);else o.rect(-Sz,-Sz,Sz*2,Sz);o.clip();
+      for(let i=0;i<26;i++){const rr=R*(1.2+i*.0095);o.beginPath();o.arc(0,0,rr,0,Math.PI*2);const t=fbm(i*.37,sd%97,.5,2);o.strokeStyle=`rgba(${230-i*2},${205-i*3},${165-i*3},${(.15+t*.45)*(i>12&&i<15?.2:1)})`;o.lineWidth=R*.03;o.stroke()}o.restore()};
+    drawRing(false);o.drawImage(cv,0,0);drawRing(true);
+    return GCACHE[key]=out.toDataURL()}
+  return GCACHE[key]=cv.toDataURL()}
+function holeURL(S0){const key='bh'+S0;if(GCACHE[key])return GCACHE[key];const cv=document.createElement('canvas');cv.width=cv.height=S0;const o=cv.getContext('2d'),c=S0/2;
+  const g=o.createRadialGradient(c,c,S0*.08,c,c,S0*.48);g.addColorStop(0,'rgba(255,200,120,0)');g.addColorStop(.3,'rgba(255,170,90,.35)');g.addColorStop(.5,'rgba(255,120,60,.18)');g.addColorStop(1,'rgba(120,40,90,0)');o.fillStyle=g;o.fillRect(0,0,S0,S0);
+  o.save();o.translate(c,c);o.rotate(-.35);o.scale(1,.32);for(let i=0;i<40;i++){const rr=S0*(.17+i*.006);o.beginPath();o.arc(0,0,rr,0,Math.PI*2);o.strokeStyle=`rgba(255,${200-i*3},${140-i*2},${.5-i*.011})`;o.lineWidth=S0*.008;o.stroke()}o.restore();
+  o.beginPath();o.arc(c,c,S0*.15,0,Math.PI*2);o.fillStyle='#000';o.fill();o.beginPath();o.arc(c,c,S0*.158,0,Math.PI*2);o.strokeStyle='rgba(255,230,190,.8)';o.lineWidth=S0*.012;o.stroke();
+  o.save();o.translate(c,c);o.rotate(-.35);o.scale(1,.32);o.beginPath();o.rect(-S0,0,S0*2,S0);o.clip();for(let i=0;i<40;i++){const rr=S0*(.17+i*.006);o.beginPath();o.arc(0,0,rr,0,Math.PI);o.strokeStyle=`rgba(255,${215-i*3},${160-i*2},${.65-i*.014})`;o.lineWidth=S0*.008;o.stroke()}o.restore();
+  return GCACHE[key]=cv.toDataURL()}
+function nebulaURL(W,Hh,sd){const key='neb'+W+'_'+Hh+'_'+sd;if(GCACHE[key])return GCACHE[key];
+  const lw=Math.ceil(W/4),lh=Math.ceil(Hh/4),lo=document.createElement('canvas');lo.width=lw;lo.height=lh;const lc=lo.getContext('2d'),im=lc.createImageData(lw,lh),d=im.data,o=sd%1000;
+  const base=hx('#05071a'),teal=hx('#1c6f86'),mag=hx('#6d2a6a'),amb=hx('#b0703a');
+  for(let y=0;y<lh;y++)for(let x=0;x<lw;x++){const u=x/lw*3.2,v=y/lh*3.2*lh/lw,n1=fbm(u+o,v,.3,5),n2=fbm(u*1.3+5+o,v*1.3,1.7,5),dust=fbm(u*2.4+o,v*2.4,3.1,4),q=(y*lw+x)*4;
+    let c=base;c=mix(c,teal,sst(.48,.78,n1)*.75);c=mix(c,mag,sst(.52,.8,n2)*.6);c=mix(c,amb,sst(.62,.85,n1*n2*2-.1)*.25);c=mix(c,base,sst(.5,.7,dust)*.55);
+    d[q]=c[0]*255;d[q+1]=c[1]*255;d[q+2]=c[2]*255;d[q+3]=255}
+  lc.putImageData(im,0,0);const cv=document.createElement('canvas');cv.width=W;cv.height=Hh;const x=cv.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(lo,0,0,W,Hh);
+  const r=gRand(sd||7);for(let i=0;i<W*Hh/900;i++){const sx=r()*W,sy=r()*Hh,m=r(),s=m>.985?1.6:m>.9?1.0:.55,t=r();x.fillStyle=t<.15?'#ffd9b0':t<.3?'#bcd8ff':'#ffffff';x.globalAlpha=.35+m*.65;x.beginPath();x.arc(sx,sy,s,0,7);x.fill();
+    if(m>.993){const g=x.createRadialGradient(sx,sy,0,sx,sy,9);g.addColorStop(0,'rgba(220,235,255,.55)');g.addColorStop(1,'rgba(220,235,255,0)');x.fillStyle=g;x.fillRect(sx-9,sy-9,18,18);x.fillRect(sx-14,sy-.5,28,1);x.fillRect(sx-.5,sy-14,1,28)}}
+  x.globalAlpha=1;return GCACHE[key]=cv.toDataURL('image/jpeg',.9)}
+/* --- scenen --- */
+const GSZ=[0,62,78,94];
+function galScene(t,p,busting){
+  const g=S.gm;if(!g)return '';const pend=t.pend,f=FX&&(FX.kind==='gal'||FX.kind==='galfail')?FX:null;
+  const row=t.dice.length===1?t.dice[0]-1:-1;let h='';
+  /* imperier: ejerens felter farves svagt, og naboer med samme ejer smelter sammen til ét område */
+  for(let i=0;i<36;i++){const c=g.cells[i];if(c.o<0)continue;const x=(i%6)*100,y=Math.floor(i/6)*100;h+=`<rect x="${x+5}" y="${y+5}" width="90" height="90" rx="20" fill="${HEX[c.o]}" fill-opacity=".17" stroke="${HEX[c.o]}" stroke-opacity=".5" stroke-width="1.5"/>`;
+    if(i%6<5&&g.cells[i+1].o===c.o)h+=`<rect x="${x+75}" y="${y+18}" width="50" height="64" fill="${HEX[c.o]}" fill-opacity=".17"/>`;
+    if(i<30&&g.cells[i+6].o===c.o)h+=`<rect x="${x+18}" y="${y+75}" width="64" height="50" fill="${HEX[c.o]}" fill-opacity=".17"/>`}
+  for(let i=0;i<36;i++){const c=g.cells[i];if(c.o<0)continue;for(const j of [i+1,i+6]){if((j===i+1&&i%6===5)||j>35||g.cells[j].o!==c.o)continue;
+    const x1=(i%6)*100+50,y1=Math.floor(i/6)*100+50,x2=(j%6)*100+50,y2=Math.floor(j/6)*100+50;h+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${HEX[c.o]}" stroke-width="10" opacity=".22" stroke-linecap="round"/><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${HEX[c.o]}" stroke-width="2.4" opacity=".9" stroke-dasharray="6 5" class="lane"/>`}}
+  let pl='';for(let i=0;i<36;i++){const c=g.cells[i],x=(i%6)*100+50,y=Math.floor(i/6)*100+50,sd=(g.seed+i*7919)%100000;
+    const free=c.o<0&&!c.bh,wormy=pend&&pend.worm&&free,tgt=(pend&&pend.atk===i)||(f&&f.cell===i);
+    if(c.bh){pl+=`<image href="${holeURL(160)}" x="${x-58}" y="${y-58}" width="116" height="116"/>`;continue}
+    const D=GSZ[c.v],I=D/.68;
+    pl+=`<g class="gp ${wormy?'wormy':''}" data-cell="${i}"><circle cx="${x}" cy="${y}" r="48" fill="transparent"/>`;
+    if(c.o>=0)pl+=`<ellipse class="${f&&f.cell===i&&FX.kind==='gal'?'own new':'own'}" cx="${x}" cy="${y}" rx="${D/2+9}" ry="${D/2+9}" fill="none" stroke="${HEX[c.o]}" stroke-width="3.2"/><ellipse cx="${x}" cy="${y}" rx="${D/2+9}" ry="${D/2+9}" fill="none" stroke="${HEX[c.o]}" stroke-width="10" opacity=".18"/>`;
+    pl+=`<image href="${planetURL(c.k,sd,c.ring,c.v===3?176:144)}" x="${x-I/2}" y="${y-I/2}" width="${I}" height="${I}"/>`;
+    if(c.sh)pl+=Array.from({length:c.sh},(_,k)=>`<path d="M${x-8+k*16-6} ${y+D/2+4}h12v5q0 6-6 8q-6-2-6-8z" fill="#8fd8ff" stroke="#04121f" stroke-width="1.2"/>`).join('');
+    pl+=`<g transform="translate(${x+34} ${y-38})"><rect x="-13" y="-9" width="26" height="17" rx="8" fill="rgba(4,8,24,.78)" stroke="rgba(160,210,255,.35)"/><text y="4" text-anchor="middle" font-size="12" font-weight="800" fill="#ffe7a8">${c.v}</text></g>`;
+    if(tgt)pl+=`<circle cx="${x}" cy="${y}" r="47" fill="none" stroke="${FX&&FX.kind==='galfail'?'#ff6a5a':'#ffd34d'}" stroke-width="3" class="tgt"/>`;
+    if(wormy)pl+=`<circle cx="${x}" cy="${y}" r="44" fill="none" stroke="#b9a2ff" stroke-width="2.5" stroke-dasharray="5 6" class="tgt"/>`;
+    pl+='</g>'}
+  const DP={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]},lab=(k,isRow)=>`<g transform="translate(${isRow?-38:k*100+50} ${isRow?k*100+50:-38})" opacity="${isRow&&row===k?1:.8}"><rect x="-15" y="-15" width="30" height="30" rx="7" fill="${isRow&&row===k?'#ffd34d':'#e9eef8'}" stroke="#0a1024" stroke-width="1.5"/>${DP[k+1].map(q=>`<circle cx="${(q%3-1)*8}" cy="${(Math.floor(q/3)-1)*8}" r="2.8" fill="#0a1024"/>`).join('')}</g>`;
+  const grid=Array.from({length:7},(_,k)=>`<path d="M${k*100} 0V600M0 ${k*100}H600" stroke="rgba(150,200,255,.09)" stroke-width="1.2"/>`).join('');
+  const band=row>=0?`<rect x="0" y="${row*100}" width="600" height="100" fill="rgba(255,211,77,.10)" stroke="rgba(255,211,77,.55)" stroke-width="2" rx="8"/>`:'';
+  const left=Math.max(0,GROUNDS-Math.floor(g.turns/S.n));
+  return `<div class="scene galaxy"><img class="gbg" src="${nebulaURL(760,640,g.seed%9973)}" alt="">
+    <svg class="gmap" viewBox="-62 -62 674 716" preserveAspectRatio="xMidYMid meet" aria-label="Galaksekortet">${grid}${band}${h}${pl}${Array.from({length:6},(_,k)=>lab(k,true)+lab(k,false)).join('')}
+    <text x="300" y="640" text-anchor="middle" font-size="19" font-weight="800" fill="#e8eeff">Runde ${Math.min(GROUNDS,Math.floor(g.turns/S.n)+1)} af ${GROUNDS}<tspan fill="#a9b8e0" font-weight="600" font-size="15">${left<=1&&S.win===null?' · Sidste runde!':'  ·  række = første terning, kolonne = anden'}</tspan></text></svg></div>`}
+function galPad(){const t=S.turn,g=S.gm;if(!g)return '';
+  if(t.pend&&t.pend.worm)return `<p>Ormehul! <span class="sub">Tryk på en ledig planet på kortet. De lysende ringe viser, hvor du kan lande.</span></p>`;
+  if(t.pend&&t.pend.atk!==undefined){const d=gDef(t.pend.atk);return `<p>Angreb! Hvad slog du? <span class="sub">Slå ${d+1} eller mere for at erobre planeten.</span></p>${dieKeys(v=>v>d?'ok':'bad')}`}
+  return `<p>${t.dice.length?`Række ${t.dice[0]}. Hvad viste den <b>anden</b> terning (kolonnen)?`:'Slå to terninger. Hvad viste den <b>første</b> (rækken)?'}</p>${dieKeys(()=>'')}`}
+function galTile(){const sd=4242;return `<div class="gtile" style="background-image:url(${nebulaURL(460,340,77)})"><img src="${planetURL(3,sd,true,176)}" style="left:56%;top:6%;width:44%"><img src="${planetURL(0,sd+3,false,144)}" style="left:14%;top:30%;width:30%"><img src="${planetURL(4,sd+9,false,144)}" style="left:44%;top:52%;width:20%"><img src="${planetURL(2,sd+5,false,144)}" style="left:4%;top:4%;width:16%"></div>`}
+
 /* ================= Aftenens mester og rekorder ================= */
 /* Hvert færdigt spil er én linje i aftenens log . Point regnes ud fra loggen,
    så fortryd og genindlæsning aldrig tæller dobbelt. Efter 10 timer uden spil starter en ny aften. */
@@ -1007,7 +1147,7 @@ function eveRemove(rid){const e=eveLoad(),n=e.log.length;e.log=e.log.filter(r=>r
 function eveStand(e){const m={};e.log.forEach(r=>r.rank.forEach(x=>{const s=m[x.name]||(m[x.name]={name:x.name,pts:0,wins:0});s.pts+=x.pts;if(x.place===1)s.wins++}));return Object.values(m).sort((a,b)=>b.pts-a.pts||b.wins-a.wins)}
 let REC={};try{REC=JSON.parse(localStorage.getItem('lda-rekorder'))||{}}catch(e){}
 const saveRec=()=>{try{localStorage.setItem('lda-rekorder',JSON.stringify(REC))}catch(e){}};
-const RECT={tower:v=>`${v} ${v===1?'etage':'etager'}`,pirate:v=>`${v} mønter på én tur`,battle:v=>`sejr med ${v} liv`,hilo:v=>`${v} rigtige i træk`,chest:v=>`${v} kort i kisten`,monster:v=>`${v} guld i sækken`};
+const RECT={tower:v=>`${v} ${v===1?'etage':'etager'}`,pirate:v=>`${v} mønter på én tur`,battle:v=>`sejr med ${v} liv`,hilo:v=>`${v} rigtige i træk`,chest:v=>`${v} kort i kisten`,monster:v=>`${v} guld i sækken`,galaxy:v=>`${v} point på galaksekortet`};
 const rawNm=i=>(S.names[i]||'').trim()||DEF[i];
 const TROPHY=`<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M28 10h44v26a22 22 0 0 1-44 0z" fill="#ffc23a" stroke="#3a2408" stroke-width="6" stroke-linejoin="round"/><path d="M28 18H12q0 20 18 22M72 18h16q0 20-18 22" fill="none" stroke="#3a2408" stroke-width="6"/><path d="M44 58h12v14H44z" fill="#e19a00" stroke="#3a2408" stroke-width="6"/><rect x="30" y="72" width="40" height="16" rx="4" fill="#c98a12" stroke="#3a2408" stroke-width="6"/></svg>`;
 const CROWN=`<svg viewBox="0 0 60 44" aria-hidden="true"><path d="M4 38 8 10l12 14L30 4l10 20 12-14 4 28z" fill="#ffc23a" stroke="#3a2408" stroke-width="4" stroke-linejoin="round"/><circle cx="30" cy="30" r="4" fill="#ff5240"/></svg>`;
@@ -1061,7 +1201,8 @@ const TART={
  battle:()=>fieldBg('tc')+`<div class="tfg two" style="--fh:62%;--fb:5%">${castleSvg(0,HP,`<defs>${grad('tCSt',[[0,'#e6e0d2'],[1,'#8a8377']])}</defs>`,'tC')}${castleSvg(1,HP,'','tC')}</div>`,
  hilo:()=>tableBg('td')+hiloTile('tD'),
  chest:()=>vaultBg('te')+chestOpen('tE','class="tfg" style="--fh:66%;--fb:8%"'),
- monster:()=>`<svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${caveDefs('tm',11)}${cave('tm')}<g transform="translate(230 272) scale(.8)" filter="url(#tmLit)">${MART.rat('tm',true,3,mpal(11))}</g>${caveFront('tm',8)}</svg>`
+ monster:()=>`<svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${caveDefs('tm',11)}${cave('tm')}<g transform="translate(230 272) scale(.8)" filter="url(#tmLit)">${MART.rat('tm',true,3,mpal(11))}</g>${caveFront('tm',8)}</svg>`,
+ galaxy:()=>galTile()
 };
 const TCACHE={},tart=k=>TCACHE[k]||(TCACHE[k]=TART[k]());
 const tileRec=k=>{const r=REC[k];return r?`<span class="trec">${TROPHY}Rekord: ${RECT[k](r.v)} · ${esc(r.name)}</span>`:`<span class="trec no">${TROPHY}Ingen rekord endnu</span>`};
@@ -1072,6 +1213,7 @@ const ghostCastle=i=>`<g class="ghostc"><path d="M14 66V24h10v-8h7v8h8v-8h7v8h5V
   <path d="M60 22V6" stroke="#e8f6ff" stroke-width="2"/><path d="M61 6l14 5-14 5z" fill="${HEX[i]}" opacity=".7" stroke="#e8f6ff" stroke-width="1.2"/></g>`;
 function scene(game,t,p,busting,v){
   if(game==='monster')return monScene(t,p,busting,v);
+  if(game==='galaxy')return galScene(t,p,busting);
   const cls=busting?'busting shake':'';
   if(game==='tower'){
     const n=t.fl.length,W=i=>`calc(clamp(140px,26cqw,200px) - ${i*16}px)`;
@@ -1172,6 +1314,7 @@ const miniRisk=r=>`<span class="mg">${gauge(r)}<span><b>${r}%</b><small>${r<34?'
 function pad(){
   const g=GAMES[S.game],t=S.turn;
   if(S.game==='monster')return monPad();
+  if(S.game==='galaxy')return galPad();
   if(g.kind==='battle'){
     const gh=S.scores[S.p]<=0;
     if(gh&&t.roll===null)return `<p>${nm(S.p)} er et spøgelse. Hvad slog du? <span class="sub">5 eller 6, og spøgelseskanonen skyder.</span></p>${dieKeys(v=>v>=5?'ok':'')}`;
@@ -1207,12 +1350,13 @@ function compactTurn(){const t=S.turn,game=S.game;
   if(game==='pirate')return {label:'Skat i denne tur',value:`${t.sum} mønter`,detail:t.rolls.length?`Slag: ${t.rolls.join(' · ')}`:'Slå for at begynde'};
   if(game==='hilo')return {label:'Kort i denne tur',value:`${t.pile} kort`,detail:t.cur===null?'Vend startkort':`Aktuelt kort: ${RN(t.cur)} · ${S.deck} kort tilbage`};
   if(game==='chest')return {label:'I skattekisten',value:`${turnPts()} point`,detail:t.row.length?`Kort: ${t.row.map(FN).join(' · ')} · ${S.deck} tilbage`:`${S.deck} kort tilbage`};
+  if(game==='galaxy')return {label:'Galaksekortet',value:`Runde ${Math.min(GROUNDS,Math.floor((S.gm?S.gm.turns:0)/S.n)+1)} af ${GROUNDS}`,detail:t.pend&&t.pend.worm?'Ormehul: vælg en ledig planet':t.dice.length?`Række ${t.dice[0]}`:'Slå to terninger'};
   if(game==='monster')return {label:'I sækken',value:`${t.bag} guld`,detail:S.mon?`${MNAME[S.mon.v]} · styrke ${MST(S.mon.v)}${S.mon.bounty?` · dusør +${S.mon.bounty}`:''}${t.rolls.length?` · slag: ${t.rolls.join(' · ')} = ${t.sum}`:''}`:'Vend et kort'};
   return null;
 }
 /* Et spil er i gang, hvis der er sket noget i det, og det ikke er vundet. Så står der "Fortsæt" på forsiden. */
 const started=o=>!!o&&o.win===null&&o.n===S.n&&!!GAMES[o.game]&&!!o.turn&&(o.log.length>0||JSON.stringify(o.turn)!==JSON.stringify(newTurn(o.game)));
-const TAG={tower:'2 terninger · byg højere og højere',pirate:"1 terning · saml mønter, pas på 1'eren",battle:'1 terning · skyd eller byg mur',hilo:'Kortspil · gæt det næste kort',chest:'Kortspil · to ens sprænger kisten',monster:'Kortspil + 1 terning · slå monsteret i døren'};
+const TAG={tower:'2 terninger · byg højere og højere',pirate:"1 terning · saml mønter, pas på 1'eren",battle:'1 terning · skyd eller byg mur',hilo:'Kortspil · gæt det næste kort',chest:'Kortspil · to ens sprænger kisten',monster:'Kortspil + 1 terning · slå monsteret i døren',galaxy:'2 terninger · erobr planeter på galaksekortet'};
 const O='stroke="#081624" stroke-width="4" stroke-linejoin="round"';
 /* Scenen er tegnet til ca. 380 x 340. fit() forstørrer den, så den fylder hele feltet på en iPad. */
 function fit(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;const z=Math.min(2.6,Math.max(1,Math.min(h/340,w/380)));stage.style.setProperty('--z',z);stage.style.setProperty('--lw',w/z);stage.style.setProperty('--lh',h/z)}
@@ -1251,12 +1395,12 @@ function render(){
   fit();
   stage.innerHTML=!showArt?'':busy?scene(FX.game,FX.turn,FX.p,true,FX.v):bt?battleScene():scene(S.game,S.turn,S.p,false);
   const ct=showArt?null:compactTurn();
-  dock.innerHTML=`<div class="dhead"><h2 style="${cv(shownP)}"><b>${nm(shownP)}</b>s tur</h2>${S.final&&S.win===null?'<span class="last">Sidste runde</span>':''}<span class="msg ${S.mt}" role="status">${S.msg||'Slå eller vend et kort for at starte.'}</span></div>
+  dock.innerHTML=`<div class="dhead"><h2 style="${cv(shownP)}"><b>${nm(shownP)}</b>s tur</h2>${S.final&&S.win===null?'<span class="last">Sidste runde</span>':''}<span class="msg ${S.mt}" role="status">${S.msg||(S.game==='galaxy'?'Slå to terninger for at starte.':'Slå eller vend et kort for at starte.')}</span></div>
     ${ct?`<div class="turnview"><div><div class="turn-label">${ct.label}</div><div class="turn-value">${ct.value}</div></div><span class="turn-detail">${ct.detail}</span></div>`:''}
     ${S.game==='pirate'?`<div class="pirate-score" role="status"><b>Piraternes skat: ${S.pirateScore||0} af ${pirateGoal()} mønter</b><span> · ${['Tomt skib','Skat om bord','Gyldne sejl','Piratkongens skib'][pirateLevel()]}</span><div class="bar"><i style="width:${Math.min(100,(S.pirateScore||0)/pirateGoal()*100)}%;background:#ff5240"></i></div></div>`:''}
     ${S.oops&&hist.length&&S.win===null?`<button class="btn oops" id="oops">↶ ${GAMES[S.game].kind==='cards'?'Forkert kort? Gå et skridt tilbage':'Forkert tryk? Gå et skridt tilbage'}</button>`:''}
     <div class="pad">${pad()}</div>
-    ${bt?'':`<div class="ma ${guessing?'solo':''}">${guessing?'':riskMeter()}<button class="btn main" id="stop" ${canStop?'':'disabled'}>${S.game==='monster'?`Gå hjem med ${pts} guld`:`Stop og gem ${pts} ${un(pts)}${curBonus()?' med bonus':''}`}</button></div>`}`;
+    ${bt||S.game==='galaxy'?'':`<div class="ma ${guessing?'solo':''}">${guessing?'':riskMeter()}<button class="btn main" id="stop" ${canStop?'':'disabled'}>${S.game==='monster'?`Gå hjem med ${pts} guld`:`Stop og gem ${pts} ${un(pts)}${curBonus()?' med bonus':''}`}</button></div>`}`;
   rules.innerHTML=`<h3>Regler: ${g.name}</h3><ul>${g.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
    ${g.kind==='dice'?`<label class="set">Spil til <input type="number" min="5" max="200" value="${tg}" id="tgt"> ${g.unit}</label>`:''}`;
   logEl.innerHTML=S.log.length?S.log.map(l=>`<li>${l}</li>`).join(''):'<li>Ingen træk endnu.</li>';
@@ -1301,6 +1445,7 @@ board.addEventListener('click',e=>{
   if(S.win!==null||(FX&&(FX.kind==='bust'||FX.kind==='shot')))return;
   const sh=e.target.closest('[data-shoot]');if(sh){shoot(+sh.dataset.shoot);return}
   if(e.target.closest('[data-build]')){build();return}
+  const gc=e.target.closest('[data-cell]');if(gc){galCell(+gc.dataset.cell);return}
   const dv=e.target.closest('[data-div]');if(dv){divMove(+dv.dataset.div);return}
   const tb=e.target.closest('[data-tb]');if(tb){snap();towerPlace(+tb.dataset.tb);render();return}
   const d=e.target.closest('[data-die]'),c=e.target.closest('[data-card]'),g=e.target.closest('[data-g]');

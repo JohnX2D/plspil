@@ -12,6 +12,7 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 | **Højere eller lavere** | Push your luck med kort | Kortspil |
 | **Skattekisten** | Push your luck: samme værdi to gange, og kisten springer | Kortspil |
 | **Monsterhulen** | Kamp og push your luck: slå monsteret i døren, og gå dybere ind eller hjem med sækken | Kortspil + 1 terning |
+| **Galaksekortet** | To terninger er en koordinat på et 6 × 6 kort over galaksen: tag ledige planeter, byg skjold, erobr andres planeter, og byg det største sammenhængende imperium på 8 runder | 2 terninger |
 
 - 2–4 spillere med navne og farver
 - I Tårnet og Piratskatten spilles runden færdig, når nogen når målet, så alle har haft lige mange ture
