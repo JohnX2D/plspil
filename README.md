@@ -12,7 +12,7 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 | **Højere eller lavere** | Push your luck med kort | Kortspil |
 | **Skattekisten** | Push your luck: samme værdi to gange, og kisten springer | Kortspil |
 | **Monsterhulen** | Kamp og push your luck: slå monsteret i døren, og gå dybere ind eller hjem med sækken | Kortspil + 1 terning |
-| **Grand Prix** | Væddeløb om fire racerbiler, én for hver kulør, på en stadionbane set oppefra. Man trækker et kort og trykker på det: kuløren er bilen, tallet er farten (2–5: 1 felt, 6–10: 2, billedkort: 3, es: 4). Bilerne kører ikke på skift. Hvert kort giver 1 mønt. Hver spiller vælger en heppebil (1 mønt, hver gang den overhaler sig op i front, og 5/3/1 for podiet) og kan tage billetter på, hvem der fører ved mellemtiderne på felt 6 og 12 (5/3/2). Slipstrøm, turbo- og oliefelter, startlys og podie med fyrværkeri. Flest mønter vinder | Kortspil |
+| **Grand Prix** | Væddeløb på en stadionbane set oppefra. Hver spiller har sin egen racerbil i sin farve, og tomme pladser kører som spøgelsesbiler. Man trækker et kort, og ens bil kører: 2–5 giver 1 felt, 6–10 giver 2, billedkort 3, es 4. Den første bil forbi mellemtiderne på felt 6 og 12 giver 2 point, og i mål giver 1., 2. og 3. plads 5, 3 og 1 point. Når en bil er i mål, spilles runden færdig. Flest point vinder | Kortspil |
 
 - 2–4 spillere med navne og farver
 - I Tårnet og Piratskatten spilles runden færdig, når nogen når målet, så alle har haft lige mange ture
