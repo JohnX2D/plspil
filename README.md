@@ -12,7 +12,7 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 | **Højere eller lavere** | Push your luck med kort | Kortspil |
 | **Skattekisten** | Push your luck: samme værdi to gange, og kisten springer | Kortspil |
 | **Monsterhulen** | Kamp og push your luck: slå monsteret i døren, og gå dybere ind eller hjem med sækken | Kortspil + 1 terning |
-| **Grand Prix** | Seks seje racerbiler, som ingen ejer: to terninger vælger bil og afstand, og man satser mønter i tre væddemålsrunder (×4, ×3, ×2). To ens giver en hændelse. Tre løb, flest mønter vinder | 2 terninger |
+| **Grand Prix** | Væddeløb om seks racerbiler, som ingen ejer, på en stadionbane set oppefra. Biler på samme felt kører i kø, og bilerne bag den, der kører, hænger på i slipstrømmen. På sin tur gør man én ting: slår (+1 mønt), tager en omgangsbillet (5/3/2), lægger turbo eller olie på banen eller sætter en hemmelig storsats på løbets vinder eller sidste bil. Flest mønter efter løbet vinder | 2 terninger |
 
 - 2–4 spillere med navne og farver
 - I Tårnet og Piratskatten spilles runden færdig, når nogen når målet, så alle har haft lige mange ture
