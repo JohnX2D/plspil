@@ -162,14 +162,15 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   <div id="rtxt"></div>
   <h3>Seneste træk</h3><ul id="log"></ul>
   <div class="acts"><button class="cta" id="rclose">Luk</button></div>
-  <div class="ver">Galaxy Raceway · version 21.0</div>
+  <div class="ver">Galaxy Raceway · version 22.0</div>
 </div></div>
+<div class="ov" id="sure"><div class="box" style="text-align:center"><div style="font-size:48px;line-height:1">🏁</div><h2 style="margin:6px 0">Stop løbet?</h2><p>Løbet er i gang. Vil I stoppe det og starte et nyt?</p><div class="acts"><button class="btn2" id="sureno">Kør videre</button><button class="cta" id="sureyes">Ja, nyt løb</button></div></div></div>
 <div class="ov" id="win"><div class="box" style="text-align:center">
   <div style="font-size:64px;line-height:1">🏆</div>
   <h2 class="title disp" id="wtxt"></h2>
   <ul class="stand" id="stand"></ul>
   <p class="sub" id="wev" style="margin:12px 0 0"></p>
-  <div class="acts"><button class="btn2" id="wundo">Fortryd</button><button class="btn2" id="wsetup">Skift biler</button><button class="cta" id="again">Nyt løb</button></div>
+  <div class="acts"><button class="btn2" id="wundo">Fortryd</button><a class="btn2" href="index.html#home" style="display:inline-flex;align-items:center;text-decoration:none">Spilmenu</a><button class="btn2" id="wsetup">Skift biler</button><button class="cta" id="again">Nyt løb</button></div>
 </div></div>
 <script>
 {
@@ -233,6 +234,7 @@ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const snap=()=>{hist.push(JSON.stringify(S));if(hist.length>80)hist.shift()};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rawName=i=>(S.players[i].name||'').trim()||CARS[S.players[i].car].def;
+const eveName=i=>{const own=(S.players[i].name||'').trim();if(own)return own;let nm=[];try{nm=(JSON.parse(localStorage.getItem('lda-spil'))||{}).names||[]}catch(e){}return (nm[i]||'').trim()||['Rød','Blå','Grøn','Gul'][i]};
 const nm=i=>esc(rawName(i));
 const col=i=>CARS[S.players[i].car].col;
 const log=t=>{S.log.unshift(t);S.log=S.log.slice(0,16)};
@@ -660,7 +662,7 @@ function hud(keepPad){
   $('log').innerHTML=S.log.map(t=>`<li>${esc(t)}</li>`).join('')||'<li>Ingen træk endnu.</li>';
   const w=$('win');if(S.win!==null){$('wtxt').innerHTML=`<span style="color:${col(S.win)}">${nm(S.win)}</span> vinder!`;
     const ord=ids().sort((a,b)=>(b===S.win)-(a===S.win)||dist(a)-dist(b));
-    eveUpsert(S.rid,'Galaxy Raceway',ord.map((i,k)=>({name:rawName(i),place:k+1,pts:S.n-k})));{const row=eveLoad().log.find(r=>r.rid===S.rid);$('wev').textContent=row?'Point til aftenens mester: '+row.rank.map(r=>`${r.name} +${r.pts}`).join(' · '):''}
+    eveUpsert(S.rid,'Galaxy Raceway',ord.map((i,k)=>({name:eveName(i),place:k+1,pts:S.n-k})));{const row=eveLoad().log.find(r=>r.rid===S.rid);$('wev').textContent=row?'Point til aftenens mester: '+row.rank.map(r=>`${r.name} +${r.pts}`).join(' · '):''}
     $('stand').innerHTML=ord.map((i,k)=>`<li><span>${k+1}.</span><img src="${AV[S.players[i].car]}" alt=""><span>${nm(i)}</span><span style="margin-left:auto;color:var(--soft)">${dist(i)?dist(i)+' felter fra mål':'I mål'}</span></li>`).join('');
     if(!w.classList.contains('show')){w.classList.add('show');confetti()}}else w.classList.remove('show');
   if(busy&&!(pend&&pend.type==='fork'))return;
@@ -699,6 +701,9 @@ $('bstatic').addEventListener('click',e=>{if(!G||S.phase!=='race'||S.win!==null|
   $('tipTitle').textContent=(best.c==='S'||best.c==='G'?'':`Felt ${best.num} · `)+name;$('tipBody').textContent=desc;$('boardtip').hidden=false;
   const a=G.np[best.id],g=$('cars').querySelector('#info-hl');if(g)g.innerHTML=`<circle cx="${F1(a.x)}" cy="${F1(a.y)}" r="${HW+8}" fill="rgba(255,230,150,.15)" stroke="#fff1a8" stroke-width="5" stroke-dasharray="9 6"/>`;
 });
+const PIPS={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
+const dieSvg=v=>`<svg viewBox="0 0 60 60" aria-hidden="true"><defs><linearGradient id="dg${v}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9dde3"/></linearGradient></defs><rect x="3" y="3" width="54" height="54" rx="11" fill="url(#dg${v})" stroke="#9aa1ab" stroke-width="1.5"/>${PIPS[v].map(k=>`<circle cx="${16+(k%3)*14}" cy="${16+Math.floor(k/3)*14}" r="5" fill="#16181b"/>`).join('')}</svg>`;
+$('keys').innerHTML=[1,2,3,4,5,6].map(v=>`<button class="key" data-v="${v}" aria-label="Terningen viste ${v}">${dieSvg(v)}</button>`).join('');
 $('keys').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)roll(+b.dataset.v)});
 $('acts').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b)act(b.dataset.a)});
 addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||S.phase!=='race')return;if(bnDone&&(e.key==='Enter'||e.key===' '||e.key==='Escape')){e.preventDefault();bnClose();return}if(e.key>='1'&&e.key<='6')roll(+e.key)});
@@ -709,7 +714,9 @@ $('go').onclick=startRace;
 $('bUndo').onclick=undo;$('wundo').onclick=undo;
 $('again').onclick=startRace;
 $('wsetup').onclick=()=>{S.phase='setup';S.win=null;save();hud();$('win').classList.remove('show')};
-$('bNew').onclick=()=>{if(busy)return;if(S.win===null&&S.cars.some(c=>c.pos!==START)&&!confirm('Vil du stoppe løbet og starte et nyt?'))return;S.phase='setup';S.win=null;save();hud()};
+const newRace=()=>{$('sure').classList.remove('show');S.phase='setup';S.win=null;save();hud()};
+$('bNew').onclick=()=>{if(busy)return;if(S.phase==='race'&&S.win===null&&S.cars.some(c=>c.pos!==START)){$('sure').classList.add('show');return}newRace()};
+$('sureno').onclick=()=>$('sure').classList.remove('show');$('sureyes').onclick=newRace;
 $('bSnd').onclick=()=>{mute=!mute;$('bSnd').setAttribute('aria-pressed',!mute);$('bSnd').textContent=mute?'🔇 Lyd: fra':'🔊 Lyd: til'};
 const menu=on=>{$('menu').classList.toggle('show',on);$('bMenu').setAttribute('aria-expanded',on)};
 $('bMenu').onclick=e=>{e.stopPropagation();menu(!$('menu').classList.contains('show'))};

@@ -356,6 +356,8 @@ body.home #game,body:not(.home) #home{display:none}
 .mbar{flex:1;height:12px;border-radius:99px;background:#2c2622;border:2px solid #120c0a;overflow:hidden}
 .mbar i{display:block;height:100%;background:linear-gradient(#ffd34d,#e08a1a)}
 .gain{position:absolute;left:50%;top:38%;z-index:8;margin-left:-90px;width:180px;text-align:center;font-weight:800;font-size:34px;color:#ffd34d;-webkit-text-stroke:2px #120c0a;paint-order:stroke;white-space:nowrap;animation:up 1.3s ease-out both}
+.btn.oops{min-height:52px;font-size:17px;font-weight:800;background:light-dark(#fff4d6,#3a2c08);border-color:#c98a12;box-shadow:0 4px 0 #c98a12;color:light-dark(#5a3a00,#ffd36a);animation:pop .35s ease-out}
+.btn.guess svg.die{width:44px;height:44px}
 .key.ok{background:light-dark(#dff6e8,#12351f);border-color:#13a35c;box-shadow:0 4px 0 #13a35c}.key.ok:active{box-shadow:0 1px 0 #13a35c}
 .pad .sub{color:var(--soft);font-weight:500}
 .ray{transform-box:fill-box;transform-origin:50% 0;animation:rayw 7s ease-in-out infinite alternate}
@@ -527,7 +529,7 @@ div.tfg{display:flex;align-items:flex-end;justify-content:center;gap:12%;width:8
   </div>
   <section class="eve" id="eve" aria-live="polite"></section>
   <nav class="tiles" id="tiles" aria-label="Vælg spil"></nav>
-  <footer class="ver">LDA Spil · version 20.0</footer>
+  <footer class="ver">LDA Spil · version 22.0</footer>
 </div>
 <main id="game">
   <header class="topbar"><button class="ib" id="tohome" aria-label="Tilbage til spilmenuen">‹ Spil</button><h1 id="gname"></h1><button class="ib" id="undo">↶ Fortryd</button><button class="ib" id="menu" aria-label="Regler og menu">☰ Regler</button></header>
@@ -543,7 +545,7 @@ div.tfg{display:flex;align-items:flex-end;justify-content:center;gap:12%;width:8
     <label class="tog"><input id="snd" type="checkbox"> Lyd</label></div>
   <div class="acts"><button class="btn" id="reset">Nyt spil</button><button class="btn main" id="sclose" style="--c:var(--navy);--on:#fff">Luk</button></div>
 </div></div>
-<div class="ov win" id="win"><canvas id="conf"></canvas><div class="wbox"><div id="wtxt"></div><div class="acts" style="margin-top:16px;justify-content:center"><button class="btn" id="wundo">Fortryd</button><button class="btn main" id="again">Spil igen</button></div></div></div>
+<div class="ov win" id="win"><canvas id="conf"></canvas><div class="wbox"><div id="wtxt"></div><div class="acts" style="margin-top:16px;justify-content:center"><button class="btn" id="wundo">Fortryd</button><button class="btn" id="wmenu">Spilmenu</button><button class="btn main" id="again">Spil igen</button></div></div></div>
 <script>
 {
 const COL=['var(--red)','var(--blue)','var(--green)','var(--yellow)'],HEX=['#ff5240','#3d8bff','#1fb36b','#f2a900'],DEF=['Rød','Blå','Grøn','Gul'];
@@ -553,10 +555,10 @@ const RANKS=[['Es',1],['2',2],['3',3],['4',4],['5',5],['6',6],['7',7],['8',8],['
 const RN=v=>v===1?'es':v===11?'knægt':v===12?'dame':v===13?'konge':String(v);
 const FN=v=>v===1?'A':v===11?'Kn':v===12?'D':v===13?'K':String(v);
 const GAMES={
- tower:{name:'Tårnet',kind:'dice',unit:'etager',one:'etage',rules:['Første slag i din tur er altid første etage.','Er næste slag <b>højere</b>, får tårnet en etage mere.','Lige så højt eller lavere: tårnet vælter, og turen giver 0.',"Efter en 6'er kan du stoppe eller slå igen: endnu en 6'er giver en etage og nulstiller kravet, så næste slag kan være hvad som helst. Andre slag vælter tårnet.",'Stop når som helst og gem dine etager.','Høje tårne giver bonus, når du stopper: 3 etager giver 2 ekstra, 4 etager 4 ekstra, 5 etager 6 ekstra, og alle 6 giver 8 ekstra.','Når nogen når målet, spilles runden færdig, så alle har haft lige mange ture. Den med flest etager vinder.']},
+ tower:{name:'Tårnet',kind:'dice',unit:'etager',one:'etage',rules:['Slå <b>to terninger</b> hver gang, og byg med den ene. Første slag i turen er altid første etage.','Næste etage skal være <b>højere</b> end den øverste. Passer begge terninger, vælger du selv. Den laveste giver plads til flere etager.','Er begge terninger lige så høje eller lavere, vælter tårnet, og turen giver 0.',"Efter en 6'er kan du stoppe eller slå igen: en ny 6'er på en af terningerne giver en etage og nulstiller kravet, så næste slag kan være hvad som helst.",'Stop når som helst og gem dine etager.','Høje tårne giver bonus, når du stopper: 3 etager giver 2 ekstra, 4 etager 4 ekstra, 5 etager 6 ekstra, og alle 6 giver 8 ekstra.','Når nogen når målet, spilles runden færdig, så alle har haft lige mange ture. Den med flest etager vinder.']},
  pirate:{name:'Piratskatten',kind:'dice',unit:'mønter',one:'mønt',rules:['Slå så mange gange du vil. Slagene lægges sammen.','Slår du <b>1</b>, stjæler piraten alt fra turen.','Piratskibet sejler nærmere for hvert slag: fra dit 5. slag i turen stjæler han også på <b>2</b>, og fra dit 8. slag også på <b>3</b>.','Hver 6\'er giver en skattekiste. 3 kister giver 10 ekstra mønter, og de gemmes selv om piraten kommer.','Piraterne samler alle mønter, de stjæler. Når de når 150 % af spillernes mål, vinder de straks.','Mindre børn kan spille til 30.','Når nogen når målet, spilles runden færdig, så alle har haft lige mange ture. Den med flest mønter vinder.']},
  battle:{name:'Kanonkampen',kind:'battle',unit:'liv',rules:['Hver spiller har en borg med 15 liv.','Slå med terningen og vælg: <b>skyd</b> på en anden borg, eller <b>byg mur</b> foran din egen.','Skud: borgen mister lige så mange liv, som terningen viser. Står der en mur, tager muren skaden først.','Mur: læg terningens øjne til din mur. Muren kan højst være 6.','Slår du en 6\'er, får du en ekstra tur.','En borg med 0 liv bliver en <b>spøgelsesborg</b>. Den slår stadig med, og på en 5 eller 6 skyder spøgelseskanonen gennem murene, så en anden borg mister 1 liv. Spøgelser kan ikke vinde.','Den sidste borg, der står, vinder.']},
- hilo:{name:'Højere eller lavere',kind:'cards',unit:'kort',rules:['Vend et startkort. Es er 1, konge er 13.','Gæt højere eller lavere, og vend næste kort.','Rigtigt gæt: kortet kommer i din bunke. Lige så højt: intet sker.','Forkert gæt: du mister turens bunke.','Stop for at gemme bunken. Når bunken er tom, vinder den med flest kort.']},
+ hilo:{name:'Højere eller lavere',kind:'cards',unit:'point',rules:['Vend et startkort. Es er 1, konge er 13.','Gæt højere eller lavere, og vend næste kort.','Rigtigt gæt: kortet kommer i din bunke. Lige så højt: intet sker.','Forkert gæt: du mister turens bunke.','Stop for at gemme bunken. Hvert kort giver 1 point.','Lange stimer giver bonus, når du stopper: 3 kort giver 1 ekstra, 4 kort 2, 5 kort 4, 6 kort 6, 7 kort 9, og 8 eller flere giver 12 ekstra.','Når bunken er tom, vinder den med flest point.']},
  chest:{name:'Skattekisten',kind:'cards',unit:'point',rules:['Vend kort ét ad gangen og læg dem i en række.','Samme værdi som et kort i rækken: kisten går i stykker, og alt ryger ud.','Stop for at tage rækken.','Knægt, dame og konge giver 2 point, alle andre 1.','Mange kort giver bonus, når du stopper: 5 kort giver 1 ekstra, 6 kort 3 ekstra, 7 kort 5 ekstra, og 8 eller flere giver 8 ekstra.','Når bunken er tom, vinder den med flest point.']},
  monster:{name:'Monsterhulen',kind:'dice',unit:'guld',rules:['Vend et kort: det er monsteret i døren, og kortets værdi er dets styrke. Knægt er 11, dame 12, konge 13, og esset er Dragen med styrke 14.','Kæmp ved at slå terningen op til <b>3 gange</b>. Slagene lægges sammen, og når du når monsterets styrke, har du vundet.',"Slår du en <b>1'er</b>, bliver du bidt og taber kampen. Du taber også, hvis tre slag ikke er nok.",'Vinder du, ryger monsterets styrke i guld ned i sækken. Dragen giver 6 ekstra.','Efter en sejr kan du gå hjem og gemme sækken eller gå dybere ind og vende et nyt kort. Du må også gå hjem, når du har set det næste monster.','Taber du, mister du hele sækken. Monsteret bliver stående til den næste spiller, og der kommer 2 guld i dusør på det, hver gang det vinder.','Når nogen når målet, spilles runden færdig. Den med mest guld vinder.']},
  diver:{name:'Dykkerklokken',kind:'dice',unit:'guld',rules:['Hver tur er ét dyk, og du har luft til <b>7 slag</b>.','Slå to terninger. Vælg den ene til at svømme med: 10 meter for hvert øje, ned eller op. Den anden terning er skatten, du finder.','Skatten ganges med dybden: 1 gang ned til 40 meter, 2 gange ned til 80 meter og <b>4 gange</b> ved vraget længere nede.','Slår du to ens, bider hajen i luftslangen, og det slag koster 2 luft.','Skatten er først din, når du er oppe i båden igen. Slipper luften op forinden, mister du hele dykkets skat.','Luften vises som 7 bobler. De orange bobler er den luft, du mindst skal bruge for at nå op igen.','Når du har tastet terningerne, viser havet, hvor du kan svømme hen, og hvor meget skat du finder. Tryk på et mærke på havet eller på en knap.','Når nogen når målet, spilles runden færdig. Den med mest guld vinder.']}
@@ -584,17 +586,19 @@ const sfx={tap:()=>tone(420,.05,'triangle',.05),
 const HP=15,WMAX=6,AIR=7,ZS=4,MAXD=12,DEFT={monster:50,diver:100};
 const newRid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const fresh=(game,names,targets,n)=>({game,n:n||2,names:names||DEF.slice(),targets:targets||{tower:15,pirate:50},scores:Array(n||2).fill(game==='battle'?HP:0),pirateScore:0,chests:Array(n||2).fill(0),wall:Array(n||2).fill(0),used:Array(14).fill(0),mon:null,p:0,start:0,final:false,turn:newTurn(game),deck:52,log:[],msg:'',mt:'',win:null,rid:newRid(),out:[]});
-function newTurn(g){return {tower:{fl:[]},pirate:{sum:0,rolls:[]},battle:{roll:null},hilo:{cur:null,guess:null,pile:0},chest:{row:[]},monster:{bag:0,sum:0,rolls:[],n:0},diver:{depth:0,from:0,air:AIR,loot:0,dice:[],shark:false,last:0}}[g]}
+function newTurn(g){return {tower:{fl:[],dice:[]},pirate:{sum:0,rolls:[]},battle:{roll:null},hilo:{cur:null,guess:null,pile:0},chest:{row:[]},monster:{bag:0,sum:0,rolls:[],n:0},diver:{depth:0,from:0,air:AIR,loot:0,dice:[],shark:false,last:0}}[g]}
 try{S=JSON.parse(localStorage.getItem('lda-spil'));SAVES=JSON.parse(localStorage.getItem('lda-saves'))||{}}catch(e){}
 if(!S||!GAMES[S.game]||!S.turn||!S.n)S=fresh('tower',S&&S.names,S&&S.targets,2);
 if(!S.used)S.used=Array(14).fill(0);if(!S.wall)S.wall=Array(S.n).fill(0);if(!S.rid)S.rid=newRid();if(!S.out)S.out=[];
 const save=()=>{SAVES[S.game]=S;try{localStorage.setItem('lda-spil',JSON.stringify(S));localStorage.setItem('lda-saves',JSON.stringify(SAVES))}catch(e){}};
-const snap=()=>{hist.push(JSON.stringify({S,R:REC}));if(hist.length>60)hist.shift()};
+const snap=()=>{hist.push(JSON.stringify({S,R:REC}));if(hist.length>60)hist.shift();S.oops=false};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nm=i=>esc((S.names[i]||'').trim()||DEF[i]);
 const un=n=>{const g=GAMES[S.game];return n===1&&g.one?g.one:g.unit};
 const TB=n=>n>=3?(Math.min(n,6)-2)*2:0;
 const CB=n=>n>=8?8:n===7?5:n===6?3:n===5?1:0;
+/* Højere eller lavere: bonus der vokser, jo længere stimen er */
+const HB=n=>n>=8?12:[0,0,0,1,2,4,6,9][n];
 const towerTop=t=>t.top===undefined?(t.fl[t.fl.length-1]||0):t.top;
 const pirateGoal=()=>Math.ceil(S.targets.pirate*1.5);
 const PD=t=>t.rolls.length>=7?3:t.rolls.length>=4?2:1;
@@ -620,28 +624,36 @@ function bank(pts,why){
   if(!(GAMES[S.game].kind==='dice'&&finishRound()))say(`${nm(p)} gemte ${pts}. Nu er det ${nm(S.p)}s tur.${lastNote()}`,'good');
 }
 function bust(t,v){
-  sfx.bad();log(`${nm(S.p)}: ${t}`);
+  S.oops=true;sfx.bad();log(`${nm(S.p)}: ${t}`);
   fx({kind:'bust',game:S.game,turn:JSON.parse(JSON.stringify(S.turn)),p:S.p,v,text:t},1900);
   nextPlayer();
   if(!(GAMES[S.game].kind==='dice'&&finishRound()))say(`${t} Nu er det ${nm(S.p)}s tur.${lastNote()}`,'bust');
 }
 function deckOut(){
-  const t=S.turn,extra=S.game==='hilo'?t.pile:cpts(t.row)+CB(t.row.length);
+  const t=S.turn,extra=S.game==='hilo'?t.pile+HB(t.pile):cpts(t.row)+CB(t.row.length);
   if(extra){S.scores[S.p]+=extra;log(`${nm(S.p)}: +${extra} (bunken er tom)`)}
   const mx=Math.max(...S.scores),top=S.scores.map((v,i)=>v===mx?i:-1).filter(i=>i>=0);S.win=top.length>1?-1:top[0];
 }
+/* Tårnet med to terninger: byg med den, der passer. Tårnet vælter kun, når begge er for lave. */
+function towerOk(t){const lim=towerTop(t),first=!t.fl.length;return [...new Set(t.dice||[])].filter(v=>first||v>lim||(lim===6&&v===6)).sort((a,b)=>a-b)}
+function towerPlace(v){const t=S.turn,top=t.fl[t.fl.length-1],doubleSix=towerTop(t)===6&&v===6;t.dice=[];
+  t.fl.push(v);t.top=doubleSix?0:v;sfx.step(t.fl.length);if(doubleSix)sfx.six();
+  if(t.fl.length===6){bank(6+TB(6),`etager (perfekt tårn, 6 + ${TB(6)} bonus)`);if(doubleSix&&FX)FX.doubleSix=true;return}
+  if(doubleSix)fx({kind:'doubleSix',p:S.p},2200);const b=TB(t.fl.length);
+  say(doubleSix?"To 6'ere! Ny etage, og kravet er nulstillet. Næste slag kan være hvad som helst.":v===6?"En 6'er! Stop, eller slå igen: kun en 6'er holder tårnet stående.":top===undefined?`Grundstenen er lagt: ${v}. Slå igen eller stop.`:`Ny etage!${b?` Bonus +${b}, hvis du stopper nu.`:''} Næste gang skal mindst én terning være over ${v}.`,b?'good':'')}
 function die(v){
   if(FX&&(FX.chest3||FX.kind==='doubleSix')){FX=null;clearTimeout(fxT)}
   snap();const t=S.turn;
   if(S.game==='monster'){monDie(v);render();return}
   if(S.game==='diver'){divDie(v);render();return}
   if(S.game==='tower'){
-    const top=t.fl[t.fl.length-1];
-    const limit=towerTop(t),doubleSix=limit===6&&v===6;
-    if(t.fl.length&&v<=limit&&!doubleSix){t.fl.push(v);bust(`Tårnet væltede på en ${v}'er!`,v)}
-    else{t.fl.push(v);t.top=doubleSix?0:v;sfx.step(t.fl.length);if(doubleSix)sfx.six();
-      if(t.fl.length===6){bank(6+TB(6),`etager (perfekt tårn, 6 + ${TB(6)} bonus)`);if(doubleSix&&FX)FX.doubleSix=true;}
-      else{if(doubleSix)fx({kind:'doubleSix',p:S.p},2200);const b=TB(t.fl.length);say(doubleSix?"To 6'ere! Ny etage, og kravet er nulstillet. Næste slag kan være hvad som helst.":v===6?"En 6'er! Stop, eller slå igen: kun en ny 6'er holder tårnet stående.":top===undefined?`Grundstenen er lagt: ${v}. Slå igen eller stop.`:`Ny etage!${b?` Bonus +${b}, hvis du stopper nu.`:''} Næste slag skal være over ${v}.`,b?'good':'')}}
+    t.dice=t.dice||[];if(t.dice.length>=2){render();return}
+    t.dice.push(v);sfx.tap();
+    if(t.dice.length<2)say('Og den anden terning?');
+    else{const ok=towerOk(t),[a,b]=t.dice;
+      if(!ok.length){t.dice=[];t.fl.push(Math.max(a,b));bust(`Begge terninger var for lave (${a} og ${b}). Tårnet væltede!`,Math.max(a,b))}
+      else if(ok.length===1)towerPlace(ok[0]);
+      else say(`Du slog ${a} og ${b}. Vælg, hvilken terning du bygger med.`)}
   }else if(S.game==='pirate'){
     const dl=PD(t);
     if(v<=dl){S.pirateScore=(S.pirateScore||0)+t.sum;const stolen=t.sum;bust(`Piraterne tog ${stolen} mønter!`,v);if(S.pirateScore>=pirateGoal()){S.win=-2;say(`Piraterne nåede ${S.pirateScore} mønter og vinder!`,'bust');log('Piraterne vandt!')}}
@@ -663,7 +675,7 @@ function card(v){
   if(S.game==='hilo'){
     if(t.cur===null){t.cur=v;sfx.tap();say(`Startkort: ${RN(v)[0].toUpperCase()+RN(v).slice(1)}. Gæt højere eller lavere.`)}
     else if(v===t.cur){t.guess=null;sfx.tap();say(`Også ${RN(v)}. Intet sker, gæt igen.`)}
-    else if((t.guess==='hi'&&v>t.cur)||(t.guess==='lo'&&v<t.cur)){t.pile++;t.cur=v;t.guess=null;sfx.step(t.pile);rec('hilo',t.pile,S.p);say(`Rigtigt! ${t.pile} kort i bunken. Gæt igen eller stop.`,'good')}
+    else if((t.guess==='hi'&&v>t.cur)||(t.guess==='lo'&&v<t.cur)){t.pile++;t.cur=v;t.guess=null;sfx.step(t.pile);rec('hilo',t.pile,S.p);{const b=HB(t.pile),nb=HB(t.pile+1);say(`Rigtigt! ${t.pile} kort i bunken.${b?` Stop nu: +${b} bonus.`:''}${nb>b?` Ét rigtigt til giver +${nb} i bonus.`:' Gæt igen eller stop.'}`,'good')}}
     else bust(`Forkert gæt, ${t.pile} kort røg.`,v);
   }else{
     if(t.row.includes(v)){t.row.push(v);bust(`To gange ${RN(v)}. Kisten sprang!`,v)}
@@ -695,14 +707,14 @@ function build(){
   const m=`${nm(p)} byggede mur: +${add}${add<v?` (muren er fuld)`:''}.`;
   log(m);sfx.thud();fx({kind:'build',p,add},1100);battleEnd(v,m);render();
 }
-function turnPts(){const t=S.turn;return {tower:()=>t.fl.length+TB(t.fl.length),pirate:()=>t.sum,hilo:()=>t.pile,chest:()=>cpts(t.row)+CB(t.row.length),battle:()=>0,monster:()=>t.bag,diver:()=>t.loot}[S.game]()}
-const curBonus=()=>S.game==='tower'?TB(S.turn.fl.length):S.game==='chest'?CB(S.turn.row.length):0;
+function turnPts(){const t=S.turn;return {tower:()=>t.fl.length+TB(t.fl.length),pirate:()=>t.sum,hilo:()=>t.pile+HB(t.pile),chest:()=>cpts(t.row)+CB(t.row.length),battle:()=>0,monster:()=>t.bag,diver:()=>t.loot}[S.game]()}
+const curBonus=()=>S.game==='tower'?TB(S.turn.fl.length):S.game==='chest'?CB(S.turn.row.length):S.game==='hilo'?HB(S.turn.pile):0;
 function stop(){snap();const n=turnPts(),b=curBonus();bank(n,un(n)+(b?` (${n-b} + ${b} bonus)`:''));render()}
 function risk(){
   const t=S.turn;
   if(S.game==='monster')return S.mon?Math.round((1-monP(MST(S.mon.v),t.sum,3-t.rolls.length))*100):0;
   if(S.game==='diver')return 0;
-  if(S.game==='tower')return Math.round((towerTop(t)===6?5:towerTop(t))/6*100);
+  if(S.game==='tower'){if(!t.fl.length)return 0;const q=(towerTop(t)===6?5:towerTop(t))/6;return Math.round(q*q*100)}
   if(S.game==='pirate')return Math.round(PD(t)/6*100);
   if(S.game==='hilo'){if(t.cur===null)return 0;const p=probs(t.cur);return pc(t.guess==='hi'?p.lo:t.guess==='lo'?p.hi:Math.min(p.hi,p.lo))}
   return Math.min(100,pc(t.row.reduce((a,r)=>a+rem(r),0)/Math.max(S.deck,1)));
@@ -1219,7 +1231,7 @@ function scene(game,t,p,busting,v){
       ${dust}
       ${!busting&&FX&&(FX.kind==='doubleSix'||FX.doubleSix)?`<div class="double-six" aria-label="To seksere! Kravet er nulstillet"><div class="six-card">${pips(6)}${pips(6)}<span>Dobbelt 6!<br><small>Kravet nulstilles</small></span></div>${Array.from({length:12},(_,i)=>`<i class="spark" style="--sx:${Math.cos(i*Math.PI/6)*140}px;--sy:${Math.sin(i*Math.PI/6)*95}px;animation-delay:${i*.025}s"></i>`).join('')}</div>`:''}
       ${busting?banner('BOM! Tårnet styrtede'):`<div class="big">${n}<small>${n?(towerTop(t)===6?'etager · kun en 6’er redder tårnet':towerTop(t)===0?'etager · kravet er nulstillet':`etager · næste skal over ${towerTop(t)}`):'etager i turen'}</small>${TB(n)?`<span class="bonus">+${TB(n)} bonus</span>`:''}</div>`}
-      ${!n&&!busting?'<div class="hint">Slå for at lægge grundstenen</div>':''}</div>`;
+      ${!n&&!busting&&!(t.dice&&t.dice.length)?'<div class="hint">Slå for at lægge grundstenen</div>':''}</div>`;
   }
   if(game==='pirate'){
     const c=t.sum,prev=busting?c:Math.min(seenCoins,c);if(!busting)seenCoins=c;let coins='',k=0;
@@ -1246,7 +1258,7 @@ function scene(game,t,p,busting,v){
     return `<div class="scene table ${cls}">${tableBg('s')}<div class="feltlbl">HØJERE · LAVERE</div>${deck}<div class="lbl" style="left:calc(${E} + clamp(39px,7cqw,56px));bottom:0">${S.deck} tilbage</div>
       ${cur}${wrong}${arrow}<div class="pile">${backs}</div><div class="lbl" style="right:${E};transform:none;bottom:0">Din bunke: ${t.pile}</div>
       ${t.cur===null&&!busting?'<div class="hint">Vend et startkort og tryk på det herunder</div>':''}
-      ${t.pile>=2&&!busting?`<div class="streak">${t.pile} rigtige i træk!</div>`:''}
+      ${t.pile>=2&&!busting?`<div class="streak">${t.pile} rigtige i træk!${HB(t.pile)?` +${HB(t.pile)} bonus`:''}${HB(t.pile+1)>HB(t.pile)?` · næste: +${HB(t.pile+1)}`:''}</div>`:''}
       ${busting?banner('Forkert gæt!'):''}</div>`;
   }
   const n=t.row.length,step=Math.min(14,110/Math.max(n,1)),bo=CB(n),nb=CB(n+1);
@@ -1316,6 +1328,9 @@ function pad(){
     return `<p>Du slog ${t.roll}. Hvad gør du?</p><div class="acts">${S.scores.map((h,i)=>i===S.p||h<=0?'':`<button class="btn guess main" style="background:${COL[i]};color:${ON[i]}" data-shoot="${i}">Skyd på ${nm(i)}<small>−${Math.max(0,t.roll-S.wall[i])} liv${S.wall[i]?`, mur ${S.wall[i]}`:''}</small></button>`).join('')}
       <button class="btn guess" data-build ${full?'disabled':''}>Byg mur<small>${full?'muren er fuld':`+${Math.min(WMAX-S.wall[S.p],t.roll)} sten`}</small></button></div>`;
   }
+  if(S.game==='tower'){t.dice=t.dice||[];const lim=towerTop(t),bad=v=>t.fl.length&&v<=lim&&!(lim===6&&v===6);
+    if(t.dice.length===2)return `<p>Du slog ${t.dice[0]} og ${t.dice[1]}. Hvilken bygger du med? <span class="sub">Den laveste giver plads til flere etager.</span></p><div class="acts">${towerOk(t).map(v=>`<button class="btn guess main" data-tb="${v}">${pips(v)}<span>Byg med ${v}</span><small>${v===6?'derefter kun en 6’er':'næste skal over '+v}</small></button>`).join('')}</div>`;
+    return `<p>${t.dice.length?`Første terning: ${t.dice[0]}. Hvad viste den anden?`:'Slå to terninger. Hvad viste den første?'}${t.fl.length?` <span class="warn">Røde er for lave. Tårnet vælter kun, hvis begge er røde.</span>`:''}</p><div class="keys">${[1,2,3,4,5,6].map(v=>`<button class="key ${bad(v)?'bad':''}" data-die="${v}" aria-label="Slog ${v}">${pips(v)}</button>`).join('')}</div>`}
   if(g.kind==='dice'){const lim=S.game==='tower'?towerTop(t):PD(t),w=S.game==='tower'?'vælter tårnet':'henter piraten';
     return `<p>Hvad slog du?${lim?` <span class="warn">Rød terning ${w}.</span>`:''}</p><div class="keys">${[1,2,3,4,5,6].map(v=>`<button class="key ${v<=lim&&!(S.game==='tower'&&lim===6&&v===6)?'bad':''}" data-die="${v}" aria-label="Slog ${v}${v<=lim&&!(S.game==='tower'&&lim===6&&v===6)?', '+w:''}">${pips(v)}</button>`).join('')}</div>`}
   if(S.game==='hilo'&&t.cur!==null&&!t.guess){const p=probs(t.cur),hi=pc(p.hi),lo=pc(p.lo);let hiN=0,loN=0;for(let r=1;r<=13;r++){if(r>t.cur)hiN+=rem(r);if(r<t.cur)loN+=rem(r)}
@@ -1345,7 +1360,7 @@ function compactTurn(){const t=S.turn,game=S.game;
 }
 /* Et spil er i gang, hvis der er sket noget i det, og det ikke er vundet. Så står der "Fortsæt" på forsiden. */
 const started=o=>!!o&&o.win===null&&o.n===S.n&&!!GAMES[o.game]&&!!o.turn&&(o.log.length>0||JSON.stringify(o.turn)!==JSON.stringify(newTurn(o.game)));
-const TAG={tower:'1 terning · byg højere og højere',pirate:"1 terning · saml mønter, pas på 1'eren",battle:'1 terning · skyd eller byg mur',hilo:'Kortspil · gæt det næste kort',chest:'Kortspil · to ens sprænger kisten',monster:'Kortspil + 1 terning · slå monsteret i døren',diver:'2 terninger · dyk efter skatten, mens luften holder'};
+const TAG={tower:'2 terninger · byg højere og højere',pirate:"1 terning · saml mønter, pas på 1'eren",battle:'1 terning · skyd eller byg mur',hilo:'Kortspil · gæt det næste kort',chest:'Kortspil · to ens sprænger kisten',monster:'Kortspil + 1 terning · slå monsteret i døren',diver:'2 terninger · dyk efter skatten, mens luften holder'};
 const O='stroke="#081624" stroke-width="4" stroke-linejoin="round"';
 /* Scenen er tegnet til ca. 380 x 340. fit() forstørrer den, så den fylder hele feltet på en iPad. */
 function fit(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;const z=Math.min(2.6,Math.max(1,Math.min(h/340,w/380)));stage.style.setProperty('--z',z);stage.style.setProperty('--lw',w/z);stage.style.setProperty('--lh',h/z)}
@@ -1388,6 +1403,7 @@ function render(){
   dock.innerHTML=`<div class="dhead"><h2 style="${cv(shownP)}"><b>${nm(shownP)}</b>s tur</h2>${S.final&&S.win===null?'<span class="last">Sidste runde</span>':''}<span class="msg ${S.mt}" role="status">${S.msg||'Slå eller vend et kort for at starte.'}</span></div>
     ${ct?`<div class="turnview"><div><div class="turn-label">${ct.label}</div><div class="turn-value">${ct.value}</div></div><span class="turn-detail">${ct.detail}</span></div>`:''}
     ${S.game==='pirate'?`<div class="pirate-score" role="status"><b>Piraternes skat: ${S.pirateScore||0} af ${pirateGoal()} mønter</b><span> · ${['Tomt skib','Skat om bord','Gyldne sejl','Piratkongens skib'][pirateLevel()]}</span><div class="bar"><i style="width:${Math.min(100,(S.pirateScore||0)/pirateGoal()*100)}%;background:#ff5240"></i></div></div>`:''}
+    ${S.oops&&hist.length&&S.win===null?`<button class="btn oops" id="oops">↶ ${GAMES[S.game].kind==='cards'?'Forkert kort? Gå et skridt tilbage':'Forkert tryk? Gå et skridt tilbage'}</button>`:''}
     <div class="pad">${pad()}</div>
     ${bt||S.game==='diver'?'':`<div class="ma ${guessing?'solo':''}">${guessing?'':riskMeter()}<button class="btn main" id="stop" ${canStop?'':'disabled'}>${S.game==='monster'?`Gå hjem med ${pts} guld`:`Stop og gem ${pts} ${un(pts)}${curBonus()?' med bonus':''}`}</button></div>`}`;
   rules.innerHTML=`<h3>Regler: ${g.name}</h3><ul>${g.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
@@ -1430,10 +1446,12 @@ $('menu').addEventListener('click',()=>sheet.classList.add('show'));
 $('sclose').addEventListener('click',()=>sheet.classList.remove('show'));
 sheet.addEventListener('click',e=>{if(e.target===sheet)sheet.classList.remove('show')});
 board.addEventListener('click',e=>{
+  if(e.target.closest('#oops')){doUndo();return}
   if(S.win!==null||(FX&&(FX.kind==='bust'||FX.kind==='shot')))return;
   const sh=e.target.closest('[data-shoot]');if(sh){shoot(+sh.dataset.shoot);return}
   if(e.target.closest('[data-build]')){build();return}
   const dv=e.target.closest('[data-div]');if(dv){divMove(+dv.dataset.div);return}
+  const tb=e.target.closest('[data-tb]');if(tb){snap();towerPlace(+tb.dataset.tb);render();return}
   const d=e.target.closest('[data-die]'),c=e.target.closest('[data-card]'),g=e.target.closest('[data-g]');
   if(d)die(+d.dataset.die);
   else if(c)card(+c.dataset.card);
@@ -1444,6 +1462,7 @@ rules.addEventListener('change',e=>{if(e.target.id==='tgt'){snap();S.targets[S.g
 const doUndo=()=>{if(!hist.length)return;FX=null;clearTimeout(fxT);const o=JSON.parse(hist.pop());S=o.S;REC=o.R||REC;saveRec();if(S.win===null)eveRemove(S.rid);render()};
 undo.addEventListener('click',doUndo);$('wundo').addEventListener('click',doUndo);
 $('reset').addEventListener('click',()=>{snap();FX=null;S=fresh(S.game,S.names,S.targets,S.n);say('Nyt spil. Held og lykke!');sheet.classList.remove('show');render()});
+$('wmenu').addEventListener('click',()=>{snap();FX=null;S=fresh(S.game,S.names,S.targets,S.n);win.classList.remove('show');go('home')});
 $('again').addEventListener('click',()=>{snap();FX=null;const w=S.win;S=fresh(S.game,S.names,S.targets,S.n);if(w>=0)S.p=S.start=nx(w);say(`${nm(S.p)} starter.`);render()});
 render();
 }
