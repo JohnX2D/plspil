@@ -360,7 +360,16 @@ body.home #game,body:not(.home) #home{display:none}
 .btn.guess svg.die{width:44px;height:44px}
 /* ---------- Grand Prix ---------- */
 .scene.racing{background:radial-gradient(circle at 50% 45%,#4fae55,#2f7d3a)}
-.rcar .flame{opacity:0;transform-box:fill-box;transform-origin:100% 50%}.rcar.drv .flame{opacity:1;animation:flk .07s steps(2) infinite}
+.rfl{opacity:0;transform-box:fill-box;transform-origin:100% 50%}.rcar.drv .rfl{opacity:1;animation:flk .07s steps(2) infinite}
+.rcar.nit .rfl{animation-name:flkn}.rcar.nit .rfl path:first-child{fill:#3d9bff}.rcar.nit .rfl path:last-child{fill:#e8f6ff}@keyframes flkn{from{transform:scaleX(1.5)}to{transform:scaleX(2.4)}}
+.rsm{fill:#ecece8;opacity:.6;transform-box:fill-box;transform-origin:50% 50%;animation:rsm .75s ease-out forwards}@keyframes rsm{to{transform:scale(3.4);opacity:0}}
+.rsm.dk{fill:#4b4d55;opacity:.75;animation-duration:1.1s}.rsm.nt{fill:#8ad4ff}.rsk{fill:#0c0c10;opacity:.5}
+.ron{opacity:0;animation:ron .01s linear forwards}@keyframes ron{to{opacity:1}}.roff{animation:roff .12s linear forwards}@keyframes roff{to{opacity:0}}
+.rfw{transform-box:fill-box;transform-origin:50% 50%;opacity:0;animation:rfw 1.9s ease-out infinite}@keyframes rfw{0%{transform:scale(.08);opacity:1}65%{opacity:1}100%{transform:scale(1.3);opacity:0}}
+.rflash{opacity:0;animation:rflash 4s linear infinite}@keyframes rflash{0%,94%{opacity:0}95%,97%{opacity:.95}100%{opacity:0}}
+.rdone .rfan{animation-duration:.45s}.rdone .rflash{animation-duration:.9s!important}
+.rci{grid-area:i;display:block}.rb .rci{width:62px;height:33px}.ra .rci{width:104px;height:55px}
+.ra.rgo{border-color:var(--c1);box-shadow:0 5px 0 var(--c1)}.ra.rgo:active{transform:translateY(3px);box-shadow:0 2px 0 var(--c1)}.ra.rgo.nitro{background:light-dark(#fff1dc,#3a2408)}.racts4.one{grid-template-columns:1fr}
 @keyframes flk{to{transform:scaleX(1.5)}}
 .rtgt{cursor:pointer;animation:rtg .8s ease-in-out infinite alternate}@keyframes rtg{to{opacity:.5}}
 .rtile{animation:pop .35s ease-out both;transform-box:fill-box;transform-origin:50% 50%}
@@ -384,7 +393,7 @@ body.home #game,body:not(.home) #home{display:none}
 .rb i{grid-area:i;width:16px;height:34px;border-radius:6px;background:linear-gradient(var(--c1),var(--c2));border:2px solid #07080c}.rb b{grid-area:b;font-size:15px;line-height:1.1}.rb small{grid-area:s;font-size:12px;color:var(--soft);font-weight:600}
 .rb:disabled{opacity:.35;box-shadow:none}.rb em{font-style:normal;background:#ffd34d;color:#081624;border-radius:6px;padding:0 5px;font-weight:800}
 .racts{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-@media (max-width:600px){.ra{grid-template-columns:1fr;grid-template-areas:"b" "s";min-height:56px;padding:6px 10px}.ra i{display:none}.ra b{font-size:14.5px}.rb{padding:5px 7px}.rb b{font-size:13px}.rb i{width:10px}}
+@media (max-width:600px){.ra{grid-template-columns:1fr;grid-template-areas:"b" "s";min-height:56px;padding:6px 10px}.ra i,.ra .rci{display:none}.rb .rci{width:38px;height:20px}.ra b{font-size:14.5px}.rb{padding:5px 7px}.rb b{font-size:13px}.rb i{width:10px}}
 .rseg{display:inline-flex;border:3px solid var(--line);border-radius:12px;overflow:hidden}.rseg button{min-width:48px;min-height:46px;border:0;background:var(--paper);font-weight:800;font-size:18px;color:var(--ink)}.rseg button+button{border-left:3px solid var(--line)}.rseg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}.rseg button:disabled{opacity:.3}
 .key.ok{background:light-dark(#dff6e8,#12351f);border-color:#13a35c;box-shadow:0 4px 0 #13a35c}.key.ok:active{box-shadow:0 1px 0 #13a35c}
 .pad .sub{color:var(--soft);font-weight:500}
@@ -557,7 +566,7 @@ div.tfg{display:flex;align-items:flex-end;justify-content:center;gap:12%;width:8
   </div>
   <section class="eve" id="eve" aria-live="polite"></section>
   <nav class="tiles" id="tiles" aria-label="Vælg spil"></nav>
-  <footer class="ver">LDA Spil · version 30.0</footer>
+  <footer class="ver">LDA Spil · version 31.0</footer>
 </div>
 <main id="game">
   <header class="topbar"><button class="ib" id="tohome" aria-label="Tilbage til spilmenuen">‹ Spil</button><h1 id="gname"></h1><button class="ib" id="undo">↶ Fortryd</button><button class="ib" id="menu" aria-label="Regler og menu">☰ Regler</button></header>
@@ -589,7 +598,7 @@ const GAMES={
  hilo:{name:'Højere eller lavere',kind:'cards',unit:'point',rules:['Vend et startkort. Es er 1, konge er 13.','Gæt højere eller lavere, og vend næste kort.','Rigtigt gæt: kortet kommer i din bunke. Lige så højt: intet sker.','Forkert gæt: du mister turens bunke.','Stop for at gemme bunken. Hvert kort giver 1 point.','Lange stimer giver bonus, når du stopper: 3 kort giver 1 ekstra, 4 kort 2, 5 kort 4, 6 kort 6, 7 kort 9, og 8 eller flere giver 12 ekstra.','Når bunken er tom, vinder den med flest point.']},
  chest:{name:'Skattekisten',kind:'cards',unit:'point',rules:['Vend kort ét ad gangen og læg dem i en række.','Samme værdi som et kort i rækken: kisten går i stykker, og alt ryger ud.','Stop for at tage rækken.','Knægt, dame og konge giver 2 point, alle andre 1.','Mange kort giver bonus, når du stopper: 5 kort giver 1 ekstra, 6 kort 3 ekstra, 7 kort 5 ekstra, og 8 eller flere giver 8 ekstra.','Når bunken er tom, vinder den med flest point.']},
  monster:{name:'Monsterhulen',kind:'dice',unit:'guld',rules:['Vend et kort: det er monsteret i døren, og kortets værdi er dets styrke. Knægt er 11, dame 12, konge 13, og esset er Dragen med styrke 14.','Kæmp ved at slå terningen op til <b>3 gange</b>. Slagene lægges sammen, og når du når monsterets styrke, har du vundet.',"Slår du en <b>1'er</b>, bliver du bidt og taber kampen. Du taber også, hvis tre slag ikke er nok.",'Vinder du, ryger monsterets styrke i guld ned i sækken. Dragen giver 6 ekstra.','Efter en sejr kan du gå hjem og gemme sækken eller gå dybere ind og vende et nyt kort. Du må også gå hjem, når du har set det næste monster.','Taber du, mister du hele sækken. Monsteret bliver stående til den næste spiller, og der kommer 2 guld i dusør på det, hver gang det vinder.','Når nogen når målet, spilles runden færdig. Den med mest guld vinder.']},
- race:{name:'Grand Prix',kind:'grid',unit:'mønter',one:'mønt',rules:['Seks racerbiler kører om kap 16 felter rundt om banen. Ingen af jer ejer en bil, men I kan tjene mønter på dem. Flest mønter efter løbet vinder.','<b>Heppebil:</b> før start vælger hver spiller en bil at heppe på. Vinder den løbet, får du 5 mønter.','På din tur vælger du: <b>Kør!</b> Slå to terninger og få 1 mønt. Den første terning vælger bilen, den anden hvor langt den kører. To ens giver nitro.','Eller <b>tag en billet</b>: gæt hvilken bil der fører, når alle seks biler har kørt én gang. Rigtigt gæt giver tallet på billetten (5, 3 eller 2). Forkert gæt koster ingenting.','Står flere biler på samme felt, kører de i kø. Når en bil kører, hænger bilerne bag den på i slipstrømmen.','Grønne turbofelter giver 1 felt ekstra. Olie får bilen til at glide 1 felt tilbage.','Løbet slutter, så snart en bil kører over målstregen.']},
+ race:{name:'Grand Prix',kind:'grid',unit:'mønter',one:'mønt',rules:['Seks racerbiler kører om kap 16 felter rundt om banen. Ingen af jer ejer en bil, men I kan tjene mønter på dem. Flest mønter efter løbet vinder.','<b>Heppebil:</b> før start vælger hver spiller en bil at heppe på. Hver gang den overhaler sig op på førstepladsen, får du 1 mønt. Kommer den på podiet til sidst, får du 5 mønter for nr. 1, 3 for nr. 2 og 1 for nr. 3.','På din tur vælger du: <b>Kør!</b> Slå to terninger og få 1 mønt. Du bestemmer selv, hvilken terning der er bilen, og hvilken der er farten: 1-2 giver 1 felt, 3-4 giver 2 felter, 5-6 giver 3 felter. To ens giver nitro: 1 felt ekstra.','Har bilen på terningen allerede kørt i omgangen, kører den næste bil, der mangler.','Eller <b>tag en billet</b>: gæt hvilken bil der fører, når alle seks biler har kørt én gang. Rigtigt gæt giver tallet på billetten (5, 3 eller 2). Forkert gæt koster ingenting.','Står flere biler på samme felt, kører de i kø. Når en bil kører, hænger bilerne bag den på i slipstrømmen.','Grønne turbofelter giver 1 felt ekstra. Olie får bilen til at glide 1 felt tilbage.','Løbet slutter, så snart en bil kører over målstregen.']},
 };
 let S,hist=[],FX=null,fxT,seenCoins=0,SAVES={};
 /* Lyd: små toner lavet i browseren, ingen lydfiler */
@@ -1029,57 +1038,76 @@ function monPad(){
 /* ================= Grand Prix ================= */
 /* Seks biler, som ingen ejer, kører ét løb på 16 felter rundt om banen. Står flere biler på samme felt, ligger de i kø (pakken):
    når en bil kører, hænger bilerne BAG den på i slipstrømmen, og hele toget lægger sig forrest på det nye felt.
-   En omgang er slut, når alle seks biler har kørt én gang. På sin tur gør man én ting: slår terningerne (+1 mønt),
-   tager en omgangsbillet, lægger sin banebrik (turbo eller olie) eller sætter en hemmelig storsats på løbets vinder eller sidste bil. */
-const RLEN=16,TICK=[5,3,2],FANW=5,SPD=v=>Math.ceil(v/2),ALL6=[0,1,2,3,4,5];
+   En omgang er slut, når alle seks biler har kørt én gang. På sin tur gør man én ting: slår terningerne (+1 mønt) og vælger,
+   hvilken terning der er bilen, og hvilken der er farten, eller tager en omgangsbillet.
+   Heppebilen giver 1 mønt, hver gang den overhaler sig op i front, og 5/3/1 mønter for en plads på podiet. */
+const RLEN=16,TICK=[5,3,2],FANP=[5,3,1],SPD=v=>Math.ceil(v/2),ALL6=[0,1,2,3,4,5];
 const CARS=[{n:'Lynet',c:['#ff6a55','#b3180f'],s:'#ffd34d'},{n:'Stormen',c:['#5aa8ff','#1440a8'],s:'#e8f2ff'},{n:'Jaguaren',c:['#3fd68c','#0d6b45'],s:'#0b1a12'},
   {n:'Solkongen',c:['#ffd75a','#c47c08'],s:'#2a1600'},{n:'Skyggen',c:['#6a6f88','#15161f'],s:'#a77bff'},{n:'Isfuglen',c:['#f4fbff','#8fb8cc'],s:'#2aa7d6'}];
 function rcNew(n){const sh=ALL6.slice();for(let i=5;i>0;i--){const j=Math.floor(Math.random()*(i+1));[sh[i],sh[j]]=[sh[j],sh[i]]}
   const pos=[],ord=[];sh.forEach((k,i)=>{pos[k]=1+Math.floor(Math.random()*3);ord[k]=i+1});
   /* Faste turbo- og oliefelter: to af hver, aldrig ved siden af hinanden */
   const fs=[];for(const f of Array.from({length:12},(_,i)=>i+4).sort(()=>Math.random()-.5))if(fs.length<4&&!fs.some(x=>Math.abs(x-f)<=1))fs.push(f);
-  return {v:3,leg:1,pos,ord,hi:7,lo:0,moved:[0,0,0,0,0,0],tick:CARS.map(()=>TICK.slice()),bets:[],tiles:fs.map((f,i)=>({f,t:i<2?1:-1})),fan:Array(n||2).fill(-1),rolls:0,over:false,fin:null}}
+  return {v:4,leg:1,pos,ord,hi:7,lo:0,moved:[0,0,0,0,0,0],tick:CARS.map(()=>TICK.slice()),bets:[],tiles:fs.map((f,i)=>({f,t:i<2?1:-1})),fan:Array(n||2).fill(-1),rolls:0,hot:0,over:false,fin:null}}
 const rRank=r=>ALL6.slice().sort((a,b)=>r.pos[b]-r.pos[a]||r.ord[b]-r.ord[a]);
 const rPack=(r,f)=>ALL6.filter(k=>r.pos[k]===f).sort((a,b)=>r.ord[a]-r.ord[b]);
 const rLeft=r=>ALL6.filter(k=>!r.moved[k]);
-/* Har bilen på den første terning allerede kørt i omgangen, kører den næste bil, der mangler */
+/* Har bilen på terningen allerede kørt i omgangen, kører den næste bil, der mangler */
 const rSub=a=>{const r=S.rc;let k=a-1;if(r.moved[k])for(let i=1;i<6;i++){const j=(k+i)%6;if(!r.moved[j]){k=j;break}}return k};
+/* To terninger giver to muligheder: den ene terning vælger bilen, den anden farten. To ens er nitro */
+function rOpts(){const [a,b]=S.turn.dice;if(a===b)return [{k:rSub(a),d:SPD(a)+1,nitro:true,a,b}];
+  const o=[{k:rSub(a),d:SPD(b),a,b},{k:rSub(b),d:SPD(a),a:b,b:a}];return o[0].k===o[1].k&&o[0].d===o[1].d?[o[0]]:o}
 const payTxt=g=>g.map((x,p)=>x?`${nm(p)} ${x>0?'+':'−'}${Math.abs(x)}`:'').filter(Boolean).join(' · ')||'ingen gevinster';
-const engine=d=>{tone(62,d,'sawtooth',.06,0,220);tone(124,d*.9,'square',.016,0,440);noise(Math.min(d,1.6),.16,0,1100)};
+const flt=d=>`${d} ${d===1?'felt':'felter'}`;
+const engine=(d,w=0,hot)=>{tone(hot?74:62,d,'sawtooth',.06,w,hot?330:220);tone(hot?148:124,d*.9,'square',.016,w,hot?660:440);noise(Math.min(d,1.6),.16,w,1100)};
 const crowd=()=>{noise(2.4,.3,0,2600);noise(1.6,.2,.5,1600);[880,1175,1480].forEach((f,i)=>tone(f,.14,'square',.03,.3+i*.16))};
+const cheer=()=>{noise(1.1,.2,0,2400);tone(660,.1,'triangle',.05,0);tone(990,.16,'triangle',.05,.1)};
+const screech=()=>{tone(1250,.5,'sawtooth',.035,0,700);noise(.6,.14,0,3800)};
+const startBeeps=()=>{[0,1,2,3,4].forEach(i=>tone(520,.16,'square',.05,i*.3));tone(1040,.5,'square',.06,1.65);noise(1.7,.07,0,500)};
+const boom=()=>[.2,.9,1.5,2.3].forEach(w=>{noise(.5,.22,w,700);tone(1500,.25,'triangle',.02,w+.05,500)});
 function rMove(k,d){const r=S.rc,f=r.pos[k],unit=rPack(r,f).filter(c=>r.ord[c]<=r.ord[k]);
   const put=(to,front)=>front?unit.forEach(c=>{r.pos[c]=to;r.ord[c]=++r.hi}):unit.slice().reverse().forEach(c=>{r.pos[c]=to;r.ord[c]=--r.lo});
   let to=f+d;put(to,true);const tl=to<=RLEN&&r.tiles.find(t=>t.f===to)||null;
   if(tl){if(tl.t>0)put(++to,true);else put(--to,false)}
   return {unit,from:f,to,tl}}
 function rNext(){S.p=(S.p+1)%S.n;S.turn=newTurn('race')}
-function rDie(v){const r=S.rc,t=S.turn;if(!r||r.over)return;t.act='roll';t.dice.push(v);sfx.tap();
-  if(t.dice.length<2){const k=rSub(v);say(k===v-1?`Bil ${v}: ${CARS[k].n}. Hvad viste den anden terning?`:`${CARS[v-1].n} har allerede kørt i denne omgang, så ${CARS[k].n} kører i stedet. Hvad viste den anden terning?`);return}
-  const [a,b]=t.dice;t.dice=[];rRoll(a,b)}
-function rRoll(a,b){const r=S.rc,p=S.p,k=rSub(a),nitro=a===b,d=SPD(b)+(nitro?1:0),before=rPlaces(),start=!r.rolls;
+function rDie(v){const r=S.rc,t=S.turn;if(!r||r.over||t.dice.length>1)return;t.act='roll';t.dice.push(v);sfx.tap();
+  if(t.dice.length<2){say('Og hvad viste den anden terning?');return}
+  const o=rOpts();if(o[0].nitro)sfx.six();
+  say(o[0].nitro?`To ${v}'ere: NITRO! ${CARS[o[0].k].n} får 1 felt ekstra.`:o.length>1?'Du bestemmer: hvilken bil skal køre?':`${CARS[o[0].k].n} er klar til at køre.`,o[0].nitro?'good':'')}
+function rGo(i){const o=rOpts()[i];if(!o)return;S.turn.dice=[];rRoll(o.k,o.d,!!o.nitro)}
+function rRoll(k,d,nitro){const r=S.rc,p=S.p,before=rPlaces(),start=!r.rolls,was=rRank(r)[0];
   r.moved[k]=1;r.rolls++;S.scores[p]++;
-  const m=rMove(k,d),fol=m.unit.filter(c=>c!==k);rAnim(before,rPlaces(),m.tl&&m.tl.t<0?m.unit:[]);
-  let txt=`${nm(p)} får 1 mønt. ${CARS[k].n} ${nitro?'fyrer nitro af og ':''}kører ${d} ${d===1?'felt':'felter'}${fol.length?` med ${fol.map(c=>CARS[c].n).join(' og ')} i slipstrømmen`:''}.`;
+  const m=rMove(k,d),fol=m.unit.filter(c=>c!==k),lead=rRank(r)[0],pass=lead!==was,fp=pass?r.fan.indexOf(lead):-1,fin=ALL6.some(c=>r.pos[c]>RLEN);
+  const hot=!r.hot&&!fin&&Math.max(...r.pos)>=RLEN-3;if(hot)r.hot=1;
+  if(fp>=0)S.scores[fp]++;
+  rAnim(before,rPlaces(),m.tl&&m.tl.t<0?m.unit:[],{delay:start?1750:0,nitro,k,fin,hot:r.hot});
+  let txt=`${nm(p)} får 1 mønt. ${CARS[k].n} ${nitro?'fyrer nitro af og ':''}kører ${flt(d)}${fol.length?` med ${fol.map(c=>CARS[c].n).join(' og ')} i slipstrømmen`:''}.`;
   if(m.tl)txt+=m.tl.t>0?' Turbo! 1 felt ekstra.':` Olie! ${CARS[k].n} spinner 1 felt tilbage.`;
-  log(`${nm(p)}: ${CARS[k].n} ${d} ${d===1?'felt':'felter'}${nitro?' (nitro)':''}`);
-  const ban=start?'Lights out!':nitro?'NITRO!':m.tl?(m.tl.t>0?'Turbo!':'Olie!'):null;
-  if(ALL6.some(c=>r.pos[c]>RLEN)){rEnd(txt);return}
+  if(pass)txt+=` ${CARS[lead].n} overhaler og fører nu!${fp>=0?` ${nm(fp)} hepper på den og får 1 mønt.`:''}`;
+  log(`${nm(p)}: ${CARS[k].n} ${flt(d)}${nitro?' (nitro)':''}${pass?`, ${CARS[lead].n} fører`:''}`);
+  const ban=start?'LIGHTS OUT!':nitro?'NITRO!':m.tl&&m.tl.t<0?'Olie!':pass?`${CARS[lead].n} fører!`:m.tl?'Turbo!':hot?'Sidste sving!':null;
+  if(fin){rEnd(txt);return}
+  if(start)startBeeps();if(m.tl&&m.tl.t<0)screech();if(pass&&!start)cheer();
   if(!rLeft(r).length){const lg=rLegEnd();rNext();fx({kind:'rban',ban:`Omgang ${lg.leg} slut!`,pay:lg},3800);sfx.good();
     say(`${txt} Omgang ${lg.leg} er slut, og ${CARS[lg.first].n} fører. ${payTxt(lg.gain)}. Nu er det ${nm(S.p)}s tur.`,'good');return}
-  rNext();if(ban)fx({kind:'rban',ban,shake:!!(m.tl&&m.tl.t<0)},1900);if(nitro||m.tl)sfx.six();say(`${txt} Nu er det ${nm(S.p)}s tur.`)}
+  rNext();if(ban)fx({kind:'rban',ban,shake:!!(m.tl&&m.tl.t<0),start:start?performance.now():0},start?3900:2100);if(nitro||m.tl)sfx.six();
+  say(`${txt}${hot?' Nu nærmer målstregen sig!':''} Nu er det ${nm(S.p)}s tur.`,fp>=0?'good':'')}
 function rLegEnd(){const r=S.rc,o=rRank(r),g=Array(S.n).fill(0);
   r.bets.forEach(b=>{if(b.car===o[0])g[b.p]+=b.v});
   g.forEach((x,p)=>S.scores[p]+=x);
   const out={leg:r.leg,first:o[0],second:o[1],gain:g};log(`Omgang ${r.leg}: ${CARS[o[0]].n} førte`);
   r.leg++;r.moved=[0,0,0,0,0,0];r.tick=CARS.map(()=>TICK.slice());r.bets=[];return out}
-function rEnd(txt){const r=S.rc,lg=rLegEnd(),o=rRank(r),w=o[0],g=r.fan.map(k=>k===w?FANW:0);
+/* Mål: de tre forreste biler kommer på podiet, og heppebilerne giver 5, 3 og 1 mønt */
+function rEnd(txt){const r=S.rc,lg=rLegEnd(),o=rRank(r),w=o[0],g=Array(S.n).fill(0);
+  r.fan.forEach((k,p)=>{const i=o.indexOf(k);if(i>=0&&i<3)g[p]=FANP[i]});
   g.forEach((x,p)=>S.scores[p]+=x);
-  r.over=true;r.leg=lg.leg;r.moved=ALL6.map(()=>1);r.fin={w,leg:lg.gain,fan:g};crowd();sfx.good();
-  fx({kind:'rban',ban:`${CARS[w].n} vinder!`,flag:1},4200);log(`${CARS[w].n} vandt Grand Prix`);
-  say(`${txt} ${CARS[w].n} tager det ternede flag! ${g.some(x=>x)?`Heppebil: ${payTxt(g)}.`:`Ingen heppede på ${CARS[w].n}.`}`,'good')}
+  r.over=true;r.leg=lg.leg;r.moved=ALL6.map(()=>1);r.fin={w,o:o.slice(0,3),leg:lg.gain,fan:g};crowd();boom();sfx.good();
+  fx({kind:'rban',ban:`${CARS[w].n} vinder!`,flag:1},4200);log(`${CARS[w].n} vandt Grand Prix foran ${CARS[o[1]].n} og ${CARS[o[2]].n}`);
+  say(`${txt} ${CARS[w].n} tager det ternede flag foran ${CARS[o[1]].n} og ${CARS[o[2]].n}! Podiet: ${payTxt(g)}.`,'good')}
 function rFan(k){const r=S.rc,p=S.p;if(r.fan.includes(k))return;r.fan[p]=k;sfx.coin(5);log(`${nm(p)} hepper på ${CARS[k].n}`);
   const nx=(p+1)%S.n;S.p=nx;S.turn=newTurn('race');
-  say(r.fan[nx]<0?`${nm(p)} hepper på ${CARS[k].n}! Nu vælger ${nm(nx)}.`:`Alle har valgt! Lights out om lidt. ${nm(S.p)} starter.`,'good')}
+  say(r.fan[nx]<0?`${nm(p)} hepper på ${CARS[k].n}! Nu vælger ${nm(nx)}.`:`Alle har valgt! De røde lys er tændt. ${nm(S.p)} starter løbet.`,'good')}
 function rFinal(){const mx=Math.max(...S.scores),top=S.scores.map((v,i)=>v===mx?i:-1).filter(i=>i>=0);S.win=top.length>1?-1:top[0];if(S.win>=0)rec('race',mx,S.win)}
 function rTick(k){const r=S.rc,p=S.p;if(!r.tick[k].length)return;const v=r.tick[k].shift();r.bets.push({p,car:k,v});sfx.coin(v);
   log(`${nm(p)}: omgangsbillet ${v} på ${CARS[k].n}`);rNext();say(`${nm(p)} tog billetten på ${v} på ${CARS[k].n}. Nu er det ${nm(S.p)}s tur.`)}
@@ -1091,105 +1119,161 @@ function tp(u){u=((u+U0)%PER+PER)%PER;const x0=TCX-TL/2,x1=TCX+TL/2,A=Math.PI*TR
   if(u<TL)return {x:x1-u,y:TCY-TR,h:180};u-=TL;
   const th=-Math.PI/2-u/TR;return {x:x0+TR*Math.cos(th),y:TCY+TR*Math.sin(th),h:th/RAD-90}}
 const carXY=(u,l)=>{const t=tp(u);return {x:t.x-Math.sin(t.h*RAD)*l,y:t.y+Math.cos(t.h*RAD)*l,h:t.h}};
-function rPlaces(){const r=S.rc,P=[];new Set(r.pos).forEach(f=>{const pk=rPack(r,f),n=pk.length,st=24;pk.forEach((k,i)=>{const j=n-1-i;P[k]={u:(f-.5)*FL+((n-1)/2-j)*st,l:LANE[j%3]}})});return P}
-/* Bilerne kører langs banen i en animation, der overlever nye render() undervejs */
+function rPlaces(){const r=S.rc,P=[];new Set(r.pos).forEach(f=>{const pk=rPack(r,f),n=pk.length,st=26;pk.forEach((k,i)=>{const j=n-1-i;P[k]={u:(f-.5)*FL+((n-1)/2-j)*st,l:LANE[j%3]}})});return P}
+/* Bilerne kører langs banen i en animation, der overlever nye render() undervejs.
+   Kameraet zoomer ind på bilen, mens den kører, og dækkene sender røg op bag den. */
 let RA=null;
+const SVGNS='http://www.w3.org/2000/svg',RVB=[0,0,1000,660];
 const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
-const rPoseAt=(it,e)=>{const p=carXY(it.a.u+(it.b.u-it.a.u)*e,it.a.l+(it.b.l-it.a.l)*e);p.h+=it.s?720*e:0;return p};
-function rAnim(from,to,spin){RA=null;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const rPoseAt=(it,e)=>{const p=carXY(it.a.u+(it.b.u-it.a.u)*e,it.a.l+(it.b.l-it.a.l)*e);p.t=p.h;p.h+=it.s?720*e:0;return p};
+const rProg=now=>RA?Math.max(0,Math.min(1,(now-RA.t0)/RA.dur)):1;
+function rAnim(from,to,spin,o={}){RA=null;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const items=[];let mx=0;ALL6.forEach(k=>{const a=from[k],b=to[k];if(Math.abs(a.u-b.u)>.5||a.l!==b.l){items.push({k,a,b,s:spin.includes(k)});mx=Math.max(mx,Math.abs(b.u-a.u))}});
-  if(!items.length)return;const dur=Math.min(2600,700+mx*3);RA={items,t0:performance.now(),dur};engine(dur/1000);requestAnimationFrame(rStep)}
-function rApply(el,p,drv){el.setAttribute('transform',`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);const ro=el.querySelector('.rot'),nu=el.querySelector('.num');
-  if(ro)ro.setAttribute('transform',`rotate(${p.h.toFixed(1)})`);if(nu)nu.setAttribute('transform',`translate(${(-15*Math.cos(p.h*RAD)).toFixed(1)} ${(-15*Math.sin(p.h*RAD)).toFixed(1)})`);el.classList.toggle('drv',drv)}
-function rStep(now){if(!RA)return;const x=Math.min(1,(now-RA.t0)/RA.dur),e=ease(x);
-  RA.items.forEach(it=>{const el=document.getElementById('rc'+it.k);if(el)rApply(el,rPoseAt(it,e),x<1)});
+  if(!items.length)return;const dur=Math.min(3200,(o.fin?1500:800)+mx*3.2),dl=o.delay||0;
+  RA={items,t0:performance.now()+dl,dur,nitro:!!o.nitro,k:o.k,fin:!!o.fin,last:0};engine(dur/1000,dl/1000,o.hot||o.nitro);requestAnimationFrame(rStep)}
+function rApply(el,p,drv,nit){el.setAttribute('transform',`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);const ro=el.querySelector('.rot'),nu=el.querySelector('.num');
+  if(ro)ro.setAttribute('transform',`rotate(${p.h.toFixed(1)})`);if(nu)nu.setAttribute('transform',`translate(${(-17*Math.cos(p.h*RAD)).toFixed(1)} ${(-17*Math.sin(p.h*RAD)).toFixed(1)})`);el.classList.toggle('drv',drv);el.classList.toggle('nit',!!nit)}
+/* Kameraudsnittet: zoomer ind mod den bil, der kører, og ud igen, når den er fremme */
+function rView(now){const x=rProg(now);if(!RA||x<=0||x>=1)return RVB.join(' ');
+  const it=RA.items.find(i=>i.k===RA.k)||RA.items[0],p=rPoseAt(it,ease(x)),env=Math.min(1,Math.sin(Math.PI*x)*1.7),z=1+(RA.fin?.8:.42)*env,w=1000/z,h=660/z;
+  return `${(500+(p.x-500)*env*.8-w/2).toFixed(1)} ${(330+(p.y-330)*env*.8-h/2).toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`}
+function rPuff(g,it,p){const a=p.t*RAD,x=p.x-Math.cos(a)*36,y=p.y-Math.sin(a)*36;
+  const mk=(cls,r,cx,cy)=>{const c=document.createElementNS(SVGNS,'circle');c.setAttribute('cx',cx.toFixed(1));c.setAttribute('cy',cy.toFixed(1));c.setAttribute('r',r);c.setAttribute('class',cls);g.appendChild(c);return c};
+  const c=mk('rsm'+(it.s?' dk':RA.nitro?' nt':''),it.s?10:RA.nitro?8:5.5,x+(Math.random()-.5)*10,y+(Math.random()-.5)*10);c.addEventListener('animationend',()=>c.remove());
+  if(it.s)mk('rsk',3.5,p.x+Math.cos(p.h*RAD)*20,p.y+Math.sin(p.h*RAD)*20)}
+function rStep(now){if(!RA)return;const x=rProg(now),e=ease(x),run=x>0&&x<1,g=document.getElementById('rfx'),puff=run&&g&&now-RA.last>42;
+  RA.items.forEach(it=>{const el=document.getElementById('rc'+it.k);if(!el)return;const p=rPoseAt(it,e);rApply(el,p,run,run&&RA.nitro);if(puff)rPuff(g,it,p)});
+  if(puff)RA.last=now;
+  const sv=document.getElementById('rsvg');if(sv)sv.setAttribute('viewBox',rView(now));
   if(x<1)requestAnimationFrame(rStep);else RA=null}
 /* --- tegninger --- */
-const carTop=(k,u)=>{const c=CARS[k];return `<ellipse cx="2" cy="4" rx="32" ry="14" fill="#000" opacity=".32"/>
-  <g class="flame"><path d="M-32-5-52 0-32 5Z" fill="#ff8a1e"/><path d="M-32-2.5-44 0-32 2.5Z" fill="#fff3b0"/></g>
-  ${[[-25,-17],[-25,9],[14,-16],[14,9]].map(([x,y],i)=>`<rect x="${x}" y="${y}" width="${i<2?13:11}" height="${i<2?8:7}" rx="2.5" fill="#101114" stroke="#2c2f36" stroke-width="1"/>`).join('')}
-  <path d="M-12-12h24M-12 12h24" stroke="#1a1c22" stroke-width="2"/>
-  <path d="M35 0C35-3 29-4 22-4L10-5 4-10H-20L-26-6V6L-20 10H4L10 5 22 4C29 4 35 3 35 0Z" fill="url(#${u}B${k})" stroke="#07080c" stroke-width="1.6" stroke-linejoin="round"/>
-  <rect x="27" y="-15" width="6" height="30" rx="2" fill="${c.c[1]}" stroke="#07080c" stroke-width="1.4"/><rect x="-34" y="-14" width="7" height="28" rx="2" fill="${c.c[1]}" stroke="#07080c" stroke-width="1.4"/>
-  <path d="M-24 0H32" stroke="${c.s}" stroke-width="3" stroke-linecap="round"/><path d="M-18-7H6" stroke="#fff" stroke-width="1.5" opacity=".45" stroke-linecap="round"/>
-  <ellipse cx="0" cy="0" rx="7.5" ry="5" fill="#0b0d12"/><circle cx="-1" cy="0" r="3.6" fill="${c.s}" stroke="#07080c" stroke-width="1"/>`};
-const carNum=k=>`<circle r="6.2" fill="#fff" stroke="#07080c" stroke-width="1.4"/><text y="3.4" text-anchor="middle" font-size="9.5" font-weight="900" fill="#07080c" font-family="Poppins,sans-serif">${k+1}</text>`;
-function carG(k,p,drv,u,lead,fans){return `<g id="${u==='r'?'rc'+k:''}" class="rcar ${drv?'drv':''}" transform="translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})"><g class="rot" transform="rotate(${p.h.toFixed(1)})">${carTop(k,u)}</g>
-  <g class="num" transform="translate(${(-15*Math.cos(p.h*RAD)).toFixed(1)} ${(-15*Math.sin(p.h*RAD)).toFixed(1)})">${carNum(k)}</g>
-  ${lead?`<g transform="translate(0 -34)"><rect x="-17" y="-11" width="34" height="20" rx="6" fill="#ffd34d" stroke="#07080c" stroke-width="2"/><text y="4.5" text-anchor="middle" font-size="13" font-weight="900" fill="#07080c" font-family="Poppins,sans-serif">P1</text></g>`:''}
-  ${fans&&fans.length?`<g transform="translate(${-(fans.length-1)*8} 30)">${fans.map((q,j)=>`<circle cx="${j*16}" r="7" fill="${HEX[q]}" stroke="#fff" stroke-width="2"/>`).join('')}</g>`:''}</g>`}
+const carTop=(k,u)=>{const c=CARS[k];return `<ellipse cx="2" cy="5" rx="34" ry="15" fill="#000" opacity=".34"/>
+  <g class="rfl"><path d="M-33-6-58 0-33 6Z" fill="#ff8a1e"/><path d="M-33-3-47 0-33 3Z" fill="#fff3b0"/></g>
+  <path d="M-19-9V-13M-19 9V13M18-4V-12M18 4V12M-14-9V-13M-14 9V13" stroke="#23252c" stroke-width="1.6"/>
+  ${[[-26,-18],[-26,9],[13,-17],[13,9]].map(([x,y],i)=>`<rect x="${x}" y="${y}" width="${i<2?14:12}" height="${i<2?9:8}" rx="3" fill="#0c0d10" stroke="#34373f" stroke-width="1"/><path d="M${x+2.5} ${y+2}h${i<2?9:7}" stroke="#4a4e58" stroke-width="1.2" stroke-linecap="round"/>`).join('')}
+  <path d="M-22-11.5H7L13-6V6L7 11.5H-22Z" fill="#14151b" stroke="#07080c" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M35 0C35-2.6 30-3 24-3.2L12-4.6 6-9.5H-15L-25-6.5V6.5L-15 9.5H6L12 4.6 24 3.2C30 3 35 2.6 35 0Z" fill="url(#${u}B${k})" stroke="#07080c" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M3-9.2 8-6.5 3-6ZM3 9.2 8 6.5 3 6Z" fill="#07080c"/>
+  <path d="M27-16h6v32h-6z" fill="${c.c[1]}" stroke="#07080c" stroke-width="1.3" stroke-linejoin="round"/><path d="M26.5-16h7M26.5 16h7" stroke="${c.s}" stroke-width="2.4" stroke-linecap="round"/>
+  <rect x="-35" y="-14.5" width="8" height="29" rx="2" fill="${c.c[1]}" stroke="#07080c" stroke-width="1.3"/><path d="M-31-13V13" stroke="${c.s}" stroke-width="1.6" opacity=".9"/>
+  <path d="M-24 0H-9M10 0H32" stroke="${c.s}" stroke-width="3" stroke-linecap="round"/><path d="M-18-7H4" stroke="#fff" stroke-width="1.6" opacity=".5" stroke-linecap="round"/>
+  <ellipse cx="0" cy="0" rx="8.5" ry="5.4" fill="#0b0d12"/><circle cx="-1.5" cy="0" r="3.9" fill="${c.s}" stroke="#07080c" stroke-width="1"/><path d="M.6-2.6A3.9 3.9 0 0 1 .6 2.6" stroke="#07080c" stroke-width="1.8" fill="none"/>
+  <path d="M8 0 1-5.2H-4M8 0 1 5.2H-4" stroke="#262830" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`};
+const carNum=k=>`<circle r="6.6" fill="#fff" stroke="#07080c" stroke-width="1.4"/><text y="3.6" text-anchor="middle" font-size="10" font-weight="900" fill="#07080c" font-family="Poppins,sans-serif">${k+1}</text>`;
+/* Lille bil til knapperne, med sin egen farveovergang, så den også virker uden banen */
+const carIcon=k=>`<svg class="rci" viewBox="-40 -21 80 42" aria-hidden="true"><defs>${grad('pB'+k,[[0,CARS[k].c[1]],[.35,CARS[k].c[0]],[.65,CARS[k].c[0]],[1,CARS[k].c[1]]])}</defs>${carTop(k,'p')}<g transform="translate(-17 0)">${carNum(k)}</g></svg>`;
+function carG(k,p,drv,u,lead,fans){return `<g id="${u==='r'?'rc'+k:''}" class="rcar ${drv?'drv':''}" transform="translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})"><g class="rot" transform="rotate(${p.h.toFixed(1)})"><g transform="scale(1.14)">${carTop(k,u)}</g></g>
+  <g class="num" transform="translate(${(-17*Math.cos(p.h*RAD)).toFixed(1)} ${(-17*Math.sin(p.h*RAD)).toFixed(1)})">${carNum(k)}</g>
+  ${lead?`<g transform="translate(0 -37)"><rect x="-17" y="-11" width="34" height="20" rx="6" fill="#ffd34d" stroke="#07080c" stroke-width="2"/><text y="4.5" text-anchor="middle" font-size="13" font-weight="900" fill="#07080c" font-family="Poppins,sans-serif">P1</text></g>`:''}
+  ${fans&&fans.length?`<g transform="translate(${-(fans.length-1)*8} 32)">${fans.map((q,j)=>`<circle cx="${j*16}" r="7.5" fill="${HEX[q]}" stroke="#fff" stroke-width="2.2"/>`).join('')}</g>`:''}</g>`}
 function raceDefs(u){return `<defs><pattern id="${u}M" width="44" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(28)"><rect width="22" height="44" fill="#4caa52"/><rect x="22" width="22" height="44" fill="#45a04b"/></pattern>
   ${CARS.map((c,k)=>grad(u+'B'+k,[[0,c.c[1]],[.35,c.c[0]],[.65,c.c[0]],[1,c.c[1]]])).join('')}${rgrad(u+'Glow',[[0,'#ff4436',.9],[1,'#ff4436',0]])}${rgrad(u+'GlowG',[[0,'#3dff8a',.9],[1,'#3dff8a',0]])}
+  ${rgrad(u+'Pool',[[0,'#fff',.13],[1,'#fff',0]])}${grad(u+'Shd',[[0,'#000',.3],[1,'#000',0]])}
   ${grad(u+'Roof',[[0,'#26324a'],[1,'#121a2a']])}${grad(u+'Jt',[[0,'#141c30'],[1,'#0a0f1c']])}</defs>`}
 const RBG={};
 function raceBg(u){if(RBG[u])return RBG[u];
   const x0=TCX-TL/2,x1=TCX+TL/2,loop=rr=>`M${x0} ${TCY+rr}H${x1}A${rr} ${rr} 0 0 0 ${x1} ${TCY-rr}H${x0}A${rr} ${rr} 0 0 0 ${x0} ${TCY+rr}Z`;
   const arcR=rr=>`M${x1} ${TCY+rr}A${rr} ${rr} 0 0 0 ${x1} ${TCY-rr}`,arcL=rr=>`M${x0} ${TCY-rr}A${rr} ${rr} 0 0 0 ${x0} ${TCY+rr}`;
-  const seg=(a,b)=>{let s='';for(let v=a;v<=b+.1;v+=(b-a)/14){const p=tp(v);s+=`${s?'L':'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`}return s};
+  const seg=(a,b,l=0)=>{let s='';for(let v=a;v<=b+.1;v+=(b-a)/14){const p=carXY(v,l);s+=`${s?'L':'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`}return s};
   const kerb=rr=>[arcR(rr),arcL(rr)].map(d=>`<path d="${d}" stroke="#f4f1ea" stroke-width="10" fill="none"/><path d="${d}" stroke="#d8302a" stroke-width="10" stroke-dasharray="13 13" fill="none"/>`).join('');
-  const OUT=TW/2;
-  const fans=Array.from({length:6},(_,g)=>`<g class="rfan" style="--d:${-g*.21}s">${Array.from({length:150},(_,i)=>i%6!==g?'':`<circle cx="${6+(i%75)*13.3+(i>74?6:0)}" cy="${i>74?36:22}" r="5" fill="${['#ff5240','#3d8bff','#ffc23a','#ffffff','#1fb36b','#ff8fb1','#f4d6b0','#a77bff'][Math.floor(rnd(i,31)*8)]}"/>`).join('')}</g>`).join('');
+  const OUT=TW/2,PAL=['#ff5240','#3d8bff','#ffc23a','#ffffff','#1fb36b','#ff8fb1','#f4d6b0','#a77bff'];
+  const fans=Array.from({length:6},(_,g)=>`<g class="rfan" style="--d:${-g*.21}s">${Array.from({length:150},(_,i)=>i%6!==g?'':`<circle cx="${6+(i%75)*13.3+(i>74?6:0)}" cy="${i>74?36:22}" r="5" fill="${PAL[Math.floor(rnd(i,31)*8)]}"/>`).join('')}</g>`).join('');
+  /* Fotografernes blitz på tribunen */
+  const flashes=Array.from({length:16},(_,i)=>`<circle class="rflash" cx="${(30+rnd(i,5)*940).toFixed(0)}" cy="${(16+rnd(i,9)*24).toFixed(0)}" r="6" fill="#fff" style="animation-delay:${(-rnd(i,3)*4.3).toFixed(2)}s;animation-duration:${(3.1+rnd(i,7)*2.6).toFixed(2)}s"/>`).join('');
   const tree=(x,y,r)=>`<circle cx="${x+4}" cy="${y+5}" r="${r}" fill="#000" opacity=".22"/><circle cx="${x}" cy="${y}" r="${r}" fill="#24733a" stroke="#123d1e" stroke-width="2"/><circle cx="${x-r*.3}" cy="${y-r*.3}" r="${r*.45}" fill="#3a9a52"/>`;
   const tires=(cx,a0,a1)=>Array.from({length:22},(_,i)=>{const a=(a0+(a1-a0)*i/21)*RAD,rr=TR+OUT+52;return `<circle cx="${(cx+rr*Math.cos(a)).toFixed(1)}" cy="${(TCY+rr*Math.sin(a)).toFixed(1)}" r="7" fill="${i%2?'#16171b':'#e9e9e9'}" stroke="#0a0a0c" stroke-width="2"/>`}).join('');
   const nums=Array.from({length:RLEN},(_,i)=>{const p=carXY((i+.5)*FL,OUT+20);return `<g transform="translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})"><circle r="14" fill="#081624" stroke="#fff" stroke-width="2.5"/><text y="5" text-anchor="middle" font-size="14" font-weight="800" fill="#fff" font-family="Poppins,sans-serif">${i+1}</text></g>`}).join('');
   const lines=Array.from({length:RLEN-1},(_,i)=>{const a=carXY((i+1)*FL,-OUT+6),b=carXY((i+1)*FL,OUT-6);return `<path d="M${a.x.toFixed(1)} ${a.y.toFixed(1)}L${b.x.toFixed(1)} ${b.y.toFixed(1)}" stroke="rgba(255,255,255,.42)" stroke-width="3" stroke-dasharray="9 7"/>`}).join('');
   const shade=Array.from({length:RLEN},(_,i)=>i%2?`<path d="${seg(i*FL,(i+1)*FL)}" stroke="rgba(255,255,255,.045)" stroke-width="${TW-6}" fill="none"/>`:'').join('');
+  /* Bremsespor ind i svingene og startbåse på langsiden */
+  const skid=[[TL-U0-70,TL-U0+130,22],[TL-U0-30,TL-U0+190,-16],[PER-U0-Math.PI*TR-60,PER-U0-Math.PI*TR+150,20],[PER-U0-Math.PI*TR-20,PER-U0-Math.PI*TR+200,-20]]
+    .map(([a,b,l])=>`<path d="${seg(a,b,l)}" stroke="#000" stroke-opacity=".3" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="${seg(a+12,b-20,l+15)}" stroke="#000" stroke-opacity=".24" stroke-width="3.5" fill="none" stroke-linecap="round"/>`).join('');
+  const grid=[1,2,3].map(f=>[0,1,2].map(j=>{const p=carXY((f-.5)*FL+(1-j)*26+42,LANE[j]);return `<path d="M${(p.x-9).toFixed(1)} ${p.y-17}h9v34h-9" stroke="#fff" stroke-opacity=".7" stroke-width="2.6" fill="none"/>`}).join('')).join('');
+  const pools=[[x0,TCY-TR],[x1,TCY-TR],[x0,TCY+TR],[x1,TCY+TR],[TCX,TCY-TR],[TCX,TCY+TR]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="170" fill="url(#${u}Pool)"/>`).join('');
   const f0=tp(0),chk=`<g transform="translate(${f0.x} ${f0.y})">${Array.from({length:12},(_,j)=>[0,1].map(i=>`<rect x="${-8+i*8}" y="${-OUT+j*TW/12}" width="8" height="${TW/12}" fill="${(i+j)%2?'#111':'#f6f6f6'}"/>`).join('')).join('')}</g>`;
-  const garages=CARS.map((c,k)=>`<g transform="translate(${178+k*112} 622)"><rect width="104" height="40" fill="#dfe5ee" stroke="#081624" stroke-width="2.5"/><rect x="10" y="10" width="84" height="30" fill="url(#${u}B${k})" stroke="#081624" stroke-width="2"/>${[0,1,2,3].map(j=>`<path d="M10 ${17+j*6.5}H94" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/>`).join('')}<text x="52" y="8.5" text-anchor="middle" font-size="8.5" font-weight="800" fill="#081624" font-family="Poppins,sans-serif">${k+1} ${c.n.toUpperCase()}</text></g>`).join('');
+  /* Pitten: pitbane, mekanikere ved hver bås, garager og lastbiler i paddocken */
+  const pit=CARS.map((c,k)=>{const x=178+k*112;return `<g transform="translate(${x} 0)"><rect x="6" y="630" width="92" height="30" rx="3" fill="${c.c[0]}" fill-opacity=".22" stroke="${c.c[0]}" stroke-width="3"/><text x="52" y="651" text-anchor="middle" font-size="17" font-weight="900" fill="#fff" fill-opacity=".85" font-family="Poppins,sans-serif">${k+1}</text>
+    ${[[14,636],[14,654],[90,636],[90,654]].map(([a,b])=>`<circle cx="${a}" cy="${b}" r="5" fill="${c.c[0]}" stroke="#07080c" stroke-width="1.6"/><circle cx="${a}" cy="${b}" r="2" fill="#07080c"/>`).join('')}
+    <rect y="668" width="104" height="62" fill="#dfe5ee" stroke="#081624" stroke-width="2.5"/><rect x="8" y="668" width="88" height="20" fill="url(#${u}B${k})" stroke="#081624" stroke-width="2"/>${[0,1,2].map(j=>`<path d="M8 ${673+j*5}H96" stroke="rgba(0,0,0,.25)" stroke-width="1.4"/>`).join('')}
+    <text x="52" y="705" text-anchor="middle" font-size="10.5" font-weight="900" fill="#081624" font-family="Poppins,sans-serif">${c.n.toUpperCase()}</text><rect x="14" y="712" width="20" height="12" rx="2" fill="#b9c2cf" stroke="#7d8794" stroke-width="1.5"/><rect x="70" y="712" width="20" height="12" rx="2" fill="#b9c2cf" stroke="#7d8794" stroke-width="1.5"/>
+    <rect x="4" y="752" width="74" height="28" rx="3" fill="${c.c[0]}" stroke="#07080c" stroke-width="2.2"/><path d="M4 766H78" stroke="${c.s}" stroke-width="4"/><rect x="80" y="754" width="20" height="24" rx="4" fill="#20232b" stroke="#07080c" stroke-width="2.2"/><rect x="90" y="757" width="7" height="18" rx="2" fill="#8fd0ff"/></g>`}).join('');
   const flags=[150,300,700,850].map((x,i)=>`<path d="M${x} 606V580" stroke="#081624" stroke-width="2.5"/><path class="rflag" d="M${x} 580h22l-4 6 4 6h-22z" fill="${['#ff5240','#ffc23a','#3d8bff','#1fb36b'][i]}" stroke="#081624" stroke-width="1.5" style="animation-delay:${-i*.17}s"/>`).join('');
-  return RBG[u]=`<rect x="-200" y="-100" width="1400" height="860" fill="url(#${u}M)"/>
+  /* Parkeringspladsen bag tribunen (kun synlig, når banen står i højformat) */
+  const park=[-176,-150].map((y,r)=>Array.from({length:52},(_,i)=>rnd(i,r+2)<.2?'':`<rect x="${-120+i*24}" y="${y}" width="15" height="9" rx="2.5" fill="${['#c9ced6','#2b3d6b','#8a1f1a','#e9e9e9','#1d1f25','#2f6b46','#d9b23a','#7d8794'][Math.floor(rnd(i,r+11)*8)]}" stroke="#0b0d12" stroke-width="1"/>`).join('')).join('');
+  return RBG[u]=`<rect x="-200" y="-240" width="1400" height="1140" fill="url(#${u}M)"/>
    <path d="${arcR(TR+OUT+24)}" stroke="#e6d39f" stroke-width="44" fill="none"/><path d="${arcL(TR+OUT+24)}" stroke="#e6d39f" stroke-width="44" fill="none"/>
    ${tires(x1,-70,70)}${tires(x0,110,250)}
    <path d="${loop(TR)}" stroke="#f4f1ea" stroke-width="${TW+10}" fill="none"/><path d="${loop(TR)}" stroke="#383b44" stroke-width="${TW}" fill="none"/>${shade}
-   <path d="${loop(TR-8)}" stroke="rgba(0,0,0,.16)" stroke-width="30" fill="none"/>${kerb(TR+OUT-4)}${kerb(TR-OUT+4)}${lines}${chk}${nums}
-   <rect x="-200" y="-100" width="1400" height="160" fill="url(#${u}Roof)"/><rect x="-200" y="8" width="1400" height="4" fill="#3a4a66"/>${[120,380,620,880].map(x=>`<g><rect x="${x-34}" y="-46" width="68" height="20" rx="4" fill="#0d1322" stroke="#3a4a66" stroke-width="2"/>${[-24,-12,0,12,24].map(d=>`<circle cx="${x+d}" cy="-36" r="4.5" fill="#fff6d8"/>`).join('')}</g>`).join('')}<text x="500" y="-12" text-anchor="middle" font-size="22" font-weight="900" fill="#ffd34d" letter-spacing="6" font-family="Poppins,sans-serif" opacity=".9">GRAND PRIX</text>${fans}
+   <path d="${loop(TR-8)}" stroke="rgba(0,0,0,.16)" stroke-width="30" fill="none"/>${skid}${kerb(TR+OUT-4)}${kerb(TR-OUT+4)}${lines}${grid}${chk}${pools}${nums}
+   <rect x="-200" y="-240" width="1400" height="122" fill="#30343c"/><path d="M-200-163H1200" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-dasharray="15 9"/>${park}
+   <rect x="-200" y="-120" width="1400" height="180" fill="url(#${u}Roof)"/>${Array.from({length:15},(_,i)=>`<path d="M${-160+i*95}-120V8" stroke="#0b1120" stroke-opacity=".55" stroke-width="3"/>`).join('')}<rect x="-200" y="8" width="1400" height="4" fill="#3a4a66"/>${[120,380,620,880].map(x=>`<g><rect x="${x-34}" y="-46" width="68" height="20" rx="4" fill="#0d1322" stroke="#3a4a66" stroke-width="2"/>${[-24,-12,0,12,24].map(d=>`<circle cx="${x+d}" cy="-36" r="4.5" fill="#fff6d8"/>`).join('')}</g>`).join('')}<text x="500" y="-12" text-anchor="middle" font-size="22" font-weight="900" fill="#ffd34d" letter-spacing="6" font-family="Poppins,sans-serif" opacity=".9">GRAND PRIX</text>${fans}${flashes}
    <rect x="-200" y="46" width="1400" height="16" fill="#fff" stroke="#081624" stroke-width="2.5"/>${Array.from({length:7},(_,i)=>`<g transform="translate(${i*150} 0)"><rect x="4" y="48" width="62" height="12" fill="${['#ff5240','#3d8bff','#ffc23a','#1fb36b','#ff5240','#3d8bff','#ffc23a'][i]}"/><text x="105" y="58.5" text-anchor="middle" font-size="12" font-weight="900" fill="#081624" font-family="Poppins,sans-serif" letter-spacing="1">LDA GP</text></g>`).join('')}
-   <rect x="-200" y="606" width="1400" height="16" fill="#555a64"/><path d="M-200 606H1200" stroke="#fff" stroke-width="3" stroke-dasharray="20 14"/><rect x="-200" y="622" width="1400" height="200" fill="#c9d2de"/>${garages}${flags}
-   ${tree(30,112,22)}${tree(64,96,16)}${tree(972,112,22)}${tree(940,96,15)}${tree(36,566,24)}${tree(966,566,24)}${tree(86,590,14)}${tree(914,590,14)}`}
+   <rect x="-200" y="62" width="1400" height="22" fill="url(#${u}Shd)"/>
+   <rect x="-200" y="606" width="1400" height="16" fill="#555a64"/><path d="M-200 606H1200" stroke="#fff" stroke-width="3" stroke-dasharray="20 14"/>
+   <rect x="-200" y="622" width="1400" height="118" fill="#474b55"/><path d="M-200 627H1200" stroke="#ffd34d" stroke-opacity=".8" stroke-width="2.5"/><rect x="-200" y="740" width="1400" height="160" fill="#3a3d46"/>
+   <g transform="translate(120 646)"><circle r="15" fill="#fff" stroke="#d8302a" stroke-width="5"/><text y="5" text-anchor="middle" font-size="13" font-weight="900" fill="#081624" font-family="Poppins,sans-serif">60</text></g><text x="905" y="652" text-anchor="middle" font-size="20" font-weight="900" fill="#fff" fill-opacity=".7" letter-spacing="4" font-family="Poppins,sans-serif">PIT</text>
+   ${pit}${flags}
+   ${tree(30,112,22)}${tree(64,96,16)}${tree(972,112,22)}${tree(940,96,15)}${tree(36,566,24)}${tree(966,566,24)}${tree(86,590,14)}${tree(914,590,14)}${tree(60,820,26)}${tree(950,826,24)}${tree(110,850,16)}`}
+const rTxt=(x,y,t,sz,fill,a='start',w=800)=>`<text x="${x}" y="${y}" text-anchor="${a}" font-size="${sz}" font-weight="${w}" fill="${fill}" font-family="Poppins,sans-serif">${t}</text>`;
 function raceHud(r,u){const o=rRank(r),x=286,y=232;
-  const rows=o.map((k,i)=>{const c=CARS[k],yy=y+56+i*24,top=r.tick[k][0],chips=r.bets.filter(b=>b.car===k);
-    return `<g opacity="${r.moved[k]&&!r.over?.62:1}"><text x="${x+16}" y="${yy+5}" text-anchor="middle" font-size="15" font-weight="900" fill="${i===0?'#ffd34d':'#c9d4e6'}" font-family="Poppins,sans-serif">${i+1}</text>
-     <rect x="${x+32}" y="${yy-8}" width="24" height="16" rx="4" fill="url(#${u}B${k})" stroke="#07080c" stroke-width="1.5"/><text x="${x+44}" y="${yy+4}" text-anchor="middle" font-size="10" font-weight="900" fill="#07080c" font-family="Poppins,sans-serif">${k+1}</text>
-     <text x="${x+64}" y="${yy+5}" font-size="14.5" font-weight="800" fill="#fff" font-family="Poppins,sans-serif">${c.n}</text>
-     <text x="${x+176}" y="${yy+5}" text-anchor="middle" font-size="12" font-weight="700" fill="#9fb0c4" font-family="Poppins,sans-serif">${r.pos[k]>RLEN?'mål':'felt '+r.pos[k]}</text>
-     ${r.moved[k]&&!r.over?`<path d="M${x+218} ${yy}l5 5 9-10" stroke="#3ddc84" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`:`<circle cx="${x+226}" cy="${yy}" r="5" fill="none" stroke="#ffd34d" stroke-width="2"/>`}
-     ${top&&!r.over?`<rect x="${x+250}" y="${yy-10}" width="26" height="20" rx="5" fill="#ffd34d"/><text x="${x+263}" y="${yy+5}" text-anchor="middle" font-size="13" font-weight="900" fill="#081624" font-family="Poppins,sans-serif">${top}</text>`:`<text x="${x+263}" y="${yy+5}" text-anchor="middle" font-size="13" fill="#5b6b7d" font-family="Poppins,sans-serif">–</text>`}
+  const box=`<rect x="${x-4}" y="${y+4}" width="436" height="204" rx="16" fill="#000" opacity=".25"/><rect x="${x-8}" y="${y-2}" width="436" height="204" rx="16" fill="url(#${u}Jt)" stroke="#ffd34d" stroke-width="2.5"/>`;
+  /* Efter målflaget: podiet med de tre forreste biler og mønterne til dem, der heppede */
+  if(r.over&&r.fin&&r.fin.o)return box+rTxt(x+6,y+23,'🏁 PODIET',18,'#ffd34d','start',900)+rTxt(x+418,y+22,'Løbet er slut',12,'#c9d4e6','end',700)+r.fin.o.map((k,i)=>{const yy=y+62+i*50,p=r.fan.indexOf(k);
+    return `<circle cx="${x+22}" cy="${yy}" r="17" fill="${['#ffd34d','#cfd6e0','#d99560'][i]}" stroke="#07080c" stroke-width="2.5"/>${rTxt(x+22,yy+7,i+1,20,'#07080c','middle',900)}
+     <g transform="translate(${x+92} ${yy}) scale(1.05)">${carTop(k,u)}</g>${rTxt(x+144,yy+6,CARS[k].n,i?17:20,'#fff','start',900)}
+     ${p>=0?`<circle cx="${x+290}" cy="${yy}" r="10" fill="${HEX[p]}" stroke="#fff" stroke-width="2"/>${rTxt(x+306,yy+5,`${nm(p)} +${FANP[i]}`,14.5,'#ffd34d','start',800)}`:rTxt(x+280,yy+5,'ingen heppede',12,'#7f90a8','start',600)}`}).join('');
+  const rows=o.map((k,i)=>{const c=CARS[k],yy=y+56+i*24,top=r.tick[k][0],chips=r.bets.filter(b=>b.car===k),fp=r.fan.indexOf(k);
+    return `<g opacity="${r.moved[k]?.62:1}">${rTxt(x+16,yy+5,i+1,15,i===0?'#ffd34d':'#c9d4e6','middle',900)}
+     <rect x="${x+32}" y="${yy-8}" width="24" height="16" rx="4" fill="url(#${u}B${k})" stroke="#07080c" stroke-width="1.5"/>${rTxt(x+44,yy+4,k+1,10,'#07080c','middle',900)}
+     ${rTxt(x+64,yy+5,c.n,14.5,'#fff')}
+     ${fp>=0?`<circle cx="${x+176}" cy="${yy}" r="8" fill="${HEX[fp]}" stroke="#fff" stroke-width="2"/>`:''}
+     ${r.moved[k]?`<path d="M${x+218} ${yy}l5 5 9-10" stroke="#3ddc84" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`:`<circle cx="${x+226}" cy="${yy}" r="5" fill="none" stroke="#ffd34d" stroke-width="2"/>`}
+     ${top?`<rect x="${x+250}" y="${yy-10}" width="26" height="20" rx="5" fill="#ffd34d"/>${rTxt(x+263,yy+5,top,13,'#081624','middle',900)}`:rTxt(x+263,yy+5,'–',13,'#5b6b7d','middle',400)}
      ${chips.map((b,j)=>`<g transform="translate(${x+300+j*24} ${yy})"><circle r="10" fill="${HEX[b.p]}" stroke="#fff" stroke-width="1.8"/><text y="4.3" text-anchor="middle" font-size="11.5" font-weight="900" fill="${b.p===3?'#081624':'#fff'}" font-family="Poppins,sans-serif">${b.v}</text></g>`).join('')}</g>`}).join('');
   const lab=(xx,t,a)=>`<text x="${xx}" y="${y+34}" text-anchor="${a||'middle'}" font-size="10" font-weight="800" fill="#7f90a8" letter-spacing=".8" font-family="Poppins,sans-serif">${t}</text>`;
-  return `<rect x="${x-4}" y="${y+4}" width="436" height="204" rx="16" fill="#000" opacity=".25"/><rect x="${x-8}" y="${y-2}" width="436" height="204" rx="16" fill="url(#${u}Jt)" stroke="#ffd34d" stroke-width="2.5"/>
-   <text x="${x+6}" y="${y+21}" font-size="17" font-weight="900" fill="#ffd34d" font-family="Poppins,sans-serif">${r.over?'MÅLFLAG':'OMGANG '+r.leg}</text>
-   <text x="${x+418}" y="${y+21}" text-anchor="end" font-size="12" font-weight="700" fill="#c9d4e6" font-family="Poppins,sans-serif">${r.over?'Løbet er slut':`${rLeft(r).length} ${rLeft(r).length===1?'bil mangler':'biler mangler'} at køre`}</text>
-   ${lab(x+6,'NR.','start')}${lab(x+176,'HVOR')}${lab(x+226,'KØRT')}${lab(x+263,'BILLET')}${lab(x+300,'JERES BILLETTER','start')}${rows}`}
+  return `${box}${rTxt(x+6,y+21,'OMGANG '+r.leg,17,'#ffd34d','start',900)}
+   ${rTxt(x+418,y+21,`${rLeft(r).length} ${rLeft(r).length===1?'bil mangler':'biler mangler'} at køre`,12,'#c9d4e6','end',700)}
+   ${lab(x+6,'NR.','start')}${lab(x+176,'HEPPER')}${lab(x+226,'KØRT')}${lab(x+263,'BILLET')}${lab(x+300,'JERES BILLETTER','start')}${rows}`}
 function racePiles(r){const f=r.fan||[],cx=TCX-TL/2-56,lab=(x,y,t)=>`<text x="${x}" y="${y}" text-anchor="middle" font-size="11" font-weight="900" fill="#fff" stroke="#14321a" stroke-width="3" paint-order="stroke" letter-spacing=".8" font-family="Poppins,sans-serif">${t}</text>`;
   const rows=f.map((k,p)=>`<g transform="translate(${cx-20} ${TCY-24+p*24})"><circle r="9" fill="${HEX[p]}" stroke="#fff" stroke-width="2"/>${k>=0?`<rect x="15" y="-9" width="28" height="18" rx="4" fill="url(#rB${k})" stroke="#07080c" stroke-width="1.5"/><text x="29" y="4" text-anchor="middle" font-size="11" font-weight="900" fill="#07080c" font-family="Poppins,sans-serif">${k+1}</text>`:`<text x="22" y="5" font-size="15" font-weight="900" fill="#fff" stroke="#14321a" stroke-width="3" paint-order="stroke" font-family="Poppins,sans-serif">?</text>`}</g>`).join('');
   const tx=TCX+TL/2+56;
-  return lab(cx,TCY-44,'HEPPEBILER')+rows+lab(tx,TCY-44,'VINDER')+`<g transform="translate(${tx} ${TCY-6}) scale(.5)"><path d="M-22-30h44v26a22 22 0 0 1-44 0z" fill="#ffc23a" stroke="#3a2408" stroke-width="5"/><path d="M-22-22h-16q0 20 18 22M22-22h16q0 20-18 22" fill="none" stroke="#3a2408" stroke-width="5"/><path d="M-6 18h12v14h-12z" fill="#e19a00" stroke="#3a2408" stroke-width="5"/><rect x="-20" y="32" width="40" height="14" rx="4" fill="#c98a12" stroke="#3a2408" stroke-width="5"/></g>`+lab(tx,TCY+34,`heppebil +${FANW}`)}
+  return lab(cx,TCY-44,'HEPPEBILER')+rows+lab(tx,TCY-44,'PODIET')+`<g transform="translate(${tx} ${TCY-10}) scale(.46)"><path d="M-22-30h44v26a22 22 0 0 1-44 0z" fill="#ffc23a" stroke="#3a2408" stroke-width="5"/><path d="M-22-22h-16q0 20 18 22M22-22h16q0 20-18 22" fill="none" stroke="#3a2408" stroke-width="5"/><path d="M-6 18h12v14h-12z" fill="#e19a00" stroke="#3a2408" stroke-width="5"/><rect x="-20" y="32" width="40" height="14" rx="4" fill="#c98a12" stroke="#3a2408" stroke-width="5"/></g>`
+   +FANP.map((v,i)=>`<g transform="translate(${tx-30+i*30} ${TCY+34})"><circle r="12" fill="${['#ffd34d','#cfd6e0','#d99560'][i]}" stroke="#14321a" stroke-width="2.5"/><text y="4.5" text-anchor="middle" font-size="12" font-weight="900" fill="#07080c" font-family="Poppins,sans-serif">+${v}</text></g>`).join('')}
 function raceTileArt(r,t,u){return r.tiles.map(x=>{const p=carXY((x.f-.5)*FL,0);return `<g transform="translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${p.h.toFixed(1)})"><g class="rtile">${x.t>0
    ?`<rect x="-28" y="-24" width="56" height="48" rx="9" fill="#13c06a" stroke="#fff" stroke-width="4"/><path d="M-15-12-3 0-15 12M1-12 13 0 1 12" stroke="#fff" stroke-width="5.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`
    :`<path d="M-26-6C-28-22-8-27 0-20 10-29 31-18 24-5 33 7 20 25 4 18-6 29-29 21-22 7-32 3-30-4-26-6Z" fill="#0b0b10" stroke="#5b6170" stroke-width="3"/><ellipse cx="-4" cy="-6" rx="10" ry="4" fill="#7a6bff" opacity=".5"/><ellipse cx="6" cy="6" rx="6" ry="2.5" fill="#3de0ff" opacity=".35"/>`}</g></g>`}).join('')}
-function raceGantry(r){const a=carXY(-16,-TW/2-16),b=carXY(-16,TW/2+16),lit=!r.rolls,m=carXY(-16,0);
+/* Startportalen. Ved løbets første slag tænder de fem røde lys ét ad gangen og slukker så: lights out!
+   st er sekunder siden startsekvensen begyndte, så den fortsætter rigtigt, selv om skærmen tegnes igen undervejs */
+function raceGantry(r,st){const a=carXY(-16,-TW/2-16),b=carXY(-16,TW/2+16),lit=!r.rolls,seq=st!==null,dl=s=>`style="animation-delay:${(s-(st||0)).toFixed(2)}s"`;
+  const fp=carXY(-16,TW/2+34);
   return `<path d="M${a.x+5} ${a.y+8}L${b.x+5} ${b.y+8}" stroke="#000" stroke-width="16" opacity=".25"/><path d="M${a.x} ${a.y}L${b.x} ${b.y}" stroke="#1c2029" stroke-width="16" stroke-linecap="round"/>
-   ${[-2,-1,0,1,2].map(i=>{const p=carXY(-16,i*20);return `${lit?`<circle class="rlit" cx="${p.x}" cy="${p.y}" r="14" fill="url(#rGlow)"/>`:''}<circle cx="${p.x}" cy="${p.y}" r="5.5" fill="${lit?'#ff3b30':'#2ecc71'}" stroke="#07080c" stroke-width="1.5"/>`}).join('')}
-   <circle cx="${m.x}" cy="${m.y}" r="0"/>`}
-function raceScene(){const r=S.rc;if(!r)return '';const t=S.turn,P=rPlaces(),o=rRank(r),f=FX&&FX.kind==='rban'?FX:null,now=performance.now();
-  const pose=k=>{const it=RA&&RA.items.find(i=>i.k===k);if(it){const x=Math.min(1,(now-RA.t0)/RA.dur);return [rPoseAt(it,ease(x)),x<1]}return [carXY(P[k].u,P[k].l),false]};
+   ${[-2,-1,0,1,2].map(i=>{const p=carXY(-16,i*20);return `${lit?`<circle class="rlit" cx="${p.x}" cy="${p.y}" r="14" fill="url(#rGlow)"/>`:''}<circle cx="${p.x}" cy="${p.y}" r="5.5" fill="${seq?'#2a2d36':lit?'#ff3b30':'#2ecc71'}" stroke="#07080c" stroke-width="1.5"/>`}).join('')}
+   ${seq?`<g class="roff" ${dl(2.2)}><rect x="335" y="92" width="330" height="86" rx="18" fill="#000" opacity=".3" transform="translate(5 7)"/><rect x="335" y="92" width="330" height="86" rx="18" fill="#12151c" stroke="#3a4a66" stroke-width="4"/>
+     ${[0,1,2,3,4].map(i=>`<circle cx="${380+i*60}" cy="135" r="23" fill="#2a2d36" stroke="#07080c" stroke-width="3"/>`).join('')}
+     <g class="roff" ${dl(1.65)}>${[0,1,2,3,4].map(i=>`<g class="ron" ${dl(i*.3)}><circle cx="${380+i*60}" cy="135" r="44" fill="url(#rGlow)"/><circle cx="${380+i*60}" cy="135" r="23" fill="#ff3b30" stroke="#07080c" stroke-width="3"/><circle cx="${372+i*60}" cy="127" r="6" fill="#fff" opacity=".5"/></g>`).join('')}</g></g>`:''}
+   ${r.over?`<path d="M${fp.x} ${fp.y+10}V${fp.y-44}" stroke="#081624" stroke-width="4" stroke-linecap="round"/><g class="rflag" transform="translate(${fp.x} ${fp.y-44})">${Array.from({length:15},(_,i)=>`<rect x="${(i%5)*11}" y="${Math.floor(i/5)*10}" width="11" height="10" fill="${(i%5+Math.floor(i/5))%2?'#111':'#fff'}"/>`).join('')}<rect width="55" height="30" fill="none" stroke="#081624" stroke-width="2"/></g>`:''}`}
+const raceFw=()=>[[250,150,'#ffd34d',0],[735,135,'#ff5e7a',.5],[500,96,'#7fd4ff',.95],[130,400,'#9dff8a',1.35],[870,420,'#ffb347',.3],[420,560,'#ff7af0',1.7],[640,470,'#fff',1.1]].map(([x,y,c,d])=>
+  `<g transform="translate(${x} ${y})"><g class="rfw" style="animation-delay:${d}s">${Array.from({length:12},(_,i)=>{const a=i*30*RAD,cs=Math.cos(a),sn=Math.sin(a);return `<path d="M${(cs*12).toFixed(1)} ${(sn*12).toFixed(1)}L${(cs*46).toFixed(1)} ${(sn*46).toFixed(1)}" stroke="${c}" stroke-width="5" stroke-linecap="round"/><circle cx="${(cs*58).toFixed(1)}" cy="${(sn*58).toFixed(1)}" r="4" fill="#fff"/>`}).join('')}</g></g>`).join('');
+function raceScene(){const r=S.rc;if(!r)return '';const t=S.turn,P=rPlaces(),o=rRank(r),f=FX&&FX.kind==='rban'?FX:null,now=performance.now(),st=f&&f.start?(now-f.start)/1000:null;
+  const pose=k=>{const it=RA&&RA.items.find(i=>i.k===k);if(it){const x=rProg(now);return [rPoseAt(it,ease(x)),x>0&&x<1]}return [carXY(P[k].u,P[k].l),false]};
   const cars=ALL6.slice().sort((a,b)=>P[a].u-P[b].u).map(k=>{const [p,d]=pose(k);return carG(k,p,d,'r',k===o[0]&&r.rolls>0,(r.fan||[]).map((c,q)=>c===k?q:-1).filter(q=>q>=0))}).join('');
-  const ban=f?banner(f.ban).replace('class="banner"','class="banner gold"'):r.over?banner(`${CARS[r.fin.w].n} vinder!`).replace('class="banner"','class="banner gold"'):'';
+  const gold=(s,x='')=>banner(s).replace('class="banner"',`class="banner gold"${x}`);
+  const ban=f?gold(f.ban,st!==null?` style="animation-delay:${(1.65-st).toFixed(2)}s"`:''):r.over?gold(`${CARS[r.fin.w].n} vinder!`):'';
   const pay=f&&f.pay?`<div class="rpay"><b>Omgang ${f.pay.leg}: ${CARS[f.pay.first].n} førte</b>${f.pay.gain.map((g,p)=>`<span style="--c:${COL[p]}">${nm(p)} <em class="${g<0?'neg':''}">${g>0?'+':''}${g}</em></span>`).join('')}</div>`:'';
-  return `<div class="scene racing ${f&&f.shake?'shake':''}"><svg class="dart" viewBox="0 0 1000 660" preserveAspectRatio="xMidYMid meet" aria-label="Racerbanen">${raceDefs('r')}${raceBg('r')}${raceGantry(r)}${raceHud(r,'r')}${racePiles(r)}${raceTileArt(r,t,'r')}${cars}</svg>${ban}${pay}</div>`}
+  return `<div class="scene racing ${f&&f.shake?'shake':''} ${r.over?'rdone':''}"><svg id="rsvg" class="dart" viewBox="${rView(now)}" preserveAspectRatio="xMidYMid meet" aria-label="Racerbanen">${raceDefs('r')}${raceBg('r')}${raceGantry(r,st)}${raceHud(r,'r')}${racePiles(r)}${raceTileArt(r,t,'r')}<g id="rfx"></g>${cars}${r.over?raceFw():''}</svg>${ban}${pay}</div>`}
 const RACTS=[['roll','🎲','Kør!','Slå terningerne og få 1 mønt'],['tick','🎫','Tag en billet','Gæt hvem der fører efter omgangen']];
 function racePad(){const r=S.rc,t=S.turn;if(!r)return '';
-  const back='<button class="btn rback" data-rback>← Tilbage</button>',who=`<b style="color:${COL[S.p]}">${nm(S.p)}</b>`;
+  const back='<button class="btn rback" data-rback>← Tilbage</button>',who=`<b style="color:${COL[S.p]}">${nm(S.p)}</b>`,mine=r.fan[S.p];
   if(r.over){const fw=r.fin.fan.map((g,p)=>g?`<b style="color:${COL[p]}">${nm(p)}</b> +${g}`:'').filter(Boolean).join(' · ');
-    return `<p>${CARS[r.fin.w].n} vandt løbet! ${fw?'Heppebil: '+fw:`Ingen heppede på ${CARS[r.fin.w].n}.`}</p><div class="racts"><button class="btn main" data-rnext>Se vinderen af Grand Prix</button></div>`}
-  if(r.fan.includes(-1))return `<p>${who}: vælg din <b>heppebil</b>! <span class="sub">Vinder den løbet, får du ${FANW} mønter.</span></p>
-     <div class="rbets">${CARS.map((c,k)=>{const q=r.fan.indexOf(k);return `<button class="rb" data-rfan="${k}" ${q>=0?'disabled':''} style="--c1:${c.c[0]};--c2:${c.c[1]}"><i></i><b>${k+1} ${c.n}</b><small>${q>=0?nm(q)+' hepper':'felt '+r.pos[k]}</small></button>`}).join('')}</div>`;
-  if(t.act==='roll'){if(!t.dice.length)return `<p>${who}: <b>første</b> terning. Hvilken bil kører? <span class="sub">Navnet står på knappen.</span></p>
-     <div class="keys">${[1,2,3,4,5,6].map(v=>{const k=rSub(v),c=CARS[k],sw=k!==v-1;return `<button class="key rk ${sw?'swap':''}" data-die="${v}" style="--c1:${c.c[0]}" aria-label="Slog ${v}: ${c.n} kører">${pips(v)}<small>${sw?'→ ':''}${c.n}</small></button>`}).join('')}</div>${back}`;
-    const a=t.dice[0],k=rSub(a);return `<p>${CARS[k].n} kører! <b>Anden</b> terning: hvor langt? <span class="sub">To ens giver NITRO.</span></p>
-     <div class="keys">${[1,2,3,4,5,6].map(v=>{const d=SPD(v)+(v===a?1:0);return `<button class="key rk" data-die="${v}" style="--c1:${v===a?'#ff8a1e':CARS[k].c[0]}" aria-label="Slog ${v}: ${d} felter">${pips(v)}<small>${d} ${d===1?'felt':'felter'}${v===a?' 🔥':''}</small></button>`}).join('')}</div>`}
+    return `<p>${CARS[r.fin.w].n} vandt løbet! ${fw?'Podiet giver: '+fw:'Ingen heppebiler kom på podiet.'}</p><div class="racts"><button class="btn main" data-rnext>Se vinderen af Grand Prix</button></div>`}
+  if(r.fan.includes(-1))return `<p>${who}: vælg din <b>heppebil</b>! <span class="sub">Den giver mønter, når den overhaler og kommer på podiet.</span></p>
+     <div class="rbets">${CARS.map((c,k)=>{const q=r.fan.indexOf(k);return `<button class="rb" data-rfan="${k}" ${q>=0?'disabled':''} style="--c1:${c.c[0]};--c2:${c.c[1]}">${carIcon(k)}<b>${c.n}</b><small>${q>=0?nm(q)+' hepper':'felt '+r.pos[k]}</small></button>`}).join('')}</div>`;
+  if(t.act==='roll'){if(t.dice.length<2)return `<p>${who}: slå <b>to terninger</b>. ${t.dice.length?`Den ene viste <b>${t.dice[0]}</b>. Hvad viste den anden?`:'Hvad viste den ene?'}</p>
+     <div class="keys">${[1,2,3,4,5,6].map(v=>`<button class="key" data-die="${v}" aria-label="Slog ${v}">${pips(v)}</button>`).join('')}</div>${back}`;
+    const o=rOpts();return `<p>${o[0].nitro?`${who}: to ens giver <b>NITRO!</b> 🔥`:o.length>1?`${who}: <b>hvilken bil skal køre?</b> <span class="sub">Den ene terning er bilen, den anden er farten.</span>`:`${who}: send bilen af sted!`}</p>
+     <div class="racts4 ${o.length<2?'one':''}">${o.map((x,i)=>{const c=CARS[x.k];return `<button class="ra tall rgo ${o[0].nitro?'nitro':''}" data-rgo="${i}" style="--c1:${c.c[0]}" aria-label="${c.n} kører ${flt(x.d)}">${carIcon(x.k)}<b>${c.n} kører ${flt(x.d)}${x.nitro?' 🔥':''}</b><small>${x.k===mine?'⭐ Din heppebil · ':''}${x.k!==x.a-1?`${CARS[x.a-1].n} har kørt, så ${c.n} kører i stedet`:x.nitro?`${SPD(x.a)} + 1 for nitro`:`Terning ${x.a} er bilen · terning ${x.b} er farten`}</small></button>`}).join('')}</div>${back}`}
   if(t.act==='tick'){const o=rRank(r);return `<p>${who}: hvilken bil fører, når alle seks har kørt? <span class="sub">Rigtigt gæt giver tallet på billetten. Forkert koster ingenting.</span></p>
-     <div class="rbets">${CARS.map((c,k)=>{const v=r.tick[k][0];return `<button class="rb" data-rtick="${k}" ${v?'':'disabled'} style="--c1:${c.c[0]};--c2:${c.c[1]}"><i></i><b>${k+1} ${c.n}</b><small>${v?`<em>${v} mønter</em> · `:'udsolgt · '}nr. ${o.indexOf(k)+1}</small></button>`}).join('')}</div>${back}`}
+     <div class="rbets">${CARS.map((c,k)=>{const v=r.tick[k][0];return `<button class="rb" data-rtick="${k}" ${v?'':'disabled'} style="--c1:${c.c[0]};--c2:${c.c[1]}">${carIcon(k)}<b>${c.n}</b><small>${v?`<em>${v} mønter</em> · `:'udsolgt · '}nr. ${o.indexOf(k)+1}</small></button>`}).join('')}</div>${back}`}
   const dis={tick:!r.tick.some(s=>s.length)};
   return `<p>${who}: hvad vil du? <span class="sub">Omgang ${r.leg} · ${rLeft(r).length} ${rLeft(r).length===1?'bil mangler':'biler mangler'} at køre.</span></p>
    <div class="racts4">${RACTS.map(([a,i,b,s])=>`<button class="ra tall ${a==='roll'?'main':''}" data-ract="${a}" ${dis[a]?'disabled':''}><i>${i}</i><b>${b}</b><small>${s}</small></button>`).join('')}</div>`}
@@ -1197,6 +1281,7 @@ function raceClick(e){const r=S.rc,t=S.turn;if(!r||S.win!==null)return false;let
   if(el=e.target.closest('[data-rfan]')){snap();rFan(+el.dataset.rfan);render();return true}
   if(el=e.target.closest('[data-ract]')){t.act=el.dataset.ract;t.dice=[];sfx.tap();say('');render();return true}
   if(e.target.closest('[data-rback]')){t.act='';t.dice=[];say('');render();return true}
+  if(el=e.target.closest('[data-rgo]')){snap();rGo(+el.dataset.rgo);render();return true}
   if(el=e.target.closest('[data-rtick]')){snap();rTick(+el.dataset.rtick);render();return true}
   if(e.target.closest('[data-rnext]')){snap();rFinal();render();return true}
   if((r.over||r.fan.includes(-1))&&e.target.closest('[data-die]'))return true;
@@ -1423,8 +1508,8 @@ function compactTurn(){const t=S.turn,game=S.game;
   return null;
 }
 /* Et spil er i gang, hvis der er sket noget i det, og det ikke er vundet. Så står der "Fortsæt" på forsiden. */
-const started=o=>!!o&&(o.game!=='race'||!!(o.rc&&o.rc.v===3))&&o.win===null&&o.n===S.n&&!!GAMES[o.game]&&!!o.turn&&(o.log.length>0||JSON.stringify(o.turn)!==JSON.stringify(newTurn(o.game)));
-const TAG={tower:'2 terninger · byg højere og højere',pirate:"1 terning · saml mønter, pas på 1'eren",battle:'1 terning · skyd eller byg mur',hilo:'Kortspil · gæt det næste kort',chest:'Kortspil · to ens sprænger kisten',monster:'Kortspil + 1 terning · slå monsteret i døren',race:'2 terninger · hep på din bil og gæt føreren'};
+const started=o=>!!o&&(o.game!=='race'||!!(o.rc&&o.rc.v===4))&&o.win===null&&o.n===S.n&&!!GAMES[o.game]&&!!o.turn&&(o.log.length>0||JSON.stringify(o.turn)!==JSON.stringify(newTurn(o.game)));
+const TAG={tower:'2 terninger · byg højere og højere',pirate:"1 terning · saml mønter, pas på 1'eren",battle:'1 terning · skyd eller byg mur',hilo:'Kortspil · gæt det næste kort',chest:'Kortspil · to ens sprænger kisten',monster:'Kortspil + 1 terning · slå monsteret i døren',race:'2 terninger · vælg bilen, hep og gæt føreren'};
 const O='stroke="#081624" stroke-width="4" stroke-linejoin="round"';
 /* Scenen er tegnet til ca. 380 x 340. fit() forstørrer den, så den fylder hele feltet på en iPad. */
 function fit(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;const z=Math.min(2.6,Math.max(1,Math.min(h/340,w/380)));stage.style.setProperty('--z',z);stage.style.setProperty('--lw',w/z);stage.style.setProperty('--lh',h/z)}
@@ -1529,8 +1614,8 @@ undo.addEventListener('click',doUndo);$('wundo').addEventListener('click',doUndo
 $('reset').addEventListener('click',()=>{snap();FX=null;S=fresh(S.game,S.names,S.targets,S.n);say('Nyt spil. Held og lykke!');sheet.classList.remove('show');render()});
 $('wmenu').addEventListener('click',()=>{snap();FX=null;S=fresh(S.game,S.names,S.targets,S.n);win.classList.remove('show');go('home')});
 $('again').addEventListener('click',()=>{snap();FX=null;const w=S.win;S=fresh(S.game,S.names,S.targets,S.n);if(w>=0)S.p=S.start=nx(w);say(`${nm(S.p)} starter.`);render()});
-/* Et gemt Grand Prix fra før version 30 kan ikke fortsættes: start et nyt løb (først her, hvor bilerne er defineret) */
-if(S.game==='race'&&!(S.rc&&S.rc.v===3))S=fresh('race',S.names,S.targets,S.n);
+/* Et gemt Grand Prix fra før version 31 kan ikke fortsættes: start et nyt løb (først her, hvor bilerne er defineret) */
+if(S.game==='race'&&!(S.rc&&S.rc.v===4))S=fresh('race',S.names,S.targets,S.n);
 render();
 }
 </script>
