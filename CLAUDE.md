@@ -1,6 +1,6 @@
 # LDA Spil
 
-Pointtavlen med de syv små spil ligger i `index.html`. Det hele bruges via claude.ai, ikke GitHub Pages.
+Pointtavlen med de seks små spil ligger i `index.html`. Det hele bruges via claude.ai, ikke GitHub Pages.
 
 ## Siden familien spiller på
 

@@ -12,7 +12,6 @@ Digital pointtavle til terninge- og kortspil, som spilles med rigtige terninger 
 | **Højere eller lavere** | Push your luck med kort | Kortspil |
 | **Skattekisten** | Push your luck: samme værdi to gange, og kisten springer | Kortspil |
 | **Monsterhulen** | Kamp og push your luck: slå monsteret i døren, og gå dybere ind eller hjem med sækken | Kortspil + 1 terning |
-| **Måneraketten** | Rumrejse gennem seks stationer: vend et kort (krystalmine, alien-vagt eller ormehul), slå terningen, og flyv hjem før motoren eksploderer | Kortspil + 1 terning |
 
 - 2–4 spillere med navne og farver
 - I Tårnet og Piratskatten spilles runden færdig, når nogen når målet, så alle har haft lige mange ture

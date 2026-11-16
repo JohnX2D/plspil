@@ -358,21 +358,6 @@ body.home #game,body:not(.home) #home{display:none}
 .gain{position:absolute;left:50%;top:38%;z-index:8;margin-left:-90px;width:180px;text-align:center;font-weight:800;font-size:34px;color:#ffd34d;-webkit-text-stroke:2px #120c0a;paint-order:stroke;white-space:nowrap;animation:up 1.3s ease-out both}
 .btn.oops{min-height:52px;font-size:17px;font-weight:800;background:light-dark(#fff4d6,#3a2c08);border-color:#c98a12;box-shadow:0 4px 0 #c98a12;color:light-dark(#5a3a00,#ffd36a);animation:pop .35s ease-out}
 .btn.guess svg.die{width:44px;height:44px}
-/* ---------- Måneraketten ---------- */
-.space{background:#05071a}
-.rk{transform:translate(var(--x1),var(--y1))}
-.rk.mv{animation:rkmove 1.1s cubic-bezier(.4,0,.3,1) both}@keyframes rkmove{from{transform:translate(var(--x0),var(--y0))}}
-.rflame{animation:rfl .12s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:100% 50%}@keyframes rfl{to{transform:scaleX(.72)}}
-.spin{animation:spin 7s linear infinite;transform-box:fill-box;transform-origin:center}@keyframes spin{to{transform:rotate(360deg)}}
-.twk{animation:tw 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.shld{animation:pulse 1s ease-in-out infinite alternate}
-.encin{animation:encin .5s cubic-bezier(.3,1.5,.5,1) both;transform-box:fill-box;transform-origin:center}@keyframes encin{from{transform:scale(.2);opacity:0}}
-.boomc{animation:boomc .8s ease-out both;transform-box:fill-box;transform-origin:center}@keyframes boomc{from{transform:scale(.1)}60%{transform:scale(1.25)}to{transform:scale(1.5);opacity:0}}
-.deb{animation:deb 1.3s ease-out both}@keyframes deb{to{transform:translate(var(--dx),var(--dy)) rotate(260deg);opacity:0}}
-.rplate{background:linear-gradient(#2a2350,#140f2e);color:#e9e6ff;border-color:#05071a;box-shadow:inset 0 1px 0 rgba(200,180,255,.3),0 3px 0 #05071a}.rplate small{color:#bfb0ff}
-.rdanger{position:absolute;right:10px;bottom:10px;z-index:6;display:flex;align-items:center;gap:4px;background:rgba(5,7,26,.85);color:#fff;border:2px solid #05071a;border-radius:12px;padding:3px 10px;font-weight:800;font-size:13px}
-.rdanger svg{width:22px;height:22px}.rdanger.d2{background:rgba(160,60,20,.92)}.rdanger.d3{background:rgba(170,24,16,.94)}
-.rshield{margin-left:6px;padding:0 8px;border-radius:99px;background:#2f6fd0}
 .key.ok{background:light-dark(#dff6e8,#12351f);border-color:#13a35c;box-shadow:0 4px 0 #13a35c}.key.ok:active{box-shadow:0 1px 0 #13a35c}
 .pad .sub{color:var(--soft);font-weight:500}
 .ray{transform-box:fill-box;transform-origin:50% 0;animation:rayw 7s ease-in-out infinite alternate}
@@ -544,7 +529,7 @@ div.tfg{display:flex;align-items:flex-end;justify-content:center;gap:12%;width:8
   </div>
   <section class="eve" id="eve" aria-live="polite"></section>
   <nav class="tiles" id="tiles" aria-label="Vælg spil"></nav>
-  <footer class="ver">LDA Spil · version 24.0</footer>
+  <footer class="ver">LDA Spil · version 25.0</footer>
 </div>
 <main id="game">
   <header class="topbar"><button class="ib" id="tohome" aria-label="Tilbage til spilmenuen">‹ Spil</button><h1 id="gname"></h1><button class="ib" id="undo">↶ Fortryd</button><button class="ib" id="menu" aria-label="Regler og menu">☰ Regler</button></header>
@@ -576,7 +561,6 @@ const GAMES={
  hilo:{name:'Højere eller lavere',kind:'cards',unit:'point',rules:['Vend et startkort. Es er 1, konge er 13.','Gæt højere eller lavere, og vend næste kort.','Rigtigt gæt: kortet kommer i din bunke. Lige så højt: intet sker.','Forkert gæt: du mister turens bunke.','Stop for at gemme bunken. Hvert kort giver 1 point.','Lange stimer giver bonus, når du stopper: 3 kort giver 1 ekstra, 4 kort 2, 5 kort 4, 6 kort 6, 7 kort 9, og 8 eller flere giver 12 ekstra.','Når bunken er tom, vinder den med flest point.']},
  chest:{name:'Skattekisten',kind:'cards',unit:'point',rules:['Vend kort ét ad gangen og læg dem i en række.','Samme værdi som et kort i rækken: kisten går i stykker, og alt ryger ud.','Stop for at tage rækken.','Knægt, dame og konge giver 2 point, alle andre 1.','Mange kort giver bonus, når du stopper: 5 kort giver 1 ekstra, 6 kort 3 ekstra, 7 kort 5 ekstra, og 8 eller flere giver 8 ekstra.','Når bunken er tom, vinder den med flest point.']},
  monster:{name:'Monsterhulen',kind:'dice',unit:'guld',rules:['Vend et kort: det er monsteret i døren, og kortets værdi er dets styrke. Knægt er 11, dame 12, konge 13, og esset er Dragen med styrke 14.','Kæmp ved at slå terningen op til <b>3 gange</b>. Slagene lægges sammen, og når du når monsterets styrke, har du vundet.',"Slår du en <b>1'er</b>, bliver du bidt og taber kampen. Du taber også, hvis tre slag ikke er nok.",'Vinder du, ryger monsterets styrke i guld ned i sækken. Dragen giver 6 ekstra.','Efter en sejr kan du gå hjem og gemme sækken eller gå dybere ind og vende et nyt kort. Du må også gå hjem, når du har set det næste monster.','Taber du, mister du hele sækken. Monsteret bliver stående til den næste spiller, og der kommer 2 guld i dusør på det, hver gang det vinder.','Når nogen når målet, spilles runden færdig. Den med mest guld vinder.']},
- rocket:{name:'Måneraketten',kind:'dice',unit:'krystaller',rules:['Hver tur er en rumrejse fra Jorden gennem seks stationer: Satellitten, Månen, Mars, Asteroidebæltet, Saturn og Det sorte hul.','Ved hver station vender du et kort. Det viser, hvad der venter:','<b>Talkort 2–10</b>: en krystalmine med kortets værdi i krystaller.','<b>Knægt, dame og konge</b>: en alien-vagt med 10 krystaller. Slå mindst 4 (knægt), 5 (dame) eller 6 (konge) for at snuppe dem.','<b>Es</b>: et ormehul. Raketten springer to stationer frem og finder 5 krystaller.','Krystallerne er værd 2 gange ved Mars og Asteroidebæltet og 3 gange ved Saturn og Det sorte hul.','Slå så terningen: motoren eksploderer på 1 ved de to første stationer, på 1–2 ved de to midterste og på 1–3 ved de to yderste. Eksploderer den, mister du hele lasten.',"En 6'er giver raketten et skjold, som redder den fra én eksplosion.",'Mellem to stationer kan du flyve hjem og gemme lasten. Når du når Det sorte hul, slynges du hjem med 10 ekstra krystaller.','Når nogen når målet, spilles runden færdig. Den med flest krystaller vinder.']}
 };
 let S,hist=[],FX=null,fxT,seenCoins=0,SAVES={};
 /* Lyd: små toner lavet i browseren, ingen lydfiler */
@@ -598,10 +582,10 @@ const sfx={tap:()=>tone(420,.05,'triangle',.05),
  bubble:()=>[0,1,2,3].forEach(i=>tone(420+i*150,.09,'sine',.05,i*.07,900+i*220)),
  thud:()=>{noise(.18,.35,0,600);tone(110,.15,'square',.06,0,60)},
  win:()=>[523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,.22,'square',.06,i*.13))};
-const HP=15,WMAX=6,AIR=7,ZS=4,MAXD=12,DEFT={monster:50,rocket:60};
+const HP=15,WMAX=6,AIR=7,ZS=4,MAXD=12,DEFT={monster:50};
 const newRid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const fresh=(game,names,targets,n)=>({game,n:n||2,names:names||DEF.slice(),targets:targets||{tower:15,pirate:50},scores:Array(n||2).fill(game==='battle'?HP:0),pirateScore:0,chests:Array(n||2).fill(0),wall:Array(n||2).fill(0),used:Array(14).fill(0),mon:null,p:0,start:0,final:false,turn:newTurn(game),deck:52,log:[],msg:'',mt:'',win:null,rid:newRid(),out:[]});
-function newTurn(g){return {tower:{fl:[],dice:[]},pirate:{sum:0,rolls:[]},battle:{roll:null},hilo:{cur:null,guess:null,pile:0},chest:{row:[]},monster:{bag:0,sum:0,rolls:[],n:0},rocket:{st:0,from:0,load:0,card:null,shield:false,last:null}}[g]}
+function newTurn(g){return {tower:{fl:[],dice:[]},pirate:{sum:0,rolls:[]},battle:{roll:null},hilo:{cur:null,guess:null,pile:0},chest:{row:[]},monster:{bag:0,sum:0,rolls:[],n:0}}[g]}
 try{S=JSON.parse(localStorage.getItem('lda-spil'));SAVES=JSON.parse(localStorage.getItem('lda-saves'))||{}}catch(e){}
 if(!S||!GAMES[S.game]||!S.turn||!S.n)S=fresh('tower',S&&S.names,S&&S.targets,2);
 if(!S.used)S.used=Array(14).fill(0);if(!S.wall)S.wall=Array(S.n).fill(0);if(!S.rid)S.rid=newRid();if(!S.out)S.out=[];
@@ -632,7 +616,7 @@ function reach(p){if(!S.final&&S.scores[p]>=target()){S.final=true;log(`${nm(p)}
 const lastNote=()=>S.final&&S.win===null?' Sidste runde!':'';
 function nextPlayer(){S.p=nx(S.p);S.turn=newTurn(S.game)}
 function bank(pts,why){
-  sfx.good();const p=S.p;{const t=S.turn;rec(S.game,{tower:t.fl&&t.fl.length,pirate:t.sum,chest:t.row&&t.row.length,monster:t.bag,rocket:t.load}[S.game],p)}S.scores[p]+=pts;log(`${nm(p)}: +${pts} ${why||''}`.trim());
+  sfx.good();const p=S.p;{const t=S.turn;rec(S.game,{tower:t.fl&&t.fl.length,pirate:t.sum,chest:t.row&&t.row.length,monster:t.bag}[S.game],p)}S.scores[p]+=pts;log(`${nm(p)}: +${pts} ${why||''}`.trim());
   if(GAMES[S.game].kind==='dice')reach(p);
   fx({kind:'bank',p,pts},1200);
   nextPlayer();
@@ -660,7 +644,6 @@ function die(v){
   if(FX&&(FX.chest3||FX.kind==='doubleSix')){FX=null;clearTimeout(fxT)}
   snap();const t=S.turn;
   if(S.game==='monster'){monDie(v);render();return}
-  if(S.game==='rocket'){rkDie(v);render();return}
   if(S.game==='tower'){
     t.dice=t.dice||[];if(t.dice.length>=2){render();return}
     t.dice.push(v);sfx.tap();
@@ -687,7 +670,6 @@ function card(v){
   if(rem(v)<=0)return;
   snap();const t=S.turn;S.deck--;S.used[v]++;
   if(S.game==='monster'){monCard(v);render();return}
-  if(S.game==='rocket'){rkCard(v);render();return}
   if(S.game==='hilo'){
     if(t.cur===null){t.cur=v;sfx.tap();say(`Startkort: ${RN(v)[0].toUpperCase()+RN(v).slice(1)}. Gæt højere eller lavere.`)}
     else if(v===t.cur){t.guess=null;sfx.tap();say(`Også ${RN(v)}. Intet sker, gæt igen.`)}
@@ -723,13 +705,12 @@ function build(){
   const m=`${nm(p)} byggede mur: +${add}${add<v?` (muren er fuld)`:''}.`;
   log(m);sfx.thud();fx({kind:'build',p,add},1100);battleEnd(v,m);render();
 }
-function turnPts(){const t=S.turn;return {tower:()=>t.fl.length+TB(t.fl.length),pirate:()=>t.sum,hilo:()=>t.pile+HB(t.pile),chest:()=>cpts(t.row)+CB(t.row.length),battle:()=>0,monster:()=>t.bag,rocket:()=>t.load}[S.game]()}
+function turnPts(){const t=S.turn;return {tower:()=>t.fl.length+TB(t.fl.length),pirate:()=>t.sum,hilo:()=>t.pile+HB(t.pile),chest:()=>cpts(t.row)+CB(t.row.length),battle:()=>0,monster:()=>t.bag}[S.game]()}
 const curBonus=()=>S.game==='tower'?TB(S.turn.fl.length):S.game==='chest'?CB(S.turn.row.length):S.game==='hilo'?HB(S.turn.pile):0;
-function stop(){snap();const n=turnPts(),b=curBonus();bank(n,un(n)+(b?` (${n-b} + ${b} bonus)`:''));if(S.game==='rocket')rkHomeFx(n);render()}
+function stop(){snap();const n=turnPts(),b=curBonus();bank(n,un(n)+(b?` (${n-b} + ${b} bonus)`:''));render()}
 function risk(){
   const t=S.turn;
   if(S.game==='monster')return S.mon?Math.round((1-monP(MST(S.mon.v),t.sum,3-t.rolls.length))*100):0;
-  if(S.game==='rocket'){const c=t.card!==null&&t.card!==undefined,st=c?ST[t.st-1]:ST[Math.min(5,t.st)];return c&&t.shield?0:Math.round(st.d/6*100)}
   if(S.game==='tower'){if(!t.fl.length)return 0;const q=(towerTop(t)===6?5:towerTop(t))/6;return Math.round(q*q*100)}
   if(S.game==='pirate')return Math.round(PD(t)/6*100);
   if(S.game==='hilo'){if(t.cur===null)return 0;const p=probs(t.cur);return pc(t.guess==='hi'?p.lo:t.guess==='lo'?p.hi:Math.min(p.hi,p.lo))}
@@ -1015,107 +996,6 @@ function monPad(){
   return `<p>Kæmp mod ${MNAME[m.v]}: hvad slog du? <span class="warn">En 1'er, og du bliver bidt.</span></p>${dieKeys(v=>v===1?'bad':v>=need?'ok':'')}`;
 }
 
-/* ---------- Måneraketten ---------- */
-/* En tur er en rumrejse gennem seks stationer. Ved hver station vender man et kort (hvad venter der?) og slår én terning:
-   lavt slag = motoren eksploderer (flere tal jo længere ude), ellers får man stationens skat. Flyv hjem når som helst. */
-const ST=[{n:'Satellitten',x:120,y:252,m:1,d:1},{n:'Månen',x:166,y:190,m:1,d:1},{n:'Mars',x:236,y:236,m:2,d:2},{n:'Asteroidebæltet',x:278,y:166,m:2,d:2},{n:'Saturn',x:340,y:228,m:3,d:3},{n:'Det sorte hul',x:350,y:122,m:3,d:3}];
-const EARTH={x:72,y:296},RNEED={11:4,12:5,13:6},RANAME={11:'Alien-knægten',12:'Alien-dronningen',13:'Alien-kongen'};
-const rkKind=v=>v===1?'worm':v>10?'alien':'mine';
-const rkPos=st=>st?ST[st-1]:EARTH;
-const rkGain=(v,d,m)=>{const k=rkKind(v);return k==='mine'?v*m:k==='alien'?(d>=RNEED[v]?10*m:0):5*m};
-const dzTxt=d=>d>1?`1–${d}`:'1';
-function rkCard(v){
-  const t=S.turn;if(t.card!==null&&t.card!==undefined)return;
-  if(S.deck<=0){S.used=Array(14).fill(0);S.deck=52}
-  t.from=t.st;t.st=Math.min(6,t.st+(v===1?2:1));t.card=v;t.last=null;const s=ST[t.st-1],k=rkKind(v);
-  tone(180,.5,'sawtooth',.05,0,520);noise(.5,.18,0,1200);
-  say(k==='mine'?`${s.n}: en krystalmine med ${v} krystaller${s.m>1?` (×${s.m} = ${v*s.m})`:''}. Slå terningen: motoren eksploderer på ${dzTxt(s.d)}.`
-    :k==='alien'?`${s.n}: ${RANAME[v]} vogter ${10*s.m} krystaller. Slå mindst ${RNEED[v]} for at snuppe dem. Motoren eksploderer på ${dzTxt(s.d)}.`
-    :`Ormehul! Raketten skyder frem til ${s.n} og finder ${5*s.m} krystaller. Slå terningen: motoren eksploderer på ${dzTxt(s.d)}.`);
-}
-function rkHomeFx(n,ms){if(FX){FX.home=n;clearTimeout(fxT);fxT=setTimeout(()=>{FX=null;render()},ms||2600)}for(let i=0;i<Math.min(8,Math.ceil(n/5));i++)tone(1250+i*90,.07,'triangle',.035,.3+i*.08)}
-function rkDie(v){
-  const t=S.turn;if(t.card===null||t.card===undefined)return;const s=ST[t.st-1],k=rkKind(t.card);
-  if(v<=s.d){
-    if(t.shield){t.shield=false;t.last={k:'shield'};t.card=null;sfx.ghost();
-      if(t.st>=6){const n=t.load+10;bank(n,'krystaller (slynget hjem af det sorte hul, +10)');rkHomeFx(n);return}
-      say(`Motoren gnistrede, men skjoldet reddede raketten! Ingen skat fra ${s.n} denne gang. Flyv videre, eller flyv hjem med ${t.load}.`,'good');return}
-    sfx.boom();bust(`Motoren eksploderede ved ${s.n}!${t.load?` ${t.load} krystaller svæver ud i rummet.`:''}`,v);return}
-  const g=rkGain(t.card,v,s.m),six=v===6&&!t.shield;t.load+=g;if(six)t.shield=true;t.last={k,g,v,card:t.card};t.card=null;
-  if(g){for(let i=0;i<Math.min(5,Math.ceil(g/4));i++)tone(1100+i*120,.06,'square',.028,i*.06)}else sfx.thud();if(six)sfx.six();
-  if(t.st>=6){const n=t.load+10;bank(n,'krystaller (slynget hjem af det sorte hul, +10)');rkHomeFx(n,3000);return}
-  const ex=six?' En 6\'er: raketten får et skjold!':'',nx=ST[t.st];
-  say((k==='alien'&&!g?`${RANAME[t.last.card]} jagede dig væk. Ingen skat, men raketten er hel.`:`+${g} krystaller! ${t.load} i lasten.`)+ex+` Næste: ${nx.n}, motoren eksploderer på ${dzTxt(nx.d)}.`,g?'good':'');
-}
-/* ---------- tegninger ---------- */
-const spaceDefs=u=>`<defs>${grad(u+'Sky',[[0,'#05071a'],[.55,'#140b2e'],[1,'#2a0f36']])}${rgrad(u+'Neb1',[[0,'#7a3cff',.5],[1,'#7a3cff',0]])}${rgrad(u+'Neb2',[[0,'#22c7c7',.38],[1,'#22c7c7',0]])}${rgrad(u+'Neb3',[[0,'#ff5aa0',.3],[1,'#ff5aa0',0]])}
-  ${rgrad(u+'Earth',[[0,'#7fd3ff'],[.55,'#1d6fc4'],[1,'#0a2a5c']],'cx=".35" cy=".3" r=".8"')}${rgrad(u+'Atmo',[[.78,'#7fd3ff',0],[.9,'#7fd3ff',.55],[1,'#7fd3ff',0]])}
-  ${rgrad(u+'Moon',[[0,'#f2f0e8'],[.7,'#a9a69c'],[1,'#6a675f']],'cx=".35" cy=".3" r=".8"')}${rgrad(u+'Mars',[[0,'#ffb07a'],[.6,'#d0532a'],[1,'#6a1e0e']],'cx=".35" cy=".3" r=".8"')}
-  ${rgrad(u+'Sat',[[0,'#fff0c4'],[.6,'#d9a85a'],[1,'#7a5420']],'cx=".35" cy=".3" r=".8"')}${rgrad(u+'Hole',[[0,'#000'],[.55,'#000'],[.62,'#ffcf6a'],[.72,'#ff6a1a',.85],[1,'#ff3a6a',0]])}
-  ${grad(u+'Body',[[0,'#ffffff'],[.5,'#e6e9f0'],[1,'#9aa3b5']],'x1="0" y1="0" x2="1" y2="0"')}${grad(u+'Red',[[0,'#ff7a5c'],[1,'#b8231a']],'x1="0" y1="0" x2="1" y2="0"')}
-  ${rgrad(u+'Flame',[[0,'#fff6c0'],[.4,'#ffb02e'],[1,'#ff4a1a',0]])}${rgrad(u+'Glow',[[0,'#fff3b0',.7],[1,'#fff3b0',0]])}${rgrad(u+'Cry',[[0,'#e9fbff'],[.5,'#6fe3ff'],[1,'#5a3cff']],'cx=".3" cy=".25" r=".9"')}
-  ${rgrad(u+'Boom',[[0,'#fff6c9'],[.3,'#ffc23a'],[.6,'#ff5a1a'],[1,'#7a1a0a',0]])}${rgrad(u+'Shield',[[.7,'#8fd0ff',0],[.92,'#8fd0ff',.45],[1,'#cfefff',.9]])}</defs>`;
-function spaceBg(u){
-  const stars=Array.from({length:70},(_,i)=>`<circle class="${i%5?'':'twk'}" style="animation-delay:-${(rnd(i,81)*3).toFixed(1)}s" cx="${(rnd(i,82)*460).toFixed(0)}" cy="${(rnd(i,83)*340).toFixed(0)}" r="${(.4+rnd(i,84)*1.2).toFixed(1)}" fill="#fff" opacity="${(.35+rnd(i,85)*.6).toFixed(2)}"/>`).join('');
-  return `<rect width="460" height="340" fill="url(#${u}Sky)"/><ellipse cx="300" cy="110" rx="190" ry="110" fill="url(#${u}Neb1)"/><ellipse cx="120" cy="80" rx="150" ry="90" fill="url(#${u}Neb2)"/><ellipse cx="400" cy="270" rx="140" ry="90" fill="url(#${u}Neb3)"/>${stars}
-   <g transform="translate(${EARTH.x} ${EARTH.y})"><circle r="66" fill="url(#${u}Atmo)"/><circle r="52" fill="url(#${u}Earth)"/>
-    <path d="M-30-22c10-8 22-6 26 4s-6 16-2 24-10 16-20 8-14-24-4-36zM10-40c12 0 22 8 20 16-6 2-14-4-20-2s-8-10 0-14zM14 4c10-2 22 6 20 18s-14 16-20 8 0-14 0-26z" fill="#3f9c4a" opacity=".9"/>
-    <path d="M-44-6c18-10 50-14 80-4M-40 18c24-6 54-4 76 8" stroke="#fff" stroke-width="3" fill="none" opacity=".35" stroke-linecap="round"/><path d="M-52 0a52 52 0 0 0 84 40" stroke="#04122c" stroke-width="10" fill="none" opacity=".35"/></g>`;
-}
-function stationArt(u,i,on){
-  const s=ST[i],o=on?'':' opacity=".9"';
-  const art=[
-   `<g${o}><rect x="-6" y="-6" width="12" height="12" rx="2" fill="#c9d1de" stroke="#1a2236" stroke-width="1.5"/><rect x="-26" y="-4" width="17" height="8" fill="#2c5aa8" stroke="#1a2236" stroke-width="1.2"/><rect x="9" y="-4" width="17" height="8" fill="#2c5aa8" stroke="#1a2236" stroke-width="1.2"/><path d="M-26 0h17M9 0h17M-17-4v8M17-4v8" stroke="#8fb6ff" stroke-width=".7"/><path d="M0-6v-8" stroke="#c9d1de" stroke-width="1.5"/><circle cy="-15" r="2.4" fill="#ff5240"/></g>`,
-   `<g${o}><circle r="17" fill="url(#${u}Moon)"/><circle cx="-6" cy="-4" r="4" fill="#8f8c82" opacity=".7"/><circle cx="6" cy="5" r="3" fill="#8f8c82" opacity=".7"/><circle cx="4" cy="-8" r="2" fill="#8f8c82" opacity=".7"/><path d="M-3 9q4 3 8 0" stroke="#55524b" stroke-width="1.4" fill="none"/></g>`,
-   `<g${o}><circle r="19" fill="url(#${u}Mars)"/><path d="M-15-4q8 4 16-2t14 2M-12 8q10 2 22-4" stroke="#7a2410" stroke-width="2" fill="none" opacity=".6"/><ellipse cx="-2" cy="-15" rx="6" ry="2" fill="#fff" opacity=".7"/></g>`,
-   `<g${o}>${[[-16,4,7],[-2,-6,9],[14,2,6],[6,12,4],[-10,-12,4],[20,-10,3]].map(([x,y,r],k)=>`<path d="M${x-r} ${y}l${r*.4} ${-r*.8} ${r} ${-r*.2} ${r*.6} ${r*.7} ${-r*.3} ${r*.9} ${-r} ${r*.3}z" fill="${k%2?'#8a7a68':'#a69480'}" stroke="#2a2018" stroke-width="1"/>`).join('')}</g>`,
-   `<g${o}><ellipse rx="34" ry="8" fill="none" stroke="#e8cf96" stroke-width="4" opacity=".55" transform="rotate(-14)"/><circle r="20" fill="url(#${u}Sat)"/><path d="M-18-5h36M-19 3h38M-15 10h30" stroke="#a67a3a" stroke-width="2" opacity=".5"/><path d="M-34 8a34 8 0 0 0 68 0" stroke="#f3dfae" stroke-width="4" fill="none" transform="rotate(-14)"/></g>`,
-   `<g><circle r="34" fill="url(#${u}Hole)"/><g class="spin"><path d="M-30 0a30 10 0 0 0 60 0" stroke="#ffd38a" stroke-width="2.5" fill="none" opacity=".8"/><path d="M30 0a30 10 0 0 0-60 0" stroke="#ff7a3a" stroke-width="1.6" fill="none" opacity=".6"/></g><circle r="13" fill="#000"/></g>`][i];
-  return `<g transform="translate(${s.x} ${s.y})">${on?`<circle r="${i===5?40:28}" fill="url(#${u}Glow)" opacity=".55"/>`:''}${art}
-   <g transform="translate(0 ${i===5?44:i===4?30:28})"><rect x="-${s.n.length*3.1+10}" y="-8" width="${s.n.length*6.2+20}" height="15" rx="7" fill="rgba(5,7,26,.82)" stroke="${['#9fe2ff','#9fe2ff','#ffd38a','#ffd38a','#ff8a7a','#ff8a7a'][i]}" stroke-width="1.2"/><text y="3" text-anchor="middle" font-size="8.5" font-weight="800" fill="#fff">${s.n}${s.m>1?` <tspan fill="#ffd34d">×${s.m}</tspan>`:''}</text></g></g>`;
-}
-const rocketArt=(u,shield,flame)=>`<g>${flame?`<g class="rflame"><ellipse cx="-30" cy="0" rx="18" ry="7" fill="url(#${u}Flame)"/><path d="M-20-4l-14 4 14 4z" fill="#fff3b0"/></g>`:''}
-  <path d="M-20-6l-8-10h10l8 10zM-20 6l-8 10h10l8-10z" fill="url(#${u}Red)" stroke="#2a0e0a" stroke-width="1.4" stroke-linejoin="round"/>
-  <path d="M-20-8h28c8 0 16 4 20 8-4 4-12 8-20 8h-28c-3-5-3-11 0-16z" fill="url(#${u}Body)" stroke="#1a2236" stroke-width="1.6"/>
-  <path d="M14-7c6 1 12 4 14 7-2 3-8 6-14 7 2-4 2-10 0-14z" fill="url(#${u}Red)" stroke="#2a0e0a" stroke-width="1.4"/>
-  <circle cx="2" cy="0" r="5" fill="#2f6fd0" stroke="#1a2236" stroke-width="1.6"/><circle cx="2" cy="0" r="3.2" fill="#ffd9b8"/><circle cx="1" cy="-.6" r=".7" fill="#1a1a1a"/><circle cx="3.2" cy="-.6" r=".7" fill="#1a1a1a"/><path d="M1 1.2q1 .8 2.2 0" stroke="#1a1a1a" stroke-width=".6" fill="none"/>
-  <path d="M-16-8v16M-11-8v16" stroke="#9aa3b5" stroke-width="1"/>
-  ${shield?`<circle r="30" fill="url(#${u}Shield)" class="shld"/>`:''}</g>`;
-const crystalArt=(u,n)=>`<g>${Array.from({length:Math.min(5,1+Math.floor(n/3))},(_,k)=>{const x=(k-2)*9,h=14+((k*7)%3)*6;return `<path d="M${x} 10l-5-${h*.55} 5-${h*.45} 5 ${h*.45}-5 ${h*.55}z" fill="url(#${u}Cry)" stroke="#1a1060" stroke-width="1"/><path d="M${x} ${10-h}v${h}" stroke="#fff" stroke-width=".8" opacity=".6"/>`}).join('')}<ellipse cx="0" cy="12" rx="26" ry="4" fill="#3a2a50"/></g>`;
-const alienArt=v=>{const c={11:['#5fd36a','#2a7a30'],12:['#b07aff','#5a2aa8'],13:['#ff9a3a','#a8441a']}[v],sc={11:.85,12:1,13:1.15}[v];
-  return `<g transform="scale(${sc})"><path d="M-14 24q-2-16 14-18 16 2 14 18z" fill="${c[1]}" stroke="#0c1a10" stroke-width="1.5"/><path d="M-8 24v8M8 24v8" stroke="${c[1]}" stroke-width="4" stroke-linecap="round"/>
-   <ellipse cy="-6" rx="15" ry="13" fill="${c[0]}" stroke="#0c1a10" stroke-width="1.6"/><path d="M-6-18q-6-10-10-12M6-18q6-10 10-12" stroke="#0c1a10" stroke-width="1.6" fill="none"/><circle cx="-16" cy="-30" r="2.6" fill="#ffd34d"/><circle cx="16" cy="-30" r="2.6" fill="#ffd34d"/>
-   <circle cy="-8" r="7" fill="#fff" stroke="#0c1a10" stroke-width="1.2"/><circle cx="1.5" cy="-7" r="3.4" fill="#0c1a10"/><circle cx="2.6" cy="-8.4" r="1" fill="#fff"/><path d="M-6 2q6 4 12 0" stroke="#0c1a10" stroke-width="1.5" fill="none"/>
-   ${v===12?'<path d="M-9-19l3-6 3 4 3-6 3 6 3-4 3 6z" fill="#ffd34d" stroke="#0c1a10" stroke-width="1"/>':''}${v===13?'<path d="M-11-17l2-9 5 5 4-8 4 8 5-5 2 9z" fill="#ffd34d" stroke="#0c1a10" stroke-width="1.2"/>':''}
-   <path d="M14 10l14-6 2 4-14 6z" fill="#8a919c" stroke="#0c1a10" stroke-width="1.2"/><circle cx="30" cy="5" r="2" fill="#ff5240"/><path d="M-14 12l-8 6" stroke="${c[1]}" stroke-width="4" stroke-linecap="round"/></g>`};
-const wormArt=u=>`<g class="spin">${[26,19,12,6].map((r,k)=>`<ellipse rx="${r}" ry="${r*.75}" fill="none" stroke="${['#7a3cff','#22c7c7','#ff5aa0','#fff'][k]}" stroke-width="${3-k*.5}" opacity="${.9-k*.1}" transform="rotate(${k*25})"/>`).join('')}</g>`;
-function rkScene(t,p,busting){
-  const sh=!busting&&FX&&FX.home!==undefined,a=rkPos(t.st),b=rkPos(t.from===undefined?t.st:t.from),mv=!busting&&!sh&&(a!==b),nx=ST[Math.min(5,t.st)],ang=t.st>=6?0:Math.atan2(nx.y-a.y,nx.x-a.x)*180/Math.PI;
-  const path=`M${EARTH.x+30} ${EARTH.y-26}`+ST.map((s,i)=>`${i?'T':'Q95 266 '}${s.x} ${s.y}`).join(' ');
-  const enc=t.card!==null&&t.card!==undefined?t.card:null,ek=enc!==null?rkKind(enc):null,s=t.st?ST[t.st-1]:null;
-  const encG=enc!==null?`<g transform="translate(222 92)"><g class="encin"><circle r="34" fill="rgba(5,7,26,.72)" stroke="${ek==='alien'?'#ff8a7a':ek==='worm'?'#b07aff':'#6fe3ff'}" stroke-width="2"/>${ek==='mine'?crystalArt('r',enc):ek==='alien'?alienArt(enc):wormArt('r')}</g></g>`:'';
-  const boom=busting?`<g transform="translate(${a.x} ${a.y})"><circle r="46" fill="url(#rBoom)" class="boomc"/>${Array.from({length:10},(_,k)=>`<path class="deb" style="--dx:${(Math.cos(k*.63)*90).toFixed(0)}px;--dy:${(Math.sin(k*.63)*70).toFixed(0)}px" d="M-3-2l6-1 1 5-6 1z" fill="${k%2?'#e6e9f0':'#ff7a5c'}"/>`).join('')}${Array.from({length:Math.min(10,Math.ceil(t.load/4))},(_,k)=>`<g class="deb" style="--dx:${((rnd(k,91)-.5)*220).toFixed(0)}px;--dy:${((rnd(k,92)-.5)*160).toFixed(0)}px"><path d="M0 5l-3-5 3-5 3 5z" fill="url(#rCry)"/></g>`).join('')}</g>`:'';
-  const coins=sh&&FX.home>0?Array.from({length:Math.min(14,4+Math.ceil(FX.home/5))},(_,k)=>`<i style="--dx:${(Math.cos(k*2.4)*(70+rnd(k,93)*90)).toFixed(0)}px;--dy:${(-50-rnd(k,94)*110).toFixed(0)}px;--r:${((rnd(k,95)-.5)*500).toFixed(0)}deg;animation-delay:${(rnd(k,96)*.35).toFixed(2)}s"></i>`).join(''):'';
-  const nd=s?s.d:nx.d;
-  return `<div class="scene space ${busting?'busting shake':''}"><svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${spaceDefs('r')}${spaceBg('r')}
-    <path d="${path}" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-dasharray="3 6" fill="none"/>
-    ${ST.map((_,i)=>stationArt('r',i,i<t.st)).join('')}${encG}
-    ${busting?boom:`<g class="rk ${mv?'mv':''}" style="--x0:${b.x}px;--y0:${b.y}px;--x1:${a.x}px;--y1:${a.y}px"><g transform="rotate(${ang.toFixed(0)}) scale(${t.st?1:1.15})">${rocketArt('r',t.shield,true)}</g></g>`}</svg>
-    <div class="mplate rplate">${busting?'Motoren eksploderede!':enc!==null?`${s.n}<small>${ek==='mine'?`Krystalmine: ${enc}${s.m>1?` ×${s.m} = ${enc*s.m}`:''}`:ek==='alien'?`${RANAME[enc]}: slå ${RNEED[enc]}+ for ${10*s.m}`:`Ormehul: ${5*s.m} krystaller`}</small>`:t.st?`${s.n}<small>Næste: ${nx.n}${nx.m>1?` ×${nx.m}`:''}</small>`:`Jorden<small>Klar til affyring</small>`}</div>
-    ${busting?'':`<div class="big" style="color:#fff;text-shadow:0 3px 0 #05071a">${t.load}<small>krystaller i lasten</small></div>`}
-    ${busting||sh?'':`<div class="rdanger ${nd>1?'d'+nd:''}">💥 på ${Array.from({length:nd},(_,k)=>pips(k+1)).join('')}${t.shield?'<span class="rshield">🛡 skjold</span>':''}</div>`}
-    ${!busting&&!sh&&enc===null&&t.last&&t.last.g?`<div class="gain" style="color:#9ff0ff">+${t.last.g}</div>`:''}
-    ${!busting&&!sh&&!t.st&&enc===null?'<div class="hint" style="top:38%">Vend et kort for at affyre raketten!</div>':''}
-    ${sh?`<div class="surf">${coins}</div>`+banner(`Hjemme! +${FX.home} krystaller`).replace('class="banner"','class="banner gold"'):''}
-    ${busting?banner('BOOM!'):''}</div>`;
-}
-function rkPad(){
-  const t=S.turn,enc=t.card!==null&&t.card!==undefined?t.card:null;
-  if(enc===null){const nx=ST[Math.min(5,t.st)];
-    return `<p>${t.st?'Flyv videre: hvilket kort vendte du?':'Affyring! Hvilket kort vendte du?'} <span class="sub">Næste: ${nx.n}${nx.m>1?` (×${nx.m})`:''}, motoren eksploderer på ${dzTxt(nx.d)}.</span></p><div class="keys cards">${RANKS.map(([l,v])=>`<button class="key ${l.length>2?'sm':''}" data-card="${v}" ${rem(v)<=0?'disabled':''}><span>${l}<small>${v===1?'ormehul':v>10?'alien':'mine'}</small></span></button>`).join('')}</div>`}
-  const s=ST[t.st-1],al=rkKind(enc)==='alien'?RNEED[enc]:0;
-  return `<p>Slå terningen ved ${s.n}. <span class="warn">Rød: motoren eksploderer${t.shield?', men skjoldet redder dig':''}.</span>${al?` <span class="sub">Grøn: du snupper alienens skat.</span>`:''}</p>${dieKeys(v=>v<=s.d?'bad':al?(v>=al?'ok':''):'ok')}`;
-}
 /* ================= Aftenens mester og rekorder ================= */
 /* Hvert færdigt spil er én linje i aftenens log . Point regnes ud fra loggen,
    så fortryd og genindlæsning aldrig tæller dobbelt. Efter 10 timer uden spil starter en ny aften. */
@@ -1127,7 +1007,7 @@ function eveRemove(rid){const e=eveLoad(),n=e.log.length;e.log=e.log.filter(r=>r
 function eveStand(e){const m={};e.log.forEach(r=>r.rank.forEach(x=>{const s=m[x.name]||(m[x.name]={name:x.name,pts:0,wins:0});s.pts+=x.pts;if(x.place===1)s.wins++}));return Object.values(m).sort((a,b)=>b.pts-a.pts||b.wins-a.wins)}
 let REC={};try{REC=JSON.parse(localStorage.getItem('lda-rekorder'))||{}}catch(e){}
 const saveRec=()=>{try{localStorage.setItem('lda-rekorder',JSON.stringify(REC))}catch(e){}};
-const RECT={tower:v=>`${v} ${v===1?'etage':'etager'}`,pirate:v=>`${v} mønter på én tur`,battle:v=>`sejr med ${v} liv`,hilo:v=>`${v} rigtige i træk`,chest:v=>`${v} kort i kisten`,monster:v=>`${v} guld i sækken`,rocket:v=>`${v} krystaller på én rejse`};
+const RECT={tower:v=>`${v} ${v===1?'etage':'etager'}`,pirate:v=>`${v} mønter på én tur`,battle:v=>`sejr med ${v} liv`,hilo:v=>`${v} rigtige i træk`,chest:v=>`${v} kort i kisten`,monster:v=>`${v} guld i sækken`};
 const rawNm=i=>(S.names[i]||'').trim()||DEF[i];
 const TROPHY=`<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M28 10h44v26a22 22 0 0 1-44 0z" fill="#ffc23a" stroke="#3a2408" stroke-width="6" stroke-linejoin="round"/><path d="M28 18H12q0 20 18 22M72 18h16q0 20-18 22" fill="none" stroke="#3a2408" stroke-width="6"/><path d="M44 58h12v14H44z" fill="#e19a00" stroke="#3a2408" stroke-width="6"/><rect x="30" y="72" width="40" height="16" rx="4" fill="#c98a12" stroke="#3a2408" stroke-width="6"/></svg>`;
 const CROWN=`<svg viewBox="0 0 60 44" aria-hidden="true"><path d="M4 38 8 10l12 14L30 4l10 20 12-14 4 28z" fill="#ffc23a" stroke="#3a2408" stroke-width="4" stroke-linejoin="round"/><circle cx="30" cy="30" r="4" fill="#ff5240"/></svg>`;
@@ -1181,8 +1061,7 @@ const TART={
  battle:()=>fieldBg('tc')+`<div class="tfg two" style="--fh:62%;--fb:5%">${castleSvg(0,HP,`<defs>${grad('tCSt',[[0,'#e6e0d2'],[1,'#8a8377']])}</defs>`,'tC')}${castleSvg(1,HP,'','tC')}</div>`,
  hilo:()=>tableBg('td')+hiloTile('tD'),
  chest:()=>vaultBg('te')+chestOpen('tE','class="tfg" style="--fh:66%;--fb:8%"'),
- monster:()=>`<svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${caveDefs('tm',11)}${cave('tm')}<g transform="translate(230 272) scale(.8)" filter="url(#tmLit)">${MART.rat('tm',true,3,mpal(11))}</g>${caveFront('tm',8)}</svg>`,
- rocket:()=>`<svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${spaceDefs('tr')}${spaceBg('tr')}${[1,4,5].map(i=>stationArt('tr',i,true)).join('')}<g transform="translate(230 190) rotate(-28) scale(2.1)">${rocketArt('tr',false,true)}</g></svg>`
+ monster:()=>`<svg class="dart" viewBox="0 0 460 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${caveDefs('tm',11)}${cave('tm')}<g transform="translate(230 272) scale(.8)" filter="url(#tmLit)">${MART.rat('tm',true,3,mpal(11))}</g>${caveFront('tm',8)}</svg>`
 };
 const TCACHE={},tart=k=>TCACHE[k]||(TCACHE[k]=TART[k]());
 const tileRec=k=>{const r=REC[k];return r?`<span class="trec">${TROPHY}Rekord: ${RECT[k](r.v)} · ${esc(r.name)}</span>`:`<span class="trec no">${TROPHY}Ingen rekord endnu</span>`};
@@ -1193,7 +1072,6 @@ const ghostCastle=i=>`<g class="ghostc"><path d="M14 66V24h10v-8h7v8h8v-8h7v8h5V
   <path d="M60 22V6" stroke="#e8f6ff" stroke-width="2"/><path d="M61 6l14 5-14 5z" fill="${HEX[i]}" opacity=".7" stroke="#e8f6ff" stroke-width="1.2"/></g>`;
 function scene(game,t,p,busting,v){
   if(game==='monster')return monScene(t,p,busting,v);
-  if(game==='rocket')return rkScene(t,p,busting);
   const cls=busting?'busting shake':'';
   if(game==='tower'){
     const n=t.fl.length,W=i=>`calc(clamp(140px,26cqw,200px) - ${i*16}px)`;
@@ -1283,7 +1161,7 @@ function battleScene(){
 function riskMeter(){
   const r=risk();
   return `<div class="risk ${r>=50?'hot':''}" title="Chancen for at miste turen ved næste ${GAMES[S.game].kind==='dice'?'slag':'kort'}">${gauge(r)}
-    <div><b>${r}%</b><small>${S.game==='monster'?'risiko for at tabe kampen':S.game==='rocket'?'risiko for at motoren eksploderer':`risiko ved næste ${GAMES[S.game].kind==='dice'?'slag':'kort'}`}</small></div></div>`;
+    <div><b>${r}%</b><small>${S.game==='monster'?'risiko for at tabe kampen':`risiko ved næste ${GAMES[S.game].kind==='dice'?'slag':'kort'}`}</small></div></div>`;
 }
 function gauge(r){const a=-90+r*1.8;
   const arc=(a0,a1,c)=>{const p=d=>[60+48*Math.cos((d-180)*Math.PI/180),60+48*Math.sin((d-180)*Math.PI/180)];const[x0,y0]=p(a0),[x1,y1]=p(a1);return `<path d="M${x0} ${y0}A48 48 0 0 1 ${x1} ${y1}" stroke="${c}" stroke-width="12" fill="none"/>`};
@@ -1294,7 +1172,6 @@ const miniRisk=r=>`<span class="mg">${gauge(r)}<span><b>${r}%</b><small>${r<34?'
 function pad(){
   const g=GAMES[S.game],t=S.turn;
   if(S.game==='monster')return monPad();
-  if(S.game==='rocket')return rkPad();
   if(g.kind==='battle'){
     const gh=S.scores[S.p]<=0;
     if(gh&&t.roll===null)return `<p>${nm(S.p)} er et spøgelse. Hvad slog du? <span class="sub">5 eller 6, og spøgelseskanonen skyder.</span></p>${dieKeys(v=>v>=5?'ok':'')}`;
@@ -1331,12 +1208,11 @@ function compactTurn(){const t=S.turn,game=S.game;
   if(game==='hilo')return {label:'Kort i denne tur',value:`${t.pile} kort`,detail:t.cur===null?'Vend startkort':`Aktuelt kort: ${RN(t.cur)} · ${S.deck} kort tilbage`};
   if(game==='chest')return {label:'I skattekisten',value:`${turnPts()} point`,detail:t.row.length?`Kort: ${t.row.map(FN).join(' · ')} · ${S.deck} tilbage`:`${S.deck} kort tilbage`};
   if(game==='monster')return {label:'I sækken',value:`${t.bag} guld`,detail:S.mon?`${MNAME[S.mon.v]} · styrke ${MST(S.mon.v)}${S.mon.bounty?` · dusør +${S.mon.bounty}`:''}${t.rolls.length?` · slag: ${t.rolls.join(' · ')} = ${t.sum}`:''}`:'Vend et kort'};
-  if(game==='rocket')return {label:'I lastrummet',value:`${t.load} krystaller`,detail:`${t.st?ST[t.st-1].n:'På Jorden'}${t.shield?' · skjold':''}`};
   return null;
 }
 /* Et spil er i gang, hvis der er sket noget i det, og det ikke er vundet. Så står der "Fortsæt" på forsiden. */
 const started=o=>!!o&&o.win===null&&o.n===S.n&&!!GAMES[o.game]&&!!o.turn&&(o.log.length>0||JSON.stringify(o.turn)!==JSON.stringify(newTurn(o.game)));
-const TAG={tower:'2 terninger · byg højere og højere',pirate:"1 terning · saml mønter, pas på 1'eren",battle:'1 terning · skyd eller byg mur',hilo:'Kortspil · gæt det næste kort',chest:'Kortspil · to ens sprænger kisten',monster:'Kortspil + 1 terning · slå monsteret i døren',rocket:'Kortspil + 1 terning · rumrejse efter krystaller'};
+const TAG={tower:'2 terninger · byg højere og højere',pirate:"1 terning · saml mønter, pas på 1'eren",battle:'1 terning · skyd eller byg mur',hilo:'Kortspil · gæt det næste kort',chest:'Kortspil · to ens sprænger kisten',monster:'Kortspil + 1 terning · slå monsteret i døren'};
 const O='stroke="#081624" stroke-width="4" stroke-linejoin="round"';
 /* Scenen er tegnet til ca. 380 x 340. fit() forstørrer den, så den fylder hele feltet på en iPad. */
 function fit(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;const z=Math.min(2.6,Math.max(1,Math.min(h/340,w/380)));stage.style.setProperty('--z',z);stage.style.setProperty('--lw',w/z);stage.style.setProperty('--lh',h/z)}
@@ -1368,7 +1244,7 @@ function render(){
       ${S.game==='pirate'?`<div class="chests">Kister: ${[0,1,2].map(k=>`<svg width="28" height="22" viewBox="0 0 26 20" aria-hidden="true"><rect x="2" y="7" width="22" height="11" rx="2" fill="${k<S.chests[i]?'#ffc23a':'none'}" stroke="currentColor" stroke-width="2"/><path d="M2 8 Q13 -2 24 8" fill="${k<S.chests[i]?'#e19a00':'none'}" stroke="currentColor" stroke-width="2"/></svg>`).join('')}</div>`:''}
       ${bt?`<div class="chests">Mur: ${S.wall[i]?`${S.wall[i]} af ${WMAX} sten`:'ingen'}${sc<=0?' · <b>spøgelse</b>':''}</div>`:''}
       ${FX&&FX.kind==='bank'&&FX.p===i?`<div class="plus">+${FX.pts}</div>`:''}</div>`}).join('');
-  const canStop=!busy&&S.win===null&&(S.game==='hilo'?S.turn.cur!==null&&pts>0:pts>0)&&!(S.game==='monster'&&S.turn.rolls.length)&&!(S.game==='rocket'&&S.turn.card!==null&&S.turn.card!==undefined);
+  const canStop=!busy&&S.win===null&&(S.game==='hilo'?S.turn.cur!==null&&pts>0:pts>0)&&!(S.game==='monster'&&S.turn.rolls.length);
   const shownP=busy?FX.p:S.p,guessing=(S.game==='hilo'&&S.turn.cur!==null&&!S.turn.guess)||(S.game==='monster'&&!S.mon);
   board.classList.toggle('noart',!showArt);
   stage.style.setProperty('--c',COL[shownP]);stage.style.setProperty('--on',ON[shownP]);
@@ -1380,7 +1256,7 @@ function render(){
     ${S.game==='pirate'?`<div class="pirate-score" role="status"><b>Piraternes skat: ${S.pirateScore||0} af ${pirateGoal()} mønter</b><span> · ${['Tomt skib','Skat om bord','Gyldne sejl','Piratkongens skib'][pirateLevel()]}</span><div class="bar"><i style="width:${Math.min(100,(S.pirateScore||0)/pirateGoal()*100)}%;background:#ff5240"></i></div></div>`:''}
     ${S.oops&&hist.length&&S.win===null?`<button class="btn oops" id="oops">↶ ${GAMES[S.game].kind==='cards'?'Forkert kort? Gå et skridt tilbage':'Forkert tryk? Gå et skridt tilbage'}</button>`:''}
     <div class="pad">${pad()}</div>
-    ${bt?'':`<div class="ma ${guessing?'solo':''}">${guessing?'':riskMeter()}<button class="btn main" id="stop" ${canStop?'':'disabled'}>${S.game==='monster'?`Gå hjem med ${pts} guld`:S.game==='rocket'?`Flyv hjem med ${pts} krystaller`:`Stop og gem ${pts} ${un(pts)}${curBonus()?' med bonus':''}`}</button></div>`}`;
+    ${bt?'':`<div class="ma ${guessing?'solo':''}">${guessing?'':riskMeter()}<button class="btn main" id="stop" ${canStop?'':'disabled'}>${S.game==='monster'?`Gå hjem med ${pts} guld`:`Stop og gem ${pts} ${un(pts)}${curBonus()?' med bonus':''}`}</button></div>`}`;
   rules.innerHTML=`<h3>Regler: ${g.name}</h3><ul>${g.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
    ${g.kind==='dice'?`<label class="set">Spil til <input type="number" min="5" max="200" value="${tg}" id="tgt"> ${g.unit}</label>`:''}`;
   logEl.innerHTML=S.log.length?S.log.map(l=>`<li>${l}</li>`).join(''):'<li>Ingen træk endnu.</li>';
